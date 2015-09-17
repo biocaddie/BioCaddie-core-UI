@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<?php require_once 'helper_functions.php';?>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -50,7 +51,9 @@
             <li role="presentation"><a href="#">Contact</a></li>
           </ul>
         </nav>
-        <h3 class="text-muted">BioCADDIE</h3>
+        <h3 class="text-muted">BioCADDIE
+        <?php echo getGitRevision();?>
+		</h3>
       </div>
 
       
