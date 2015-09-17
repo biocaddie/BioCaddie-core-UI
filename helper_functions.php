@@ -60,4 +60,11 @@ function convert_facets_post($string){
      $newString = $key.':'.$value;
      return $newString;
 }
+
+function getGitRevision()
+{
+    exec('git describe --all',$refs);
+    return $refs[0];
+}
+
 ?>
