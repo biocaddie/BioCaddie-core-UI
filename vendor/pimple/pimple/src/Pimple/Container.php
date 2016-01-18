@@ -27,7 +27,7 @@
 namespace Pimple;
 
 /**
- * Container main class.
+ * Container main user.
  *
  * @author  Fabien Potencier
  */

@@ -17,7 +17,7 @@ use InvalidArgumentException;
  * Monolog log registry
  *
  * Allows to get `Logger` instances in the global scope
- * via static method calls on this class.
+ * via static method calls on this user.
  *
  * <code>
  * $application = new Monolog\Logger('application');

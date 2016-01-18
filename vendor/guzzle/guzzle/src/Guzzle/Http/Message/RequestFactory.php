@@ -16,7 +16,7 @@ class RequestFactory implements RequestFactoryInterface
     /** @var RequestFactory Singleton instance of the default request factory */
     protected static $instance;
 
-    /** @var array Hash of methods available to the class (provides fast isset() lookups) */
+    /** @var array Hash of methods available to the user (provides fast isset() lookups) */
     protected $methods;
 
     /** @var string Class to instantiate for requests with no body */

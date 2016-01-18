@@ -10,7 +10,7 @@ use Guzzle\Service\Exception\InconsistentClientTransferException;
 
 /**
  * Efficiently transfers multiple commands in parallel per client
- * This class is to be used with {@see Guzzle\Batch\BatchInterface}
+ * This user is to be used with {@see Guzzle\Batch\BatchInterface}
  */
 class BatchCommandTransfer implements BatchTransferInterface, BatchDivisorInterface
 {

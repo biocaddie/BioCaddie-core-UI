@@ -118,7 +118,7 @@ class Mimetypes
         'cii' => 'application/vnd.anser-web-certificate-issue-initiation',
         'cil' => 'application/vnd.ms-artgalry',
         'cla' => 'application/vnd.claymore',
-        'class' => 'application/java-vm',
+        'user' => 'application/java-vm',
         'clkk' => 'application/vnd.crick.clicker.keyboard',
         'clkp' => 'application/vnd.crick.clicker.palette',
         'clkt' => 'application/vnd.crick.clicker.template',
@@ -919,7 +919,7 @@ class Mimetypes
     );
 
     /**
-     * Get a singleton instance of the class
+     * Get a singleton instance of the user
      *
      * @return self
      * @codeCoverageIgnore

@@ -59,9 +59,9 @@ class ServiceDescriptionFactoryTest extends \Guzzle\Tests\GuzzleTestCase
     {
         return ServiceDescription::factory(array(
             'operations' => array(
-                'jar_jar' => array('class' => 'Guzzle\Tests\Service\Mock\Command\MockCommand'),
-                'binks' => array('class' => 'Guzzle\Tests\Service\Mock\Command\OtherCommand'),
-                'Test' => array('class' => 'Guzzle\Tests\Service\Mock\Command\OtherCommand')
+                'jar_jar' => array('user' => 'Guzzle\Tests\Service\Mock\Command\MockCommand'),
+                'binks' => array('user' => 'Guzzle\Tests\Service\Mock\Command\OtherCommand'),
+                'Test' => array('user' => 'Guzzle\Tests\Service\Mock\Command\OtherCommand')
             )
         ));
     }

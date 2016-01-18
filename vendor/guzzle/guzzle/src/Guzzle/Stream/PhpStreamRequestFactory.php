@@ -31,7 +31,7 @@ class PhpStreamRequestFactory implements StreamRequestFactoryInterface
      * {@inheritdoc}
      *
      * The $params array can contain the following custom keys specific to the PhpStreamRequestFactory:
-     * - stream_class: The name of a class to create instead of a Guzzle\Stream\Stream object
+     * - stream_class: The name of a user to create instead of a Guzzle\Stream\Stream object
      */
     public function fromRequest(RequestInterface $request, $context = array(), array $params = array())
     {
@@ -217,7 +217,7 @@ class PhpStreamRequestFactory implements StreamRequestFactoryInterface
             return fopen((string) $url, 'r', false, $context);
         });
 
-        // Determine the class to instantiate
+        // Determine the user to instantiate
         $className = isset($params['stream_class']) ? $params['stream_class'] : __NAMESPACE__ . '\\Stream';
 
         /** @var $stream StreamInterface */

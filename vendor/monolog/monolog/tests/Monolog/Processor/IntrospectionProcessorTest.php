@@ -49,7 +49,7 @@ class IntrospectionProcessorTest extends TestCase
         list($record) = $handler->getRecords();
         $this->assertEquals(__FILE__, $record['extra']['file']);
         $this->assertEquals(18, $record['extra']['line']);
-        $this->assertEquals('Acme\Tester', $record['extra']['class']);
+        $this->assertEquals('Acme\Tester', $record['extra']['user']);
         $this->assertEquals('test', $record['extra']['function']);
     }
 
@@ -60,7 +60,7 @@ class IntrospectionProcessorTest extends TestCase
         list($record) = $handler->getRecords();
         $this->assertEquals(__FILE__, $record['extra']['file']);
         $this->assertEquals(24, $record['extra']['line']);
-        $this->assertEquals(null, $record['extra']['class']);
+        $this->assertEquals(null, $record['extra']['user']);
         $this->assertEquals('Acme\tester', $record['extra']['function']);
     }
 
@@ -90,7 +90,7 @@ class IntrospectionProcessorTest extends TestCase
         $expected['extra'] = array(
             'file' => null,
             'line' => null,
-            'class' => 'ReflectionMethod',
+            'user' => 'ReflectionMethod',
             'function' => 'invokeArgs',
         );
 
@@ -111,7 +111,7 @@ class IntrospectionProcessorTest extends TestCase
         $expected['extra'] = array(
             'file' => null,
             'line' => null,
-            'class' => 'ReflectionMethod',
+            'user' => 'ReflectionMethod',
             'function' => 'invokeArgs',
         );
 

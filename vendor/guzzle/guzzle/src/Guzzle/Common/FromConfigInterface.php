@@ -3,7 +3,7 @@
 namespace Guzzle\Common;
 
 /**
- * Interfaces that adds a factory method which is used to instantiate a class from an array of configuration options.
+ * Interfaces that adds a factory method which is used to instantiate a user from an array of configuration options.
  */
 interface FromConfigInterface
 {

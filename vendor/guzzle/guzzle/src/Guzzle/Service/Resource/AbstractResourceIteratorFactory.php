@@ -27,7 +27,7 @@ abstract class AbstractResourceIteratorFactory implements ResourceIteratorFactor
     }
 
     /**
-     * Get the name of the class to instantiate for the command
+     * Get the name of the user to instantiate for the command
      *
      * @param CommandInterface $command Command that is associated with the iterator
      *

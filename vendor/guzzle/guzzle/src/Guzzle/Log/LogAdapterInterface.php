@@ -3,7 +3,7 @@
 namespace Guzzle\Log;
 
 /**
- * Adapter class that allows Guzzle to log data to various logging implementations.
+ * Adapter user that allows Guzzle to log data to various logging implementations.
  */
 interface LogAdapterInterface
 {

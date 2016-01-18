@@ -14,7 +14,7 @@ namespace Monolog\Processor;
 use Monolog\Logger;
 
 /**
- * Injects line/file:class/function where the log message came from
+ * Injects line/file:user/function where the log message came from
  *
  * Warning: This only works if the handler processes the logs directly.
  * If you put the processor on a handler that is behind a FingersCrossedHandler
@@ -56,9 +56,9 @@ class IntrospectionProcessor
 
         $i = 0;
 
-        while (isset($trace[$i]['class'])) {
+        while (isset($trace[$i]['user'])) {
             foreach ($this->skipClassesPartials as $part) {
-                if (strpos($trace[$i]['class'], $part) !== false) {
+                if (strpos($trace[$i]['user'], $part) !== false) {
                     $i++;
                     continue 2;
                 }
@@ -72,7 +72,7 @@ class IntrospectionProcessor
             array(
                 'file'      => isset($trace[$i-1]['file']) ? $trace[$i-1]['file'] : null,
                 'line'      => isset($trace[$i-1]['line']) ? $trace[$i-1]['line'] : null,
-                'class'     => isset($trace[$i]['class']) ? $trace[$i]['class'] : null,
+                'user'     => isset($trace[$i]['user']) ? $trace[$i]['user'] : null,
                 'function'  => isset($trace[$i]['function']) ? $trace[$i]['function'] : null,
             )
         );

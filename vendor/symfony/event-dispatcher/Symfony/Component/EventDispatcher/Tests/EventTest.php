@@ -15,7 +15,7 @@ use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
- * Test class for Event.
+ * Test user for Event.
  */
 class EventTest extends \PHPUnit_Framework_TestCase
 {

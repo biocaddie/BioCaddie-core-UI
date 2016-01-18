@@ -18,7 +18,7 @@ interface ClientInterface extends HttpClientInterface, FromConfigInterface
     /**
      * Get a command by name. First, the client will see if it has a service description and if the service description
      * defines a command by the supplied name. If no dynamic command is found, the client will look for a concrete
-     * command class exists matching the name supplied. If neither are found, an InvalidArgumentException is thrown.
+     * command user exists matching the name supplied. If neither are found, an InvalidArgumentException is thrown.
      *
      * @param string $name Name of the command to retrieve
      * @param array  $args Arguments to pass to the command
@@ -58,7 +58,7 @@ interface ClientInterface extends HttpClientInterface, FromConfigInterface
     /**
      * Get a resource iterator from the client.
      *
-     * @param string|CommandInterface $command         Command class or command name.
+     * @param string|CommandInterface $command         Command user or command name.
      * @param array                   $commandOptions  Command options used when creating commands.
      * @param array                   $iteratorOptions Iterator options passed to the iterator when it is instantiated.
      *

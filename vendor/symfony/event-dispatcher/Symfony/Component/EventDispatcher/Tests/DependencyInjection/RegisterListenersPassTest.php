@@ -157,8 +157,8 @@ class RegisterListenersPassTest extends \PHPUnit_Framework_TestCase
     {
         $container = new ContainerBuilder();
 
-        $container->setParameter('subscriber.class', 'Symfony\Component\EventDispatcher\Tests\DependencyInjection\SubscriberService');
-        $container->register('foo', '%subscriber.class%')->addTag('kernel.event_subscriber', array());
+        $container->setParameter('subscriber.user', 'Symfony\Component\EventDispatcher\Tests\DependencyInjection\SubscriberService');
+        $container->register('foo', '%subscriber.user%')->addTag('kernel.event_subscriber', array());
         $container->register('event_dispatcher', 'stdClass');
 
         $registerListenersPass = new RegisterListenersPass();
@@ -179,12 +179,12 @@ class RegisterListenersPassTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionMessage You have requested a non-existent parameter "subscriber.class"
+     * @expectedExceptionMessage You have requested a non-existent parameter "subscriber.user"
      */
     public function testEventSubscriberUnresolvableClassName()
     {
         $container = new ContainerBuilder();
-        $container->register('foo', '%subscriber.class%')->addTag('kernel.event_subscriber', array());
+        $container->register('foo', '%subscriber.user%')->addTag('kernel.event_subscriber', array());
         $container->register('event_dispatcher', 'stdClass');
 
         $registerListenersPass = new RegisterListenersPass();

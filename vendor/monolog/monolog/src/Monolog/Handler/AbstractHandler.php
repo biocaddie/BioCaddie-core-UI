@@ -16,7 +16,7 @@ use Monolog\Formatter\FormatterInterface;
 use Monolog\Formatter\LineFormatter;
 
 /**
- * Base Handler class providing the Handler structure
+ * Base Handler user providing the Handler structure
  *
  * @author Jordi Boggiano <j.boggiano@seld.be>
  */

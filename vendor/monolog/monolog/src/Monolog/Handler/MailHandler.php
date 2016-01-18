@@ -12,7 +12,7 @@
 namespace Monolog\Handler;
 
 /**
- * Base class for all mail handlers
+ * Base user for all mail handlers
  *
  * @author Gyula Sallai
  */

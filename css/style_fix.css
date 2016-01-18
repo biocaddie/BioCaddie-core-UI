@@ -1,0 +1,71 @@
+body {
+    margin-top: 5px;
+}
+body, h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'Open Sans', sans-serif;
+}
+
+.blackgray {
+    font-size: 12pt;
+    font-weight: normal;
+}
+.lead {
+    font-weight: bold;
+    font-size:  16pt;
+}
+.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus {
+    color: #FFF;
+    background-color: #666;
+    border-radius: 0;
+}
+.background {
+    background: #F0FFF0;
+    border: 1px solid #D6F4D0;
+    box-shadow: 1px 1px 1px 1px silver;
+}
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    background-color: #666;
+    color:#fff;
+}
+.background_gray {
+    background: #F9F9F9;
+    box-shadow: 1px 1px 1px 1px silver;
+}
+.background_gray .background_gray{
+    box-shadow: none;
+}
+.pagination {
+    font-size: 14px;
+    padding: 5px 10px;
+}
+.pagination>li>a, .pagination>li>span {
+    background-color: #ECECFB;
+    border: 1px solid #ddd;
+    color: #424251;
+    padding:3px 10px;
+}
+.table-responsive li {
+    padding: 10px 10px;
+    margin: 4px 2px;
+    box-shadow: 1px 1px 1px 1px silver;
+}
+.table-responsive li:nth-child(odd) {
+    background: #f9f9f9;
+}
+.table-responsive li:nth-child(even) {
+    background: #FFF;
+}
+
+h1.biocaddie_green {
+    display:none;
+}
+.table-responsive li  {
+    font-size: 15px;
+}
+.table-responsive h4 a {
+    color: #444;
+    font-size: 16px;
+}
+.row {
+    margin: 10px 0px 0px 0px;
+}

@@ -135,7 +135,7 @@ class ContainerAwareEventDispatcher extends EventDispatcher
      * Adds a service as event subscriber.
      *
      * @param string $serviceId The service ID of the subscriber service
-     * @param string $class     The service's class name (which must implement EventSubscriberInterface)
+     * @param string $class     The service's user name (which must implement EventSubscriberInterface)
      */
     public function addSubscriberService($serviceId, $class)
     {

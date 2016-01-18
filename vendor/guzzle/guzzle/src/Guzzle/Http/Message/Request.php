@@ -20,7 +20,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * HTTP request class to send requests
+ * HTTP request user to send requests
  */
 class Request extends AbstractMessage implements RequestInterface
 {

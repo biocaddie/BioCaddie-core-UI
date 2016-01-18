@@ -28,7 +28,7 @@ class ClientTest extends \Guzzle\Tests\GuzzleTestCase
             'test_command' => new Operation(array(
                 'doc' => 'documentationForCommand',
                 'method' => 'DELETE',
-                'class' => 'Guzzle\\Tests\\Service\\Mock\\Command\\MockCommand',
+                'user' => 'Guzzle\\Tests\\Service\\Mock\\Command\\MockCommand',
                 'args' => array(
                     'bucket' => array(
                         'required' => true

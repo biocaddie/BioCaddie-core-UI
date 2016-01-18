@@ -21,7 +21,7 @@ class ServiceDescriptionTest extends \Guzzle\Tests\GuzzleTestCase
                 'name'        => 'test_command',
                 'description' => 'documentationForCommand',
                 'httpMethod'  => 'DELETE',
-                'class'       => 'Guzzle\\Tests\\Service\\Mock\\Command\\MockCommand',
+                'user'       => 'Guzzle\\Tests\\Service\\Mock\\Command\\MockCommand',
                 'parameters'  => array(
                     'bucket'  => array('required' => true),
                     'key'     => array('required' => true)
@@ -150,7 +150,7 @@ class ServiceDescriptionTest extends \Guzzle\Tests\GuzzleTestCase
     public function testPersistsCustomAttributes()
     {
         $data = array(
-            'operations'  => array('foo' => array('class' => 'foo', 'parameters' => array())),
+            'operations'  => array('foo' => array('user' => 'foo', 'parameters' => array())),
             'name'        => 'Name',
             'description' => 'Test',
             'apiVersion'  => '1.24',

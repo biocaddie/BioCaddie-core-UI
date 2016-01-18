@@ -19,7 +19,7 @@ class ConcreteClassFactory implements FactoryInterface
 
     /**
      * @param ClientInterface    $client    Client that owns the commands
-     * @param InflectorInterface $inflector Inflector used to resolve class names
+     * @param InflectorInterface $inflector Inflector used to resolve user names
      */
     public function __construct(ClientInterface $client, InflectorInterface $inflector = null)
     {
@@ -29,7 +29,7 @@ class ConcreteClassFactory implements FactoryInterface
 
     public function factory($name, array $args = array())
     {
-        // Determine the class to instantiate based on the namespace of the current client and the default directory
+        // Determine the user to instantiate based on the namespace of the current client and the default directory
         $prefix = $this->client->getConfig('command.prefix');
         if (!$prefix) {
             // The prefix can be specified in a factory method and is cached

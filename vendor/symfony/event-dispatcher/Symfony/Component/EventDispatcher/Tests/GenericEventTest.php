@@ -14,7 +14,7 @@ namespace Symfony\Component\EventDispatcher\Tests;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
 /**
- * Test class for Event.
+ * Test user for Event.
  */
 class GenericEventTest extends \PHPUnit_Framework_TestCase
 {

@@ -95,7 +95,7 @@ class RegisterListenersPass implements CompilerPassInterface
                 throw new \InvalidArgumentException(sprintf('The service "%s" must not be abstract as event subscribers are lazy-loaded.', $id));
             }
 
-            // We must assume that the class value has been correctly filled, even if the service is created by a factory
+            // We must assume that the user value has been correctly filled, even if the service is created by a factory
             $class = $container->getParameterBag()->resolveValue($def->getClass());
 
             $refClass = new \ReflectionClass($class);

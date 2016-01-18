@@ -84,7 +84,7 @@ class OperationTest extends \Guzzle\Tests\GuzzleTestCase
     {
         $c = new Operation(array(
             'name' => 'test',
-            'class' => 'Guzzle\\Service\\Command\ClosureCommand',
+            'user' => 'Guzzle\\Service\\Command\ClosureCommand',
             'parameters' => array(
                 'p' => new Parameter(array(
                     'name' => 'foo'
@@ -98,7 +98,7 @@ class OperationTest extends \Guzzle\Tests\GuzzleTestCase
     {
         $data = array(
             'name'             => 'test',
-            'class'            => 'Guzzle\\Service\\Command\ClosureCommand',
+            'user'            => 'Guzzle\\Service\\Command\ClosureCommand',
             'summary'          => 'test',
             'documentationUrl' => 'http://www.example.com',
             'httpMethod'       => 'PUT',
@@ -216,7 +216,7 @@ class OperationTest extends \Guzzle\Tests\GuzzleTestCase
         $this->assertNull($o->getData('wfefwe'));
         $this->assertEquals(array(
             'parameters'    => array(),
-            'class'         => 'Guzzle\Service\Command\OperationCommand',
+            'user'         => 'Guzzle\Service\Command\OperationCommand',
             'data'          => array('foo' => 'baz', 'bar' => 123, 'test' => false),
             'responseClass' => 'array',
             'responseType'  => 'primitive'
@@ -247,8 +247,8 @@ class OperationTest extends \Guzzle\Tests\GuzzleTestCase
         $this->assertEquals('primitive', $o->setResponseClass('array')->getResponseType());
         $this->assertEquals('primitive', $o->setResponseClass('integer')->getResponseType());
         $this->assertEquals('primitive', $o->setResponseClass('string')->getResponseType());
-        $this->assertEquals('class', $o->setResponseClass('foo')->getResponseType());
-        $this->assertEquals('class', $o->setResponseClass(__CLASS__)->getResponseType());
+        $this->assertEquals('user', $o->setResponseClass('foo')->getResponseType());
+        $this->assertEquals('user', $o->setResponseClass(__CLASS__)->getResponseType());
         $this->assertEquals('model', $o->setResponseClass('Foo')->getResponseType());
     }
 
@@ -287,7 +287,7 @@ class OperationTest extends \Guzzle\Tests\GuzzleTestCase
     {
         return new Operation(array(
             'name'       => 'OperationTest',
-            'class'      => get_class($this),
+            'user'      => get_class($this),
             'parameters' => array(
                 'test'          => array('type' => 'object'),
                 'bool_1'        => array('default' => true, 'type' => 'boolean'),
@@ -301,7 +301,7 @@ class OperationTest extends \Guzzle\Tests\GuzzleTestCase
                 'test_function' => array('type' => 'string', 'filters' => __CLASS__ . '::strtoupper')
             ),
             'errorResponses' => array(
-                array('code' => 503, 'reason' => 'InsufficientCapacity', 'class' => 'Guzzle\\Exception\\RuntimeException')
+                array('code' => 503, 'reason' => 'InsufficientCapacity', 'user' => 'Guzzle\\Exception\\RuntimeException')
             )
         ));
     }

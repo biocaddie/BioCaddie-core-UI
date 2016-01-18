@@ -137,7 +137,7 @@ class ServiceDescriptionLoaderTest extends \Guzzle\Tests\GuzzleTestCase
         $description = ServiceDescription::factory(array(
             'operations'  => array(
                 'root' => array(
-                    'class' => 'foo'
+                    'user' => 'foo'
                 ),
                 'foo' => array(
                     'extends' => 'root',
@@ -152,7 +152,7 @@ class ServiceDescriptionLoaderTest extends \Guzzle\Tests\GuzzleTestCase
                     )
                 ),
                 'foo_3' => array(
-                    'class' => 'bar',
+                    'user' => 'bar',
                     'parameters' => array(
                         'bar2' => array('type' => 'string')
                     )

@@ -53,7 +53,7 @@ class ScalarFormatterTest extends \PHPUnit_Framework_TestCase
             'bat' => $this->encodeJson(array('foo' => 'bar')),
             'bap' => '1970-01-01 00:00:00',
             'ban' => $this->encodeJson(array(
-                'class'   => get_class($exception),
+                'user'   => get_class($exception),
                 'message' => $exception->getMessage(),
                 'code'    => $exception->getCode(),
                 'file'    => $exception->getFile() . ':' . $exception->getLine(),
@@ -86,7 +86,7 @@ class ScalarFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array(
             'context' => $this->encodeJson(array(
                 'exception' => array(
-                    'class'   => get_class($exception),
+                    'user'   => get_class($exception),
                     'message' => $exception->getMessage(),
                     'code'    => $exception->getCode(),
                     'file'    => $exception->getFile() . ':' . $exception->getLine(),

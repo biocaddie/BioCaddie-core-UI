@@ -210,7 +210,7 @@ class CommandTest extends AbstractCommandTest
         return new Operation(array(
             'name'       => 'foobar',
             'httpMethod' => 'POST',
-            'class'      => 'Guzzle\\Tests\\Service\\Mock\\Command\\MockCommand',
+            'user'      => 'Guzzle\\Tests\\Service\\Mock\\Command\\MockCommand',
             'parameters' => array(
                 'test' => array(
                     'default' => '123',

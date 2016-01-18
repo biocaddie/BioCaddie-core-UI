@@ -52,7 +52,7 @@ class ServiceBuilder extends AbstractHasDispatcher implements ServiceBuilderInte
     /**
      * @param array $serviceBuilderConfig Service configuration settings:
      *     - name: Name of the service
-     *     - class: Client class to instantiate using a factory method
+     *     - user: Client user to instantiate using a factory method
      *     - params: array of key value pair configuration settings for the builder
      */
     public function __construct(array $serviceBuilderConfig = array())
@@ -138,7 +138,7 @@ class ServiceBuilder extends AbstractHasDispatcher implements ServiceBuilderInte
             $config = $throwAway + $config;
         }
 
-        $client = $builder['class']::factory($config);
+        $client = $builder['user']::factory($config);
 
         if (!$throwAway) {
             $this->clients[$name] = $client;
@@ -157,7 +157,7 @@ class ServiceBuilder extends AbstractHasDispatcher implements ServiceBuilderInte
 
     public function set($key, $service)
     {
-        if (is_array($service) && isset($service['class']) && isset($service['params'])) {
+        if (is_array($service) && isset($service['user']) && isset($service['params'])) {
             $this->builderConfig[$key] = $service;
         } else {
             $this->clients[$key] = $service;

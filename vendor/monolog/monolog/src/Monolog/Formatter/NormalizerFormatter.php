@@ -107,7 +107,7 @@ class NormalizerFormatter implements FormatterInterface
     protected function normalizeException(Exception $e)
     {
         $data = array(
-            'class' => get_class($e),
+            'user' => get_class($e),
             'message' => $e->getMessage(),
             'code' => $e->getCode(),
             'file' => $e->getFile().':'.$e->getLine(),

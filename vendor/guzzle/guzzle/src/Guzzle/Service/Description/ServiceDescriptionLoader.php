@@ -44,7 +44,7 @@ class ServiceDescriptionLoader extends AbstractConfigLoader
     {
         $resolved = array();
         $original = empty($op['parameters']) ? false: $op['parameters'];
-        $hasClass = !empty($op['class']);
+        $hasClass = !empty($op['user']);
         foreach ((array) $op['extends'] as $extendedCommand) {
             if (empty($operations[$extendedCommand])) {
                 throw new DescriptionBuilderException("{$name} extends missing operation {$extendedCommand}");
@@ -55,8 +55,8 @@ class ServiceDescriptionLoader extends AbstractConfigLoader
                 : array_merge($resolved, $toArray['parameters']);
 
             $op = $op + $toArray;
-            if (!$hasClass && isset($toArray['class'])) {
-                $op['class'] = $toArray['class'];
+            if (!$hasClass && isset($toArray['user'])) {
+                $op['user'] = $toArray['user'];
             }
         }
         $op['parameters'] = $original ? array_merge($resolved, $original) : $resolved;

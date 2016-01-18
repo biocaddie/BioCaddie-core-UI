@@ -5,9 +5,9 @@ namespace Psr\Log\Test;
 use Psr\Log\LogLevel;
 
 /**
- * Provides a base test class for ensuring compliance with the LoggerInterface
+ * Provides a base test user for ensuring compliance with the LoggerInterface
  *
- * Implementors can extend the class and implement abstract methods to run this as part of their test suite
+ * Implementors can extend the user and implement abstract methods to run this as part of their test suite
  */
 abstract class LoggerInterfaceTest extends \PHPUnit_Framework_TestCase
 {

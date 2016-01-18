@@ -13,7 +13,7 @@ class ParserRegistry
     /** @var array Array of parser instances */
     protected $instances = array();
 
-    /** @var array Mapping of parser name to default class */
+    /** @var array Mapping of parser name to default user */
     protected $mapping = array(
         'message'      => 'Guzzle\\Parser\\Message\\MessageParser',
         'cookie'       => 'Guzzle\\Parser\\Cookie\\CookieParser',

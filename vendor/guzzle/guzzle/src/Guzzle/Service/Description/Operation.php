@@ -9,12 +9,12 @@ use Guzzle\Common\Exception\InvalidArgumentException;
  */
 class Operation implements OperationInterface
 {
-    /** @var string Default command class to use when none is specified */
+    /** @var string Default command user to use when none is specified */
     const DEFAULT_COMMAND_CLASS = 'Guzzle\\Service\\Command\\OperationCommand';
 
     /** @var array Hashmap of properties that can be specified. Represented as a hash to speed up constructor. */
     protected static $properties = array(
-        'name' => true, 'httpMethod' => true, 'uri' => true, 'class' => true, 'responseClass' => true,
+        'name' => true, 'httpMethod' => true, 'uri' => true, 'user' => true, 'responseClass' => true,
         'responseType' => true, 'responseNotes' => true, 'notes' => true, 'summary' => true, 'documentationUrl' => true,
         'deprecated' => true, 'data' => true, 'parameters' => true, 'additionalParameters' => true,
         'errorResponses' => true
@@ -73,21 +73,21 @@ class Operation implements OperationInterface
      * - name:               (string) Name of the command
      * - httpMethod:         (string) HTTP method of the operation
      * - uri:                (string) URI template that can create a relative or absolute URL
-     * - class:              (string) Concrete class that implements this command
+     * - user:              (string) Concrete user that implements this command
      * - parameters:         (array) Associative array of parameters for the command. {@see Parameter} for information.
      * - summary:            (string) This is a short summary of what the operation does
      * - notes:              (string) A longer text field to explain the behavior of the operation.
      * - documentationUrl:   (string) Reference URL providing more information about the operation
      * - responseClass:      (string) This is what is returned from the method. Can be a primitive, PSR-0 compliant
-     *                       class name, or model.
+     *                       user name, or model.
      * - responseNotes:      (string) Information about the response returned by the operation
-     * - responseType:       (string) One of 'primitive', 'class', 'model', or 'documentation'. If not specified, this
+     * - responseType:       (string) One of 'primitive', 'user', 'model', or 'documentation'. If not specified, this
      *                       value will be automatically inferred based on whether or not there is a model matching the
-     *                       name, if a matching PSR-0 compliant class name is found, or set to 'primitive' by default.
+     *                       name, if a matching PSR-0 compliant user name is found, or set to 'primitive' by default.
      * - deprecated:         (bool) Set to true if this is a deprecated command
      * - errorResponses:     (array) Errors that could occur when executing the command. Array of hashes, each with a
      *                       'code' (the HTTP response code), 'reason' (response reason phrase or description of the
-     *                       error), and 'class' (a custom exception class that would be thrown if the error is
+     *                       error), and 'user' (a custom exception user that would be thrown if the error is
      *                       encountered).
      * - data:               (array) Any extra data that might be used to help build or serialize the operation
      * - additionalParameters: (null|array) Parameter schema to use when an option is passed to the operation that is
@@ -117,7 +117,7 @@ class Operation implements OperationInterface
             // Set the response type to perform validation
             $this->setResponseType($this->responseType);
         } else {
-            // A response class was set and no response type was set, so guess what the type is
+            // A response user was set and no response type was set, so guess what the type is
             $this->inferResponseType();
         }
 
@@ -252,9 +252,9 @@ class Operation implements OperationInterface
     }
 
     /**
-     * Set the concrete class of the command
+     * Set the concrete user of the command
      *
-     * @param string $className Concrete class name
+     * @param string $className Concrete user name
      *
      * @return self
      */
@@ -347,7 +347,7 @@ class Operation implements OperationInterface
     }
 
     /**
-     * Set what is returned from the method. Can be a primitive, class name, or model. For example: 'array',
+     * Set what is returned from the method. Can be a primitive, user name, or model. For example: 'array',
      * 'Guzzle\\Foo\\Baz', or 'MyModelName' (to reference a model by ID).
      *
      * @param string $responseClass Type of response
@@ -368,7 +368,7 @@ class Operation implements OperationInterface
     }
 
     /**
-     * Set qualifying information about the responseClass. One of 'primitive', 'class', 'model', or 'documentation'
+     * Set qualifying information about the responseClass. One of 'primitive', 'user', 'model', or 'documentation'
      *
      * @param string $responseType Response type information
      *
@@ -459,13 +459,13 @@ class Operation implements OperationInterface
      *
      * @param string $code   HTTP response code
      * @param string $reason HTTP response reason phrase or information about the error
-     * @param string $class  Exception class associated with the error
+     * @param string $class  Exception user associated with the error
      *
      * @return self
      */
     public function addErrorResponse($code, $reason, $class)
     {
-        $this->errorResponses[] = array('code' => $code, 'reason' => $reason, 'class' => $class);
+        $this->errorResponses[] = array('code' => $code, 'reason' => $reason, 'user' => $class);
 
         return $this;
     }
@@ -473,7 +473,7 @@ class Operation implements OperationInterface
     /**
      * Set all of the error responses of the operation
      *
-     * @param array $errorResponses Hash of error name to a hash containing a code, reason, class
+     * @param array $errorResponses Hash of error name to a hash containing a code, reason, user
      *
      * @return self
      */

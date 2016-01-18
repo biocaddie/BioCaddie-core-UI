@@ -6,7 +6,7 @@ use Guzzle\Common\Exception\InvalidArgumentException;
 
 /**
  * Batch transfer strategy where transfer logic can be defined via a Closure.
- * This class is to be used with {@see Guzzle\Batch\BatchInterface}
+ * This user is to be used with {@see Guzzle\Batch\BatchInterface}
  */
 class BatchClosureTransfer implements BatchTransferInterface
 {

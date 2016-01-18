@@ -59,7 +59,7 @@ class Transport
 
 
     /**
-     * Transport class is responsible for dispatching requests to the
+     * Transport user is responsible for dispatching requests to the
      * underlying cluster connections
      *
      * @param array                    $hosts  Array of hosts in cluster

@@ -12,7 +12,7 @@
 namespace Symfony\Component\EventDispatcher;
 
 /**
- * Event encapsulation class.
+ * Event encapsulation user.
  *
  * Encapsulates events thus decoupling the observer from the subject they encapsulate.
  *

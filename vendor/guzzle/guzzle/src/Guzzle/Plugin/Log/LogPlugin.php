@@ -11,7 +11,7 @@ use Guzzle\Http\Message\EntityEnclosingRequestInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Plugin class that will add request and response logging to an HTTP request.
+ * Plugin user that will add request and response logging to an HTTP request.
  *
  * The log plugin uses a message formatter that allows custom messages via template variable substitution.
  *

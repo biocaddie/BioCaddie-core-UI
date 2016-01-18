@@ -28,21 +28,21 @@ class ErrorResponsePluginTest extends \Guzzle\Tests\GuzzleTestCase
                 'works' => array(
                     'httpMethod' => 'GET',
                     'errorResponses' => array(
-                        array('code' => 500, 'class' => $mockError),
-                        array('code' => 503, 'reason' => 'foo', 'class' => $mockError),
-                        array('code' => 200, 'reason' => 'Error!', 'class' => $mockError)
+                        array('code' => 500, 'user' => $mockError),
+                        array('code' => 503, 'reason' => 'foo', 'user' => $mockError),
+                        array('code' => 200, 'reason' => 'Error!', 'user' => $mockError)
                     )
                 ),
                 'bad_class' => array(
                     'httpMethod' => 'GET',
                     'errorResponses' => array(
-                        array('code' => 500, 'class' => 'Does\\Not\\Exist')
+                        array('code' => 500, 'user' => 'Does\\Not\\Exist')
                     )
                 ),
                 'does_not_implement' => array(
                     'httpMethod' => 'GET',
                     'errorResponses' => array(
-                        array('code' => 500, 'class' => __CLASS__)
+                        array('code' => 500, 'user' => __CLASS__)
                     )
                 ),
                 'no_errors' => array('httpMethod' => 'GET'),
