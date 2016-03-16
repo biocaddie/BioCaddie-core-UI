@@ -1,5 +1,5 @@
 <?php
-//Define class for Elasticsearch 
+//Define user for Elasticsearch
 require_once 'config.php';
 
 abstract class BasicElasticSearch{

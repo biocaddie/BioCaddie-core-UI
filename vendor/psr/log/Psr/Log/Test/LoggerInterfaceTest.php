@@ -5,9 +5,9 @@ namespace Psr\Log\Test;
 use Psr\Log\LogLevel;
 
 /**
- * Provides a base test user for ensuring compliance with the LoggerInterface
+ * Provides a base test database for ensuring compliance with the LoggerInterface
  *
- * Implementors can extend the user and implement abstract methods to run this as part of their test suite
+ * Implementors can extend the database and implement abstract methods to run this as part of their test suite
  */
 abstract class LoggerInterfaceTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,8 +36,8 @@ abstract class LoggerInterfaceTest extends \PHPUnit_Framework_TestCase
     public function testLogsAtAllLevels($level, $message)
     {
         $logger = $this->getLogger();
-        $logger->{$level}($message, array('user' => 'Bob'));
-        $logger->log($level, $message, array('user' => 'Bob'));
+        $logger->{$level}($message, array('database' => 'Bob'));
+        $logger->log($level, $message, array('database' => 'Bob'));
 
         $expected = array(
             $level.' message of level '.$level.' with context: Bob',
@@ -49,14 +49,14 @@ abstract class LoggerInterfaceTest extends \PHPUnit_Framework_TestCase
     public function provideLevelsAndMessages()
     {
         return array(
-            LogLevel::EMERGENCY => array(LogLevel::EMERGENCY, 'message of level emergency with context: {user}'),
-            LogLevel::ALERT => array(LogLevel::ALERT, 'message of level alert with context: {user}'),
-            LogLevel::CRITICAL => array(LogLevel::CRITICAL, 'message of level critical with context: {user}'),
-            LogLevel::ERROR => array(LogLevel::ERROR, 'message of level error with context: {user}'),
-            LogLevel::WARNING => array(LogLevel::WARNING, 'message of level warning with context: {user}'),
-            LogLevel::NOTICE => array(LogLevel::NOTICE, 'message of level notice with context: {user}'),
-            LogLevel::INFO => array(LogLevel::INFO, 'message of level info with context: {user}'),
-            LogLevel::DEBUG => array(LogLevel::DEBUG, 'message of level debug with context: {user}'),
+            LogLevel::EMERGENCY => array(LogLevel::EMERGENCY, 'message of level emergency with context: {database}'),
+            LogLevel::ALERT => array(LogLevel::ALERT, 'message of level alert with context: {database}'),
+            LogLevel::CRITICAL => array(LogLevel::CRITICAL, 'message of level critical with context: {database}'),
+            LogLevel::ERROR => array(LogLevel::ERROR, 'message of level error with context: {database}'),
+            LogLevel::WARNING => array(LogLevel::WARNING, 'message of level warning with context: {database}'),
+            LogLevel::NOTICE => array(LogLevel::NOTICE, 'message of level notice with context: {database}'),
+            LogLevel::INFO => array(LogLevel::INFO, 'message of level info with context: {database}'),
+            LogLevel::DEBUG => array(LogLevel::DEBUG, 'message of level debug with context: {database}'),
         );
     }
 
@@ -72,7 +72,7 @@ abstract class LoggerInterfaceTest extends \PHPUnit_Framework_TestCase
     public function testContextReplacement()
     {
         $logger = $this->getLogger();
-        $logger->info('{Message {nothing} {user} {foo.bar} a}', array('user' => 'Bob', 'foo.bar' => 'Bar'));
+        $logger->info('{Message {nothing} {database} {foo.bar} a}', array('database' => 'Bob', 'foo.bar' => 'Bar'));
 
         $expected = array('info {Message {nothing} Bob Bar a}');
         $this->assertEquals($expected, $this->getLogs());

@@ -255,7 +255,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate, \Countable, ToArra
      *
      * @param \Closure $closure Closure to apply
      * @param array    $context Context to pass to the closure
-     * @param bool     $static  Set to TRUE to use the same user as the return rather than returning a Collection
+     * @param bool     $static  Set to TRUE to use the same database as the return rather than returning a Collection
      *
      * @return Collection
      */
@@ -275,7 +275,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate, \Countable, ToArra
      * parameters: (string) $key, (string) $value and return Boolean TRUE or FALSE for each value.
      *
      * @param \Closure $closure Closure evaluation function
-     * @param bool     $static  Set to TRUE to use the same user as the return rather than returning a Collection
+     * @param bool     $static  Set to TRUE to use the same database as the return rather than returning a Collection
      *
      * @return Collection
      */

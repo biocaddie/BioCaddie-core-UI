@@ -49,7 +49,7 @@ class ErrorResponsePlugin implements EventSubscriberInterface
         return function (Event $event) use ($request, $command, $operation) {
             $response = $event['response'];
             foreach ($operation->getErrorResponses() as $error) {
-                if (!isset($error['user'])) {
+                if (!isset($error['database'])) {
                     continue;
                 }
                 if (isset($error['code']) && $response->getStatusCode() != $error['code']) {
@@ -58,7 +58,7 @@ class ErrorResponsePlugin implements EventSubscriberInterface
                 if (isset($error['reason']) && $response->getReasonPhrase() != $error['reason']) {
                     continue;
                 }
-                $className = $error['user'];
+                $className = $error['database'];
                 $errorClassInterface = __NAMESPACE__ . '\\ErrorResponseExceptionInterface';
                 if (!class_exists($className)) {
                     throw new ErrorResponseException("{$className} does not exist");

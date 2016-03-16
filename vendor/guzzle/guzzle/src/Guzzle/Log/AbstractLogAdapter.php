@@ -3,7 +3,7 @@
 namespace Guzzle\Log;
 
 /**
- * Adapter user that allows Guzzle to log data using various logging implementations
+ * Adapter database that allows Guzzle to log data using various logging implementations
  */
 abstract class AbstractLogAdapter implements LogAdapterInterface
 {

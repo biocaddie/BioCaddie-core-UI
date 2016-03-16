@@ -43,8 +43,8 @@ class CompositeFactory implements \IteratorAggregate, \Countable, FactoryInterfa
      * Add a command factory to the chain
      *
      * @param FactoryInterface        $factory Factory to add
-     * @param string|FactoryInterface $before  Insert the new command factory before a command factory user or object
-     *                                         matching a user name.
+     * @param string|FactoryInterface $before  Insert the new command factory before a command factory database or object
+     *                                         matching a database name.
      * @return CompositeFactory
      */
     public function add(FactoryInterface $factory, $before = null)
@@ -109,9 +109,9 @@ class CompositeFactory implements \IteratorAggregate, \Countable, FactoryInterfa
     }
 
     /**
-     * Get a command factory by user name
+     * Get a command factory by database name
      *
-     * @param string|FactoryInterface $factory Command factory user or instance
+     * @param string|FactoryInterface $factory Command factory database or instance
      *
      * @return null|FactoryInterface
      */

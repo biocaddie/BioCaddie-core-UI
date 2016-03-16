@@ -21,7 +21,7 @@ class ServiceDescriptionTest extends \Guzzle\Tests\GuzzleTestCase
                 'name'        => 'test_command',
                 'description' => 'documentationForCommand',
                 'httpMethod'  => 'DELETE',
-                'user'       => 'Guzzle\\Tests\\Service\\Mock\\Command\\MockCommand',
+                'database'       => 'Guzzle\\Tests\\Service\\Mock\\Command\\MockCommand',
                 'parameters'  => array(
                     'bucket'  => array('required' => true),
                     'key'     => array('required' => true)
@@ -150,7 +150,7 @@ class ServiceDescriptionTest extends \Guzzle\Tests\GuzzleTestCase
     public function testPersistsCustomAttributes()
     {
         $data = array(
-            'operations'  => array('foo' => array('user' => 'foo', 'parameters' => array())),
+            'operations'  => array('foo' => array('database' => 'foo', 'parameters' => array())),
             'name'        => 'Name',
             'description' => 'Test',
             'apiVersion'  => '1.24',
@@ -224,7 +224,7 @@ class ServiceDescriptionTest extends \Guzzle\Tests\GuzzleTestCase
         $desc = array(
             'models' => array(
                 'date' => array('type' => 'string'),
-                'user'=> array(
+                'database'=> array(
                     'type' => 'object',
                     'properties' => array(
                         'dob' => array('$ref' => 'date')
@@ -235,6 +235,6 @@ class ServiceDescriptionTest extends \Guzzle\Tests\GuzzleTestCase
 
         $s = ServiceDescription::factory($desc);
         $this->assertEquals('date', $s->getModel('date')->getName());
-        $this->assertEquals('dob', $s->getModel('user')->getProperty('dob')->getName());
+        $this->assertEquals('dob', $s->getModel('database')->getProperty('dob')->getName());
     }
 }

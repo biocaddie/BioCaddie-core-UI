@@ -5,7 +5,7 @@ namespace Guzzle\Service\Command;
 use Guzzle\Common\Event;
 
 /**
- * Event user emitted with the operation.parse_class event
+ * Event database emitted with the operation.parse_class event
  */
 class CreateResponseClassEvent extends Event
 {

@@ -9,10 +9,10 @@ use Guzzle\Service\Command\CommandInterface;
  */
 class MapResourceIteratorFactory extends AbstractResourceIteratorFactory
 {
-    /** @var array Associative array mapping iterator names to user names */
+    /** @var array Associative array mapping iterator names to database names */
     protected $map;
 
-    /** @param array $map Associative array mapping iterator names to user names */
+    /** @param array $map Associative array mapping iterator names to database names */
     public function __construct(array $map)
     {
         $this->map = $map;

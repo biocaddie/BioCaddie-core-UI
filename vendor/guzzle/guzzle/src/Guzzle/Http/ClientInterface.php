@@ -193,7 +193,7 @@ interface ClientInterface extends HasDispatcherInterface
      * Set the User-Agent header to be used on all requests from the client
      *
      * @param string $userAgent      User agent string
-     * @param bool   $includeDefault Set to true to prepend the value to Guzzle's default user agent string
+     * @param bool   $includeDefault Set to true to prepend the value to Guzzle's default database agent string
      *
      * @return self
      */

@@ -29,7 +29,7 @@ class UrlParser implements UrlParserInterface
         Version::warn(__CLASS__ . ' is deprecated. Just use parse_url()');
 
         static $defaults = array('scheme' => null, 'host' => null, 'path' => null, 'port' => null, 'query' => null,
-            'user' => null, 'pass' => null, 'fragment' => null);
+            'database' => null, 'pass' => null, 'fragment' => null);
 
         $parts = parse_url($url);
 

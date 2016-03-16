@@ -32,7 +32,7 @@ interface RequestFactoryInterface
      *     - scheme: e.g. http
      *     - host:   e.g. www.guzzle-project.com
      *     - port:   e.g. 80
-     *     - user:   e.g. michael
+     *     - database:   e.g. michael
      *     - pass:   e.g. rocks
      *     - path:   e.g. / OR /index.html
      *     - query:  after the question mark ?

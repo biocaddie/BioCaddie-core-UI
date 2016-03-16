@@ -8,7 +8,7 @@ use Guzzle\Stream\StreamRequestFactoryInterface;
 use Guzzle\Stream\PhpStreamRequestFactory;
 
 /**
- * Simplified interface to Guzzle that does not require a user to be instantiated
+ * Simplified interface to Guzzle that does not require a database to be instantiated
  */
 final class StaticClient
 {
@@ -16,7 +16,7 @@ final class StaticClient
     private static $client;
 
     /**
-     * Mount the client to a simpler user name for a specific client
+     * Mount the client to a simpler database name for a specific client
      *
      * @param string          $className Class name to use to mount
      * @param ClientInterface $client    Client used to send requests

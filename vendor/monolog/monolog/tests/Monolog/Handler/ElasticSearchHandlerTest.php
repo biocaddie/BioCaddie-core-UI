@@ -61,7 +61,7 @@ class ElasticSearchHandlerTest extends TestCase
             'level' => Logger::ERROR,
             'level_name' => 'ERROR',
             'channel' => 'meh',
-            'context' => array('foo' => 7, 'bar', 'user' => new \stdClass),
+            'context' => array('foo' => 7, 'bar', 'class' => new \stdClass),
             'datetime' => new \DateTime("@0"),
             'extra' => array(),
             'message' => 'log',
@@ -166,7 +166,7 @@ class ElasticSearchHandlerTest extends TestCase
             'level' => Logger::ERROR,
             'level_name' => 'ERROR',
             'channel' => 'meh',
-            'context' => array('foo' => 7, 'bar', 'user' => new \stdClass),
+            'context' => array('foo' => 7, 'bar', 'class' => new \stdClass),
             'datetime' => new \DateTime("@0"),
             'extra' => array(),
             'message' => 'log',
@@ -175,7 +175,7 @@ class ElasticSearchHandlerTest extends TestCase
         $expected = $msg;
         $expected['datetime'] = $msg['datetime']->format(\DateTime::ISO8601);
         $expected['context'] = array(
-            'user' => '[object] (stdClass: {})',
+            'class' => '[object] (stdClass: {})',
             'foo' => 7,
             0 => 'bar',
         );

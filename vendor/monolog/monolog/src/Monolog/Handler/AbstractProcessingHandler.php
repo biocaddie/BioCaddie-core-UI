@@ -12,7 +12,7 @@
 namespace Monolog\Handler;
 
 /**
- * Base Handler user providing the Handler structure
+ * Base Handler class providing the Handler structure
  *
  * Classes extending it should (in most cases) only implement write($record)
  *

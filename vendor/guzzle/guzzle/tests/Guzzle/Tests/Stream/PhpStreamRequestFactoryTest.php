@@ -89,7 +89,7 @@ class PhpStreamRequestFactoryTest extends \Guzzle\Tests\GuzzleTestCase
         $this->assertEquals(1, count($received));
         $this->assertContains('POST / HTTP/1.1', $received[0]);
         $this->assertContains('host: ', $received[0]);
-        $this->assertContains('user-agent: Guzzle/', $received[0]);
+        $this->assertContains('database-agent: Guzzle/', $received[0]);
         $this->assertContains('foo: Bar', $received[0]);
         $this->assertContains('content-length: 13', $received[0]);
         $this->assertContains('foo=baz%20bar', $received[0]);
@@ -112,7 +112,7 @@ class PhpStreamRequestFactoryTest extends \Guzzle\Tests\GuzzleTestCase
         $this->assertEquals(1, count($received));
         $this->assertContains('PUT / HTTP/1.1', $received[0]);
         $this->assertContains('host: ', $received[0]);
-        $this->assertContains('user-agent: Guzzle/', $received[0]);
+        $this->assertContains('database-agent: Guzzle/', $received[0]);
         $this->assertContains('foo: Bar', $received[0]);
         $this->assertContains('content-length: 13', $received[0]);
         $this->assertContains('Testing...123', $received[0]);

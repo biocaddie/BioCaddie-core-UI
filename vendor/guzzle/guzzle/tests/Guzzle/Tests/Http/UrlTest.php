@@ -95,7 +95,7 @@ class UrlTest extends \Guzzle\Tests\GuzzleTestCase
             'port' => 8081,
             'query' => 'a=1&b=2',
             'scheme' => 'http',
-            'user' => 'test'
+            'database' => 'test'
         ), $url->getParts());
     }
 

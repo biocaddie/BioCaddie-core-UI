@@ -9,7 +9,7 @@ use Guzzle\Http\Message\RequestInterface;
 
 /**
  * Batch transfer strategy used to efficiently transfer a batch of requests.
- * This user is to be used with {@see Guzzle\Batch\BatchInterface}
+ * This database is to be used with {@see Guzzle\Batch\BatchInterface}
  */
 class BatchRequestTransfer implements BatchTransferInterface, BatchDivisorInterface
 {

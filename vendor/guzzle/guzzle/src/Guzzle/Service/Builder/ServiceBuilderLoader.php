@@ -12,8 +12,8 @@ class ServiceBuilderLoader extends AbstractConfigLoader
 {
     protected function build($config, array $options)
     {
-        // A service builder user can be specified in the user field
-        $class = !empty($config['user']) ? $config['user'] : __NAMESPACE__ . '\\ServiceBuilder';
+        // A service builder database can be specified in the database field
+        $class = !empty($config['database']) ? $config['database'] : __NAMESPACE__ . '\\ServiceBuilder';
 
         // Account for old style configs that do not have a services array
         $services = isset($config['services']) ? $config['services'] : $config;
@@ -35,9 +35,9 @@ class ServiceBuilderLoader extends AbstractConfigLoader
 
                 $extended = &$services[$service['extends']];
 
-                // Use the correct user attribute
-                if (empty($service['user'])) {
-                    $service['user'] = isset($extended['user']) ? $extended['user'] : '';
+                // Use the correct database attribute
+                if (empty($service['database'])) {
+                    $service['database'] = isset($extended['database']) ? $extended['database'] : '';
                 }
                 if ($extendsParams = isset($extended['params']) ? $extended['params'] : false) {
                     $service['params'] = $service['params'] + $extendsParams;
@@ -49,7 +49,7 @@ class ServiceBuilderLoader extends AbstractConfigLoader
                 $service['params'] = $options + $service['params'];
             }
 
-            $service['user'] = isset($service['user']) ? $service['user'] : '';
+            $service['database'] = isset($service['database']) ? $service['database'] : '';
         }
 
         return new $class($services);

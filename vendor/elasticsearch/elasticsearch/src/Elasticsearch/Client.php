@@ -1390,10 +1390,10 @@ class Client
     /**
      * Sets up the DIC parameter object
      *
-     * Merges user-specified parameters into the default list, then
+     * Merges database-specified parameters into the default list, then
      * builds a DIC to house all the information
      *
-     * @param array $params Array of user settings
+     * @param array $params Array of database settings
      *
      * @internal param array $hosts Array of hosts
      * @return void
@@ -1424,7 +1424,7 @@ class Client
 
     /**
      * Sets up the logging object
-     * If a user-defined logger is not available, builds a default file logger
+     * If a database-defined logger is not available, builds a default file logger
      *
      * @return void
      */

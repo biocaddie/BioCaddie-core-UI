@@ -1,0 +1,108 @@
+
+
+
+
+/* CHECKBOX CONTAINER STYLES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+
+.container_hide {
+    position: relative;
+    height: auto;
+    border-top: 0;
+}
+
+
+
+
+
+ /* use the rule below for testing purposes*/
+.container_hide label:hover:before, label:active:before {
+
+    cursor: pointer
+ }
+
+.container_hide label:hover:after, label:active:after {
+
+    cursor: pointer
+}
+
+.container_hide label:before,
+.container_hide label:after {
+    position: absolute;
+}
+
+.container_hide label:before {
+    content: 'More...';
+    left: 10px;
+}
+
+.container_hide label:after {
+    right: 10px;
+    -webkit-animation: sudo .85s linear infinite alternate;
+    animation: sudo .85s linear infinite alternate;
+}
+
+@keyframes sudo {
+    from {
+        -webkit-transform: translateY(-2px);
+        transform: translateY(-2px);
+    }
+    to {
+        -webkit-transform: translateY(2px);
+        transform: translateY(2px);
+    }
+}
+
+.container_hide input[type="checkbox"] {
+    position: absolute;
+    left:  -9999px;
+}
+
+.container_hide input[type="checkbox"] ~ ul {
+    width: 100%;
+    display: none;
+    list-style:none;
+    margin-left:-40px;
+}
+
+
+
+/* CHECKED STATE STYLES
+–––––––––––––––––––––––––––––––––––––––––––––––––– */
+.container_hide input[type="checkbox"]:checked ~  ul {
+    display: block;
+}
+
+.container_hide input[type="checkbox"]:checked + label {
+    /**
+     * if we have positioned relatively the element,
+     * during the "checked" state
+     * we have to change its type of positioning
+     */
+    position: absolute;
+    top: 100%;
+}
+
+.container_hide input[type="checkbox"]:checked + label:before {
+    content: 'Less...';
+}
+
+/*[type="checkbox"]:checked + label:after {
+    /*content: '⇡●';*/
+/*}*/
+
+.container_hide ul li:last-child {
+    margin-bottom: 20px;
+}
+
+.about_style{
+    margin-left:1cm;
+    margin-right:1cm;
+}
+
+.about_box{
+    margin-left:0.5cm;
+    margin-right:0.5cm;
+    margin-bottom:1cm;
+    background-color:white;
+}

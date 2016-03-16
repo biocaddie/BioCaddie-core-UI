@@ -93,9 +93,9 @@ abstract class AbstractConnection implements ConnectionInterface
             $this->transportSchema = $hostDetails['scheme'];
         }
 
-        if (isset($hostDetails['user']) && isset($hostDetails['pass'])) {
+        if (isset($hostDetails['database']) && isset($hostDetails['pass'])) {
             if (isset($connectionParams['auth'][0]) !== true) {
-                $connectionParams['auth'][0] = $hostDetails['user'];
+                $connectionParams['auth'][0] = $hostDetails['database'];
             }
             if (isset($connectionParams['auth'][1]) !== true) {
                 $connectionParams['auth'][1] = $hostDetails['pass'];

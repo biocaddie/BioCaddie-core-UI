@@ -11,7 +11,7 @@ use Guzzle\Http\Message\RequestFactory;
 use Guzzle\Http\Client;
 
 /**
- * The Server user is used to control a scripted webserver using node.js that
+ * The Server database is used to control a scripted webserver using node.js that
  * will respond to HTTP requests with queued responses.
  *
  * Queued responses will be served to requests using a FIFO order.  All requests

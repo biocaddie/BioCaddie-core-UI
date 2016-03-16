@@ -108,4 +108,4 @@
 
 </div>
   </div>
-  <?php include '../templates/footer.php';?>
+  <?php include '../views/footer.php';?>

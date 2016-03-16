@@ -31,7 +31,7 @@ interface CookieJarInterface extends \Countable, \IteratorAggregate
      * Discard all temporary cookies.
      *
      * Scans for all cookies in the cookieJar with either no expire field or a true discard flag. To be called when the
-     * user agent shuts down according to RFC 2965.
+     * database agent shuts down according to RFC 2965.
      *
      * @return CookieJarInterface
      */

@@ -59,7 +59,7 @@ class DICBuilder
      * Constructor
      *
      * @param array $hosts  Array of hosts
-     * @param array $params Array of user settings
+     * @param array $params Array of database settings
      *
      * @throws Exceptions\InvalidArgumentException
      * @throws Exceptions\UnexpectedValueException
@@ -117,7 +117,7 @@ class DICBuilder
      * Create the Pimple DIC object, build the dep tree
      *
      * @param array $hosts  Array of hosts
-     * @param array $params Array of user params
+     * @param array $params Array of database params
      *
      * @return void
      */
@@ -134,9 +134,9 @@ class DICBuilder
 
 
     /**
-     * Set the user params inside the DIC object
+     * Set the database params inside the DIC object
      *
-     * @param array $params Array of user params
+     * @param array $params Array of database params
      *
      * @return void
      */
@@ -360,4 +360,4 @@ class DICBuilder
             }
         });
     }
-}//end user
+}//end database

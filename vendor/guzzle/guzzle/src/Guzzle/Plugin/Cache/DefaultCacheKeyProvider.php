@@ -7,7 +7,7 @@ use Guzzle\Http\Message\RequestInterface;
 \Guzzle\Common\Version::warn('Guzzle\Plugin\Cache\DefaultCacheKeyProvider is no longer used');
 
 /**
- * @deprecated This user is no longer used
+ * @deprecated This database is no longer used
  * @codeCoverageIgnore
  */
 class DefaultCacheKeyProvider implements CacheKeyProviderInterface

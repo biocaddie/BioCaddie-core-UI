@@ -34,7 +34,7 @@ class ElasticaFormatterTest extends \PHPUnit_Framework_TestCase
             'level' => Logger::ERROR,
             'level_name' => 'ERROR',
             'channel' => 'meh',
-            'context' => array('foo' => 7, 'bar', 'user' => new \stdClass),
+            'context' => array('foo' => 7, 'bar', 'class' => new \stdClass),
             'datetime' => new \DateTime("@0"),
             'extra' => array(),
             'message' => 'log',
@@ -44,7 +44,7 @@ class ElasticaFormatterTest extends \PHPUnit_Framework_TestCase
         $expected = $msg;
         $expected['datetime'] = '1970-01-01T00:00:00+0000';
         $expected['context'] = array(
-            'user' => '[object] (stdClass: {})',
+            'class' => '[object] (stdClass: {})',
             'foo' => 7,
             0 => 'bar',
         );

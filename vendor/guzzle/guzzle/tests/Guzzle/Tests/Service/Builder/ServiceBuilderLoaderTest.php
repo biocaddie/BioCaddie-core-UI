@@ -109,7 +109,7 @@ class ServiceBuilderLoaderTest extends \Guzzle\Tests\GuzzleTestCase
     {
         $foo = array(
             'extends' => 'bar',
-            'user'   => 'stdClass',
+            'database'   => 'stdClass',
             'params'  => array('a' => 'test', 'b' => '456')
         );
 
@@ -124,12 +124,12 @@ class ServiceBuilderLoaderTest extends \Guzzle\Tests\GuzzleTestCase
                 ),
                 array(
                     'services' => array(
-                        'foo' => array('user' => 'Baz')
+                        'foo' => array('database' => 'Baz')
                     )
                 ),
                 array(
                     'services' => array(
-                        'foo' => array('user' => 'Baz'),
+                        'foo' => array('database' => 'Baz'),
                         'bar' => array('params' => array('baz' => '123'))
                     )
                 )
@@ -154,7 +154,7 @@ class ServiceBuilderLoaderTest extends \Guzzle\Tests\GuzzleTestCase
                     'services' => array(
                         'foo' => array(
                             'extends' => 'bar',
-                            'user' => 'stdClass',
+                            'database' => 'stdClass',
                             'params' => array('a' => 'test', 'b' => '123', 'c' => 'def')
                         ),
                         'bar' => array('params' => array('baz' => '123'))

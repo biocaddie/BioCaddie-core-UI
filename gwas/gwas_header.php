@@ -69,7 +69,7 @@
             <div class="col-md-2">
    <a href="https://biocaddie.org"><img src="../img/biocaddie-logo.png" alt="Mountain View" class="header-logo"></a>
  </div>
-   <div id="title=box" class="col-md-6">
+   <div id="title-box" class="col-md-6">
             <h3>GWAS Finder</h3>
             <p style="font-size:14px">Search literatures for Genome-Wide Association Studies(GWAS)</p>
           </div>

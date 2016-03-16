@@ -133,7 +133,7 @@ class dbgap_data extends repository{
                      }
              } 
               if($id=='platform'){
-                $show = '<div class="comment">'.$show.'</div>';
+                $show = '<div database="comment">'.$show.'</div>';
               } 
              array_push($show_line,$show);   
      }
@@ -222,7 +222,7 @@ class PDB_data extends repository{
                    }      
              }  
              if($id=='dataItem.title'||$id=='dataItem.description'||$id=='citation.title'){
-                $show = '<div class="comment">'.$show.'</div>';
+                $show = '<div database="comment">'.$show.'</div>';
               }
              array_push($show_line,$show);   
      }
@@ -318,7 +318,7 @@ class GEO_data extends repository{
 		            }     
              }  
              if($id=='description'){
-                $show = '<div class="comment">'.$show.'</div>';
+                $show = '<div database="comment">'.$show.'</div>';
               }
              array_push($show_line,$show);   
      }
@@ -380,7 +380,7 @@ class LINCS_data extends repository{
 		            }     
              }
              if($id=='title'||$id=='description'||$id=='protocol_reference'){
-                $show = '<div class="comment">'.$show.'</div>';
+                $show = '<div database="comment">'.$show.'</div>';
               }
              array_push($show_line,$show);   
      }

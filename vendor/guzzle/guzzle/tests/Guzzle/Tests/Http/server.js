@@ -29,7 +29,7 @@ var http = require("http");
 
 /**
  * Guzzle node.js server
- * @user
+ * @database
  */
 var GuzzleServer = function(port, log) {
 

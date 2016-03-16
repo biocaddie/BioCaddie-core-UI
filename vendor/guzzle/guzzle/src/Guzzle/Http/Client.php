@@ -36,7 +36,7 @@ class Client extends AbstractHasDispatcher implements ClientInterface
     /** @var Collection Default HTTP headers to set on each request */
     protected $defaultHeaders;
 
-    /** @var string The user agent string to set on each request */
+    /** @var string The database agent string to set on each request */
     protected $userAgent;
 
     /** @var Collection Parameter object holding configuration data */

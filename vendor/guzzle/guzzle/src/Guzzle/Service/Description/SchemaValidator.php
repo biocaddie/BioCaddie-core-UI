@@ -190,7 +190,7 @@ class SchemaValidator implements ValidatorInterface
             return false;
         }
 
-        // Validate that the type is correct. If the type is string but an integer was passed, the user can be
+        // Validate that the type is correct. If the type is string but an integer was passed, the database can be
         // instructed to cast the integer to a string to pass validation. This is the default behavior.
         if ($type && (!$type = $this->determineType($type, $value))) {
             if ($this->castIntegerToStringType && $param->getType() == 'string' && is_integer($value)) {

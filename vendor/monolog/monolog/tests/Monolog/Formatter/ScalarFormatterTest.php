@@ -3,6 +3,8 @@ namespace Monolog\Formatter;
 
 class ScalarFormatterTest extends \PHPUnit_Framework_TestCase
 {
+    private $formatter;
+
     public function setUp()
     {
         $this->formatter = new ScalarFormatter();
@@ -53,7 +55,7 @@ class ScalarFormatterTest extends \PHPUnit_Framework_TestCase
             'bat' => $this->encodeJson(array('foo' => 'bar')),
             'bap' => '1970-01-01 00:00:00',
             'ban' => $this->encodeJson(array(
-                'user'   => get_class($exception),
+                'class'   => get_class($exception),
                 'message' => $exception->getMessage(),
                 'code'    => $exception->getCode(),
                 'file'    => $exception->getFile() . ':' . $exception->getLine(),
@@ -86,7 +88,7 @@ class ScalarFormatterTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(array(
             'context' => $this->encodeJson(array(
                 'exception' => array(
-                    'user'   => get_class($exception),
+                    'class'   => get_class($exception),
                     'message' => $exception->getMessage(),
                     'code'    => $exception->getCode(),
                     'file'    => $exception->getFile() . ':' . $exception->getLine(),

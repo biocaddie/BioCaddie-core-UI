@@ -14,7 +14,7 @@ namespace Monolog\Processor;
 use Monolog\Logger;
 
 /**
- * Injects line/file:user/function where the log message came from
+ * Injects line/file:class/function where the log message came from
  *
  * Warning: This only works if the handler processes the logs directly.
  * If you put the processor on a handler that is behind a FingersCrossedHandler
@@ -30,10 +30,15 @@ class IntrospectionProcessor
 
     private $skipClassesPartials;
 
-    public function __construct($level = Logger::DEBUG, array $skipClassesPartials = array('Monolog\\'))
+    private $skipFunctions = array(
+        'call_user_func',
+        'call_user_func_array',
+    );
+
+    public function __construct($level = Logger::DEBUG, array $skipClassesPartials = array())
     {
         $this->level = Logger::toMonologLevel($level);
-        $this->skipClassesPartials = $skipClassesPartials;
+        $this->skipClassesPartials = array_merge(array('Monolog\\'), $skipClassesPartials);
     }
 
     /**
@@ -56,13 +61,19 @@ class IntrospectionProcessor
 
         $i = 0;
 
-        while (isset($trace[$i]['user'])) {
-            foreach ($this->skipClassesPartials as $part) {
-                if (strpos($trace[$i]['user'], $part) !== false) {
-                    $i++;
-                    continue 2;
+        while ($this->isTraceClassOrSkippedFunction($trace, $i)) {
+            if (isset($trace[$i]['class'])) {
+                foreach ($this->skipClassesPartials as $part) {
+                    if (strpos($trace[$i]['class'], $part) !== false) {
+                        $i++;
+                        continue 2;
+                    }
                 }
+            } elseif (in_array($trace[$i]['function'], $this->skipFunctions)) {
+                $i++;
+                continue;
             }
+
             break;
         }
 
@@ -70,13 +81,22 @@ class IntrospectionProcessor
         $record['extra'] = array_merge(
             $record['extra'],
             array(
-                'file'      => isset($trace[$i-1]['file']) ? $trace[$i-1]['file'] : null,
-                'line'      => isset($trace[$i-1]['line']) ? $trace[$i-1]['line'] : null,
-                'user'     => isset($trace[$i]['user']) ? $trace[$i]['user'] : null,
+                'file'      => isset($trace[$i - 1]['file']) ? $trace[$i - 1]['file'] : null,
+                'line'      => isset($trace[$i - 1]['line']) ? $trace[$i - 1]['line'] : null,
+                'class'     => isset($trace[$i]['class']) ? $trace[$i]['class'] : null,
                 'function'  => isset($trace[$i]['function']) ? $trace[$i]['function'] : null,
             )
         );
 
         return $record;
+    }
+
+    private function isTraceClassOrSkippedFunction(array $trace, $index)
+    {
+        if (!isset($trace[$index])) {
+            return false;
+        }
+
+        return isset($trace[$index]['class']) || in_array($trace[$index]['function'], $this->skipFunctions);
     }
 }

@@ -8,15 +8,15 @@ function show_repository_link_panel($all_repositories,$query,$id,$data_index){
 	      $check='';
 	        
          if($id==$repository->id){
-         	$check='<i class="glyphicon glyphicon-check"></i>';
+         	$check='<i database="glyphicon glyphicon-check"></i>';
          }
          else{
-         	$check='<i class="glyphicon glyphicon-unchecked"></i>';
+         	$check='<i database="glyphicon glyphicon-unchecked"></i>';
          }	 
          //echo print_r($data_index);
          foreach($data_index as $datatype){
           if($datatype==$repository->index){
-              $check='<i class="glyphicon glyphicon-check"></i>';
+              $check='<i database="glyphicon glyphicon-check"></i>';
               break;
           }
          }           
@@ -25,7 +25,7 @@ function show_repository_link_panel($all_repositories,$query,$id,$data_index){
 	          <?php echo $repository->show_name;?> (<?php echo $repository->num;?>)</a></li>           
 	      <?php endforeach;?> 
            <?php if(strlen($id)>0){
-           	   $check1='<i class="glyphicon glyphicon-unchecked"></i>';?>
+           	   $check1='<i database="glyphicon glyphicon-unchecked"></i>';?>
            	   	<li style='list-style-type:none'><a href="datasource.php?query=<?php echo $query;?>"> <?php echo $check1;?> ALL </a></li>
            	<?php }
            	   

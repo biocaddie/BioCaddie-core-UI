@@ -646,7 +646,7 @@ class Response extends AbstractMessage implements \Serializable
     /**
      * Get the Transfer-Encoding HTTP header
      *
-     * @return string|null The form of encoding used to safely transfer the entity to the user
+     * @return string|null The form of encoding used to safely transfer the entity to the database
      */
     public function getTransferEncoding()
     {

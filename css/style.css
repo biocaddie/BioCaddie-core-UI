@@ -81,13 +81,10 @@ a{
   box-shadow: rgb(136, 136, 136) 1px 1px 5px;
 }
 
-input#btn-search{
-   background-image: url(../img/search.png);
-    background-position:center;
-    background-size: 35px 35px;
-    width:50px;
-    height:35px;
-}
+/*input#query{
+    z-index: 10;
+    position: absolute;
+}*/
 
 /* popup dialog under the search box*/
 
@@ -102,11 +99,6 @@ input#btn-search{
 .ui-dialog-titlebar {
     background: #ffffff;
 }
-
-.ui-widget-header{
-   border:0px;
-}
-
 
 .types{
     color:#009444;
@@ -278,14 +270,14 @@ span.pp1>a{
 
 /********************************************
 *
-*     Styles for element on datasource page
+*     Styles for element on search page
 *
 *********************************************/
 .search-block-2{
     background: #F7FDF6;
     background-image:linear-gradient(to bottom, #DFF0D8 0px, #f7fdf7 100%);
     border: 1px solid #B5EBA9;
-    height: 100px;
+    height: 150px;
     padding-top: 20px;
 }
 
@@ -358,7 +350,6 @@ p.pubmed{
   border-bottom-style: dashed;
   border-bottom-width: 1px;
 }
-
 
 /**** buttons *****/
 
@@ -496,6 +487,7 @@ border-radius: 3px;
 margin-top: -5px;
 }
 
+/*
 .bs-mixin(@name, @callout-color, @font-color) {
 .@{name},
 &.@{name} h4 {
@@ -510,8 +502,7 @@ color: @font-color;
 .bs-mixin(bs-callout-danger, @brand-danger, @brand-danger);
 .bs-mixin(bs-callout-warning, @brand-warning, @brand-warning);
 .bs-mixin(bs-callout-success, @brand-success, @brand-success);
-
+*/
 /*/.end of css for feedback panel*/
-
 
 

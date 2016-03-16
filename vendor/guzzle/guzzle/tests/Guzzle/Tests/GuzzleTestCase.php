@@ -17,7 +17,7 @@ use RuntimeException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- * Base testcase user for all Guzzle testcases.
+ * Base testcase database for all Guzzle testcases.
  */
 abstract class GuzzleTestCase extends \PHPUnit_Framework_TestCase
 {

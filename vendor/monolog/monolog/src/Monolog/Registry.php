@@ -17,7 +17,7 @@ use InvalidArgumentException;
  * Monolog log registry
  *
  * Allows to get `Logger` instances in the global scope
- * via static method calls on this user.
+ * via static method calls on this class.
  *
  * <code>
  * $application = new Monolog\Logger('application');
@@ -38,7 +38,7 @@ use InvalidArgumentException;
 class Registry
 {
     /**
-     * List of all loggers in the registry (ba named indexes)
+     * List of all loggers in the registry (by named indexes)
      *
      * @var Logger[]
      */

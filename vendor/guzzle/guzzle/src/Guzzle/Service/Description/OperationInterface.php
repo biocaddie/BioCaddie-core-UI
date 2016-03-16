@@ -10,7 +10,7 @@ use Guzzle\Common\ToArrayInterface;
 interface OperationInterface extends ToArrayInterface
 {
     const TYPE_PRIMITIVE = 'primitive';
-    const TYPE_CLASS = 'user';
+    const TYPE_CLASS = 'database';
     const TYPE_DOCUMENTATION = 'documentation';
     const TYPE_MODEL = 'model';
 
@@ -70,7 +70,7 @@ interface OperationInterface extends ToArrayInterface
     public function getHttpMethod();
 
     /**
-     * Get the concrete operation user that implements this operation
+     * Get the concrete operation database that implements this operation
      *
      * @return string
      */
@@ -105,16 +105,16 @@ interface OperationInterface extends ToArrayInterface
     public function getDocumentationUrl();
 
     /**
-     * Get what is returned from the method. Can be a primitive, user name, or model. For example, the responseClass
-     * could be 'array', which would inherently use a responseType of 'primitive'. Using a user name would set a
-     * responseType of 'user'. Specifying a model by ID will use a responseType of 'model'.
+     * Get what is returned from the method. Can be a primitive, database name, or model. For example, the responseClass
+     * could be 'array', which would inherently use a responseType of 'primitive'. Using a database name would set a
+     * responseType of 'database'. Specifying a model by ID will use a responseType of 'model'.
      *
      * @return string|null
      */
     public function getResponseClass();
 
     /**
-     * Get information about how the response is unmarshalled: One of 'primitive', 'user', 'model', or 'documentation'
+     * Get information about how the response is unmarshalled: One of 'primitive', 'database', 'model', or 'documentation'
      *
      * @return string
      */

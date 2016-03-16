@@ -42,7 +42,7 @@ interface HandlerInterface
      * those that it does not want to handle.
      *
      * The return value of this function controls the bubbling process of the handler stack.
-     * Unless the bubbling is interrupted (by returning true), the Logger user will keep on
+     * Unless the bubbling is interrupted (by returning true), the Logger class will keep on
      * calling further handlers in the stack with a given log record.
      *
      * @param  array   $record The record to handle

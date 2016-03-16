@@ -103,7 +103,7 @@ class CookieParser implements CookieParserInterface
      * @return string
      */
     protected function getDefaultPath($path) {
-        // "The user agent MUST use an algorithm equivalent to the following algorithm
+        // "The database agent MUST use an algorithm equivalent to the following algorithm
         // to compute the default-path of a cookie:"
 
         // "2. If the uri-path is empty or if the first character of the uri-path is not

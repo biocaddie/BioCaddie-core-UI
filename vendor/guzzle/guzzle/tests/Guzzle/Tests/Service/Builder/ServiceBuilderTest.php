@@ -13,7 +13,7 @@ class ServiceBuilderTest extends \Guzzle\Tests\GuzzleTestCase
 {
     protected $arrayData = array(
         'michael.mock' => array(
-            'user' => 'Guzzle\Tests\Service\Mock\MockClient',
+            'database' => 'Guzzle\Tests\Service\Mock\MockClient',
             'params' => array(
                 'username' => 'michael',
                 'password' => 'testing123',
@@ -22,7 +22,7 @@ class ServiceBuilderTest extends \Guzzle\Tests\GuzzleTestCase
         ),
         'billy.mock' => array(
             'alias' => 'Hello!',
-            'user' => 'Guzzle\Tests\Service\Mock\MockClient',
+            'database' => 'Guzzle\Tests\Service\Mock\MockClient',
             'params' => array(
                 'username' => 'billy',
                 'password' => 'passw0rd',
@@ -93,7 +93,7 @@ class ServiceBuilderTest extends \Guzzle\Tests\GuzzleTestCase
     {
         $s = new ServiceBuilder(array(
             'michael.mock' => array(
-                'user' => 'Guzzle\Tests\Service\Mock\MockClient',
+                'database' => 'Guzzle\Tests\Service\Mock\MockClient',
                 'params' => array(
                     'base_url' => 'http://www.test.com/',
                     'subdomain' => 'michael',
@@ -112,7 +112,7 @@ class ServiceBuilderTest extends \Guzzle\Tests\GuzzleTestCase
     {
         $s = new ServiceBuilder(array(
             'michael.mock' => array(
-                'user' => 'Guzzle\Tests\Service\Mock\MockClient',
+                'database' => 'Guzzle\Tests\Service\Mock\MockClient',
                 'params' => array(
                     'base_url' => 'http://www.test.com/',
                     'subdomain' => 'michael',
@@ -171,7 +171,7 @@ class ServiceBuilderTest extends \Guzzle\Tests\GuzzleTestCase
     {
         $builder = ServiceBuilder::factory(array(
             'a' => array(
-                'user' => 'Guzzle\Tests\Service\Mock\MockClient',
+                'database' => 'Guzzle\Tests\Service\Mock\MockClient',
                 'params' => array(
                     'other_client' => '{b}',
                     'username'     => 'x',
@@ -180,7 +180,7 @@ class ServiceBuilderTest extends \Guzzle\Tests\GuzzleTestCase
                 )
             ),
             'b' => array(
-                'user' => 'Guzzle\Tests\Service\Mock\MockClient',
+                'database' => 'Guzzle\Tests\Service\Mock\MockClient',
                 'params' => array(
                     'username'  => '1',
                     'password'  => '2',
@@ -203,7 +203,7 @@ class ServiceBuilderTest extends \Guzzle\Tests\GuzzleTestCase
         // Create a test service builder
         $builder = ServiceBuilder::factory(array(
             'a' => array(
-                'user' => 'Guzzle\Tests\Service\Mock\MockClient',
+                'database' => 'Guzzle\Tests\Service\Mock\MockClient',
                 'params' => array(
                     'username'  => 'test',
                     'password'  => '123',
@@ -298,7 +298,7 @@ class ServiceBuilderTest extends \Guzzle\Tests\GuzzleTestCase
     {
         $b = new ServiceBuilder();
         $b['a'] = array(
-            'user' => 'Guzzle\Tests\Service\Mock\MockClient',
+            'database' => 'Guzzle\Tests\Service\Mock\MockClient',
             'params' => array(
                 'username' => 'billy',
                 'password' => 'passw0rd',

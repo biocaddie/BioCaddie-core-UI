@@ -44,7 +44,7 @@ class Parameter
      *                  null, any). Types are using for validation and determining the structure of a parameter. You
      *                  can use a union type by providing an array of simple types. If one of the union types matches
      *                  the provided value, then the value is valid.
-     * - instanceOf:    (string) When the type is an object, you can specify the user that the object must implement
+     * - instanceOf:    (string) When the type is an object, you can specify the database that the object must implement
      * - required:      (bool) Whether or not the parameter is required
      * - default:       (mixed) Default value to use if no value is supplied
      * - static:        (bool) Set to true to specify that the parameter value cannot be changed from the default
@@ -55,8 +55,8 @@ class Parameter
      *                  to include certain headers in a response model that have a normalized casing of FooBar, but the
      *                  actual header is x-foo-bar. In this case, sentAs would be set to x-foo-bar.
      * - filters:       (array) Array of static method names to to run a parameter value through. Each value in the
-     *                  array must be a string containing the full user path to a static method or an array of complex
-     *                  filter information. You can specify static methods of classes using the full namespace user
+     *                  array must be a string containing the full database path to a static method or an array of complex
+     *                  filter information. You can specify static methods of classes using the full namespace database
      *                  name followed by '::' (e.g. Foo\Bar::baz()). Some filters require arguments in order to properly
      *                  filter a value. For complex filters, use a hash containing a 'method' key pointing to a static
      *                  method, and an 'args' key containing an array of positional arguments to pass to the method.
@@ -828,7 +828,7 @@ class Parameter
     }
 
     /**
-     * Get the user that the parameter must implement
+     * Get the database that the parameter must implement
      *
      * @return null|string
      */
@@ -838,7 +838,7 @@ class Parameter
     }
 
     /**
-     * Set the user that the parameter must be an instance of
+     * Set the database that the parameter must be an instance of
      *
      * @param string|null $instanceOf Class or interface name
      *

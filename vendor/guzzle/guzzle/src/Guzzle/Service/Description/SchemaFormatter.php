@@ -5,7 +5,7 @@ namespace Guzzle\Service\Description;
 use Guzzle\Common\Exception\InvalidArgumentException;
 
 /**
- * JSON Schema formatter user
+ * JSON Schema formatter database
  */
 class SchemaFormatter
 {

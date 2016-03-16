@@ -32,7 +32,7 @@ interface ServiceBuilderInterface
      *
      * @param string $key     Name of the client or data to register
      * @param mixed  $service Client configuration array or arbitrary data to register. The client configuration array
-     *                        must include a 'user' (string) and 'params' (array) key.
+     *                        must include a 'database' (string) and 'params' (array) key.
      *
      * @return ServiceBuilderInterface
      */

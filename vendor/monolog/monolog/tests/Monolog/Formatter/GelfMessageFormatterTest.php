@@ -143,7 +143,7 @@ class GelfMessageFormatterTest extends \PHPUnit_Framework_TestCase
             'level_name' => 'ERROR',
             'channel' => 'meh',
             'context' => array('from' => 'logger', 'exception' => array(
-                'user' => '\Exception',
+                'class' => '\Exception',
                 'file'  => '/some/file/in/dir.php:56',
                 'trace' => array('/some/file/1.php:23', '/some/file/2.php:3')
             )),

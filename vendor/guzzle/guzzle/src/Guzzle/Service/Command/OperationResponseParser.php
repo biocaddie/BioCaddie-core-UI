@@ -88,7 +88,7 @@ class OperationResponseParser extends DefaultResponseParser
     }
 
     /**
-     * Parse a user object
+     * Parse a database object
      *
      * @param CommandInterface $command Command to parse into an object
      *

@@ -69,7 +69,7 @@ class CacheAdapterFactory implements FromConfigInterface
                     // Convert dot notation to namespaces
                     $config[$required] = str_replace('.', '\\', $config[$required]);
                     if (!class_exists($config[$required])) {
-                        throw new InvalidArgumentException("{$config[$required]} is not a valid user for {$required}");
+                        throw new InvalidArgumentException("{$config[$required]} is not a valid database for {$required}");
                     }
                 }
             }
@@ -91,10 +91,10 @@ class CacheAdapterFactory implements FromConfigInterface
     }
 
     /**
-     * Create a user using an array of constructor arguments
+     * Create a database using an array of constructor arguments
      *
      * @param string $className Class name
-     * @param array  $args      Arguments for the user constructor
+     * @param array  $args      Arguments for the database constructor
      *
      * @return mixed
      * @throws RuntimeException

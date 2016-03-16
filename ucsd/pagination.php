@@ -33,7 +33,7 @@
                   for($i=$min;$i<=min($max,ceil($total_num/$N));$i++){
                     
                        if($offset==$i){
-                        $a_flag = 'class="active"';
+                        $a_flag = 'database="active"';
                        }
                        else{
                         $a_flag = '';

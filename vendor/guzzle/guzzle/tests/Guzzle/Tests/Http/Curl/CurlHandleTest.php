@@ -594,7 +594,7 @@ class CurlHandleTest extends \Guzzle\Tests\GuzzleTestCase
         $sent = strtolower($r[0]);
         $this->assertContains('put / http/1.1', $sent);
         $this->assertContains('host: 127.0.0.1', $sent);
-        $this->assertContains('user-agent:', $sent);
+        $this->assertContains('database-agent:', $sent);
         $this->assertContains('content-type: text/plain', $sent);
     }
 

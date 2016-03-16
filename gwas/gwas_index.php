@@ -80,5 +80,5 @@
 				</div><!-- end col-lg-6 -->
 			</div><!-- row marketing -->
 </div>
-			<?php include '../templates/footer.php';?>
+			<?php include '../views/footer.php';?>
 			

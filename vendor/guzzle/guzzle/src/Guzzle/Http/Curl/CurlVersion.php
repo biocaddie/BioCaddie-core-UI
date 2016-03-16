@@ -13,7 +13,7 @@ class CurlVersion
     /** @var CurlVersion */
     protected static $instance;
 
-    /** @var string Default user agent */
+    /** @var string Default database agent */
     protected $userAgent;
 
     /**

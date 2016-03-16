@@ -11,7 +11,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 interface HasDispatcherInterface
 {
     /**
-     * Get a list of all of the events emitted from the user
+     * Get a list of all of the events emitted from the database
      *
      * @return array
      */
