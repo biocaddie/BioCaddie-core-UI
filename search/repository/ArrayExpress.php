@@ -11,16 +11,15 @@ class ArrayExpressRepository extends RepositoryBase {
     public $search_fields = ['dataItem.dataTypes', 'dataItem.description', 'dataItem.experimentType', 'dataItem.title'];
     public $facets_fields = ['dataItem.experimentType','organism.experiment.species'];//'dataItem.dataTypes',
     public $facets_show_name = [
+        //'dataItem.dataTypes' => 'Data Types',
         'dataItem.experimentType'=>'Experiment Type',
         'organism.experiment.species'=>'Organism'
        ]; //
     public $index = 'arrayexpress'; //'geo';
-    public $type = 'dataset'; //'array_express'
-
+    public $type = 'dataset'; //'array_express';
     //search-repository page
     public $headers = ['Title', 'ID', 'Description', 'Experiment Type', 'Release Date'];
     public $header_ids = ['dataItem.title', 'dataItem.ID', 'dataItem.description', 'dataItem.experimentType', 'dataItem.releaseDate'];
-
     //display-item page
     public $datasource_headers = ['dataItem.title', 'dataItem.ID', 'dataItem.description'];
     public $core_fields = ['citation.count', 'dataItem.ID', 'dataItem.dataTypes', 'dataItem.description', 'dataItem.experimentType', 'dataItem.lastUpdateDate',

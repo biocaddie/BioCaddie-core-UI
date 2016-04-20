@@ -2,6 +2,7 @@
 require_once dirname(__FILE__) . '/Parser.php';
 /**
  * Created by PhpStorm.
+ * For analyzing Boolean logic
  * User: rliu1
  * Date: 2/3/16
  * Time: 1:19 PM

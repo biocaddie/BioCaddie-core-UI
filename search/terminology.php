@@ -149,7 +149,6 @@ class ExpansionTerms
         $search->filter_fields = [];
         $search->es_index = 'terms';
 
-
         $result = $search->getSearchResult();
         $repositoryHits = $result['hits']['total'];
         $this->originalumlsID = '';
@@ -158,8 +157,6 @@ class ExpansionTerms
         }
 
     }
-
-
     public function get_umlsId_info()
     {
         $url = "http://localhost:9000/scigraph/graph/neighbors/".$this->getOriginalumlsID(); #umls:_C0242379
@@ -178,11 +175,9 @@ class ExpansionTerms
         $nodes =$data["nodes"];
         foreach($nodes as $node) {
             if ($node['id'] == $this->getOriginalumlsID()) {
-
                 return $node;
             }
         }
-
         return Null ;
     }
 

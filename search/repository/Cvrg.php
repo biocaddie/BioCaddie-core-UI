@@ -10,9 +10,9 @@ class CvrgRepository extends RepositoryBase {
     public $source = "https://eddi.cvrgrid.org/handle/";
 
     public $search_fields = ['dataset.ID', 'dataset.title', 'dataset.description'];
-    public $facets_fields = ['dataset.dataReleased'];
+    public $facets_fields = ['license.name'];
     public $facets_show_name = [
-        'dataset.dataReleased' => 'Data Released',
+        'license.name'=>'license'
     ];
     public $index = 'cvrg';
     public $type = 'dataset';
@@ -114,10 +114,16 @@ class CvrgRepository extends RepositoryBase {
                     }
                 }
 
-                if ($id == 'dataset.title' || $id == 'dataset.description') {
+                if ($id == 'dataset.title' ) {
                     $show = '<div user="comment">' . $show . '</div>';
                 }
+                if ($id == 'dataset.description'){
+                    $show = '<div class="comment more">' . $show . '</div>';
+                }
 
+                if($id=='dataset.dataReleased'){
+                    $show = date("m-d-Y", strtotime($show));
+                }
                 array_push($show_line, $show);
             }
             array_push($show_array, $show_line);

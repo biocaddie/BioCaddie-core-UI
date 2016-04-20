@@ -41,8 +41,8 @@ function sendEmails(){
 	require_once dirname(__FILE__) . '/vendor/swiftmailer/swiftmailer/lib/swift_required.php';
 
 	$from = $_POST["EMAIL"];
-	$to = array("xiaoling.chen@uth.tmc.edu","ruiling.liu@uth.tmc.edu","Anupama.E.Gururaj@uth.tmc.edu");
-	$body = 'BioCADDIE contact request<br>
+	$to = array("xiaoling.chen@uth.tmc.edu","ruiling.liu@uth.tmc.edu","Anupama.E.Gururaj@uth.tmc.edu","Saeid.Pournejati@uth.tmc.edu");
+	$body = 'bioCADDIE contact request<br>
         ----------------------------------------<br>
         NAME: '.$_POST["NAME"].'<br>
         MESSAGE: '.$_POST["MESSAGE"].'<br>
@@ -54,8 +54,8 @@ function sendEmails(){
 
 	$mailer = Swift_Mailer::newInstance($transport);
 
-	$message = Swift_Message::newInstance('bioCaddie Contact us email:' . $subject)
-			->setFrom(array($from => 'bioCaddie'))
+	$message = Swift_Message::newInstance('bioCADDIE Contact us email:' . $subject)
+			->setFrom(array($from => 'bioCADDIE'))
 			->setTo($to)
 			->setBody($body)
 			->setContentType("text/html");
@@ -72,6 +72,8 @@ function sendEmails(){
 	<p style="text-align:center">Develop a prototype of a data discovery index.</p>
 	<div class="about_box" style="background-color:white">
 		<br>
+
+		<!-- <p style="text-align:center;font-size:20px">              About</p>-->
 		<p class="about_style">   We at the bioCADDIE (biomedical and healthcare Data Discovery Index Ecosystem) are developing a prototype of a data discovery index (DDI) to help you search and find datasets you’re interested in. Our prototype aims to provide:</p>
 
 		<p class="about_style">   1.         A free, user-friendly means for you to locate data sets of interest.</p>
@@ -80,6 +82,8 @@ function sendEmails(){
 		<p class="about_style">   You can use the web interface and provide us  feedback <a class="hyperlink" href="./feedback.php">here </a> about your search experience. This is a prototype in development and your valuable suggestions and comments will help us to make the system better.</p>
 
 		<p class="about_style">   For more information about bioCADDIE, click <a class="hyperlink" href="https://biocaddie.org/" target="_blank"> here </a></p>
+
+		<p class="about_style" style="color: red; font-size: 12px;"> * We respect your privacy and will not share your personal information except as needed for access to DataMed. </p>
 
 		<p class="about_style" >   Contact us:</p>
 

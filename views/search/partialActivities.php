@@ -9,7 +9,7 @@ function partialActivities() {
         $counter = 0;
         ?>
         <div class="panel panel-success" id="recent">
-            <div class="panel-heading"><strong><span class="glyphicon glyphicon-chevron-up"></span> Recent Activity</strong></div>
+            <div class="panel-heading"><strong>Recent Activity</strong></div>
             <div class="panel-body">
                 <ul class="no-disk">
         <?php foreach (array_reverse($history) as $historyItem): 

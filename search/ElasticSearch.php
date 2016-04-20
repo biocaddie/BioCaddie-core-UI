@@ -9,6 +9,15 @@ class ElasticSearch extends ElasticSearchBase {
     public $rowsPerPage = 10;
     public $highlight = ['fields' => ['*' => [ "pre_tags" => ["<strong>"], "post_tags" => ["</strong>"],"number_of_fragments" =>0]]];
     public $facet_size = 10;
+    public $querytype = 'most_fields';
+
+    protected function update_query_string(){
+        if (substr($this->query, 0, 5) == "&#34;" && substr($this->query, -5, 5) == "&#34;") { //if token is wrapper by double quote, query it as a phrase
+            $this->query = trim($this->query, "&#34;");
+            $this->querytype = 'phrase';
+
+        }
+    }
     public function getSearchRowCount(){
         $body = $this->generateRowCountBody();
         return $this->generateResult($body);
@@ -21,6 +30,7 @@ class ElasticSearch extends ElasticSearchBase {
 
     public function generateResult($body) {
         global $es;
+
         if (sizeof($this->es_type) > 0) {
             $result = $es->search([
                 'index' => $this->es_index,
@@ -33,11 +43,11 @@ class ElasticSearch extends ElasticSearchBase {
                 'body' => $body
             ]);
         }
+
         return $result;
     }
 
     // Generates the main body of the query.
-
     protected function generateRowCountBody() {
         $facets = $this->generateFacets();
         $search_query = $this->generateBoolQuery();
@@ -116,7 +126,6 @@ class ElasticSearch extends ElasticSearchBase {
 
     // Generates the data selection part of the query.
     protected function generateQuery() {
-
         if (preg_match('/(AND|OR|NOT|\[|\])/', $this->query)) {
             // Get query term
             $quertterm = preg_replace("/\[[^)]+\]/", "", $this->query);
@@ -131,9 +140,8 @@ class ElasticSearch extends ElasticSearchBase {
             $this->query=$quertterm;
             $this->search_fields=$this->fieldsExpansion($queryfields);
 
-
         }
-
+        //$this->update_query_string(); //for handle "query" as phrase case
         if (count(array_keys($this->filter_fields)) < 1) {
             $query_part = [
                 'bool' => [
@@ -142,7 +150,7 @@ class ElasticSearch extends ElasticSearchBase {
                             'query' => $this->query,
                             'fields' => $this->search_fields,
                             'operator' => 'and',
-                            'type' => 'most_fields']
+                            'type' => $this->querytype]
                     ]
                 ]
             ];
@@ -155,14 +163,14 @@ class ElasticSearch extends ElasticSearchBase {
                             'query' => $this->query,
                             'fields' => $this->search_fields,
                             'operator' => 'and',
-                          'type'=>'most_fields'
+                          'type'=>$this->querytype
                         ]
                     ],
                     'filter' => $filter
                 ]
             ];
         }
-
+       // print_r($query_part);
         return $query_part;
     }
 
@@ -201,7 +209,9 @@ class ElasticSearch extends ElasticSearchBase {
 
         if(count($parsedQuery)==1){
             $query_part=$this->generateQuery();
+
         }else {
+
             if (count(array_keys($this->filter_fields)) < 1) {
                 $query_part = $this->recursiveConstructBoolQuery($parsedQuery);
             } else {
@@ -210,6 +220,7 @@ class ElasticSearch extends ElasticSearchBase {
             }
 
         }
+
         return $query_part;
     }
 

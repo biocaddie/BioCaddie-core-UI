@@ -5,7 +5,7 @@ require_once dirname(__FILE__) .'/dbcontroller.php';
 require_once dirname(__FILE__) . '/write_mysql_log.php';
 date_default_timezone_set('America/Chicago');
 
-$log_date= date("Y-m-d H:i:s");
+$log_date= date("Y-m-d");
 $message=null;
 $user_email=isset($_SESSION['email'])?$_SESSION['email']:null;
 $objDBController = new DBController();

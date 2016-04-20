@@ -16,7 +16,6 @@ function partialSynonym($searchBuilder)
 
     <div class="panel panel-primary" id="synonym">
         <div class="panel-heading">
-            <span class="glyphicon glyphicon-chevron-up"></span>
             <strong>Synonyms </strong>
         </div>
 
@@ -33,7 +32,7 @@ function partialSynonym($searchBuilder)
         </div>
 
         <div class="panel-footer">
-            <a href="expanded-query.php">See more</a>
+            <a href="expanded-query.php?q=<?php echo $searchBuilder->getQuery();?>">See more</a>
         </div>
     </div>
 

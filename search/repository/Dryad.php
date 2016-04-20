@@ -81,7 +81,6 @@ class DryadRepository extends RepositoryBase {
             $r = $results[$i];
 
             foreach ($ids as $id) {
-                //echo $id;
                 $id_list = explode('.', $id);
                 $idLevel = count($id_list);
                 $id0 = $id_list[0];
@@ -121,7 +120,9 @@ class DryadRepository extends RepositoryBase {
                 if ($id == 'dataset.title' || $id == 'dataset.description') {
                     $show = '<div user="comment">' . $show . '</div>';
                 }
-
+                if($id=='dataset.dateIssued'||$id=='dataset.dateLastUpdate'){
+                    $show = date("m-d-Y", strtotime($show));
+                }
                 array_push($show_line, $show);
             }
             array_push($show_array, $show_line);

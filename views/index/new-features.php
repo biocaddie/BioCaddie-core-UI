@@ -13,17 +13,18 @@
                     <td> 
                         <span class="glyphicon glyphicon-stop"> </span>
                         <span class="title">March 1, 2016</span>
-                        <ul>
-                            <li>Create a user account</li>
-                            <li>Save/Send search results</li>
-                            <li>Boolean/Advanced search</li>
+                        <ul style="font-size: 13px">
+                            <li>Login to DataMed</li>
+                            <li>Save search results to your account</li>
+                            <li>Send selected search results to file/email</li>
+                            <li>Use Boolean operators in advanced search</li>
                             <li>Query expansion</li>
-                            <li>Link data sets to grant</li>
-                            <li>Display results from multiple repositories</li>
-                            <li>Integrate new repositories</li>
-                            <li>Improve faceted search</li>
+                            <li>Get information on grants associated with the data sets </li>
+                            <li>Display results from selected repositories</li>
+                            <li>19 new repositories integrated</li>
+                            <li>Search for repositories of interest</li>
                             <li>Search for repository</li>
-                            <li>Autocomplete</li>
+                            <li>Autosuggestion as you type in the box</li>
                         </ul>
                     </td>
                 </tr>

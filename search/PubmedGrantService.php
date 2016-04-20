@@ -19,7 +19,9 @@ class GrantSearch extends ElasticSearch
 
         $a = str_replace(' ','*',$this->grantID);
         $a = str_replace('-','*',$a);
-
+       // if(preg_match('/^[A-Za-z]{2}[0-9]{5}/', $a) and strlen($a)==7){
+        //    $a=substr($a,0,2)."0".substr($a,2);
+       // };
         if(preg_match('/^[A-Za-z]{2}[0-9]{5}/',substr($a,-7))){
             $a=substr($a,0,strlen($a)-5)."0".substr($a,strlen($a)-5);
         }
@@ -149,13 +151,19 @@ class PubmedGrantService
                         $newresult = $results['hits']['hits'];
                         $project_detail_list = $this->filter_first_grant_for_the_same_project_num($newresult);
                         $grants_details[$name]=$project_detail_list;
+                        /*foreach($newresult as $result){
+                            array_push($grants_details[$name], $result['_source']);
+                        }*/
+
                     }
 
                 }
             }
 
         }
-
+        //echo '<pre>';
+        //print_r($grants_details);
+        //echo '</pre>';
         return $grants_details;
     }
     public function filter_first_grant_for_the_same_project_num($results){

@@ -1,11 +1,14 @@
 <?php
-function partialShare($postLink) { 
+
+function partialShare($postLink) {
     $query = filter_input(INPUT_GET, "query", FILTER_SANITIZE_STRING);
     ?> 
-<iframe id="download_xls" name="download_xls" width="0" height="0" scrolling="no" frameborder="0" hidden="hidden" ></iframe>
+    <iframe id="download_xls" name="download_xls" width="0" height="0" scrolling="no" frameborder="0" hidden="hidden" ></iframe>
     <div data-toggle="tooltip" data-placement="left" title="Share Page Result.">
-        <button  type="button" class="btn btn-default btn-sm" style="border-radius: 2px; padding: 3px 5px" data-toggle="modal" data-target="#myModal">
-            <i class="fa fa-share-alt" style="margin-right: 5px;"></i>Send To
+        <button id="share-btn" type="button" class="btn btn-default btn-sm" style="border-radius: 2px; padding: 3px 5px; display: none;" data-toggle="modal" data-target="#myModal">
+            <i class="fa fa-share-alt" style="margin-right: 5px;"></i>
+            <span id="share-qty" class="badge" style="font-size: 10px;">4</span>
+            Send To
         </button>
     </div>
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -17,7 +20,7 @@ function partialShare($postLink) {
                         <i class="fa fa-share-alt" style="margin-right: 5px;"></i>
                         Share Current Page Results</h4>
                 </div>
-                <form name="share-form" id="share-form" action="http://<?php echo $postLink; ?>" method="post" target="download_xls">
+                <form name="share-form" id="share-form" action="share.php" method="post" target="download_xls">
                     <div class="modal-body">
                         <p>How do you prefer to share current page results?</p>                    
                         <div class="btn-group" data-toggle="buttons">
@@ -69,6 +72,11 @@ function partialShare($postLink) {
                         </div>                    
                     </div>
                     <div class="modal-footer">
+                        <button id="share-clear" type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                            <i class="fa fa-trash"></i>
+                            Clear Selected Items
+                        </button>
+                        
                         <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">
                             <i class="fa fa-remove"></i>
                             Cancel

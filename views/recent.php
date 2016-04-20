@@ -66,7 +66,7 @@
 
     <div class="row" style="margin-top: 30px">
     <div class="panel panel-success">
-        <div class="panel-heading"><strong><span class="glyphicon glyphicon-chevron-up"></span> Recent
+        <div class="panel-heading"><strong> Recent
                 Activities</strong></div>
         <div class="panel-body">
             <table class="table">

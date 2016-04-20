@@ -11,6 +11,7 @@
     </div>
 </div>
 
+<script type="text/javascript" src="./js/js.cookie.js"></script>
 <?php
 /* ==== Page Specific Scripts ==== */
 if (isset($scripts)) {

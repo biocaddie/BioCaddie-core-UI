@@ -16,7 +16,7 @@ class SearchRepositoryBuilder {
     // User search query string.
     private $query;
     private $searchtype;
-
+    private $currentRepositoryname;
 
     public function getQuery() {
         return $this->query;
@@ -36,6 +36,9 @@ class SearchRepositoryBuilder {
         return $this->currentRepository;
     }
 
+    public function getCurrentRepositoryname() {
+        return $this->currentRepositoryname;
+    }
     // Page number.
     private $offset;
 
@@ -98,6 +101,7 @@ class SearchRepositoryBuilder {
     }
 
     function __construct() {
+
         $this->loadSearchType();
         if (!$this->loadQuery() || !$this->loadCurrentRepository()) {
             header('Location: index.php');
@@ -215,6 +219,7 @@ class SearchRepositoryBuilder {
 
                 $this->searchHeaders = $repository->headers;
                 $this->searchResults = $repository->show_table($esItems, $this->getQuery(), $this->getSelectedFilters());
+                $this->currentRepositoryname = $repository->show_name;
                 break;
             }
         }
@@ -231,6 +236,19 @@ class SearchRepositoryBuilder {
             $repositories_counts[$key] = $bucket['doc_count'];
         }
         foreach ($this->repositoryHolder->getRepositories() as $repository) {
+            /*if ($this->expanflag == 0) {
+                $search = new ExpansionSearch();
+            } else {
+                $search = new ElasticSearch();
+            }
+            $search->query = $this->getQuery();
+            $search->search_fields = $repository->search_fields;
+            $search->facets_fields = [];
+            $search->filter_fields = [];
+            $search->es_index = $repository->index;
+            $search->es_type = $repository->type;
+            $esResults = $search->getSearchRowCount();
+            $repositoryHits = $esResults['hits']['total'];*/
 
             $repositoryHits = $repositories_counts[$repository->index];
 
@@ -394,14 +412,21 @@ class SearchRepositoryBuilder {
                                 $name = $this->encodeFacetsTerm($key, $term['key']);
                                 $termKey = $term['key'];
                             }
+                            //$selected = (isset($this->selectedFilters) && array_key_exists($key, $this->selectedFilters) && in_array($termKey, $this->selectedFilters[$key])) ? true : false;
                             $selected = false;
                             array_push($term_array, ['tag_display_name' => $termKey, 'name' => $name, 'count' => $term['doc_count'], 'selected' => $selected]);
                         }
                         $displayName = $repository->facets_show_name[$key];
-
+                        //array_push($originalFacets, ['key' => $key, 'display_name' => $displayName, 'terms' => $term_array]);
                         $originalFacets[$key]=['display_name' => $displayName, 'terms' => $term_array];
                     }
 
+                    /*foreach(array_keys($esResults['aggregations']) as $name){
+                        $originalFacets[$name]=[];
+                        foreach($esResults['aggregations'][$name]['buckets'] as $item){
+                            $originalFacets[$name][$item['key']]=$item['doc_count'];
+                        }
+                    }*/
                     return $originalFacets;
 
                 }
@@ -427,5 +452,22 @@ class SearchRepositoryBuilder {
         $search->sort = $this->getSort();
         return $search;
     }
+    public function get_selected_filters_info(){
+        $show = '';
+        foreach(array_keys($this->selectedFilters) as $key){
+            foreach($this->selectedFilters[$key] as $value){
+                if(strlen($show)==0){
+                    $show = $value;
+                }
+                else {
+                    $show = $show . ', ' . $value;
+                }
+            }
+        }
+        if(strlen($show)>0){
+            $show = '&nbsp;&nbsp;&nbsp;&nbsp;Filters activated: <strong>'.$show.'</strong>';
+        }
+        return $show;
 
+    }
 }

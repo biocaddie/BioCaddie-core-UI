@@ -7,6 +7,7 @@ require_once dirname(__FILE__) . '/../vendor/autoload.php';
 // ElasticSearch Configuration.
 //$es_end_point = '129.106.149.72:9200';
 $es_end_point = '129.106.31.121:9200';
+
 // Set development server to local instance. 
 if ($config_switch == 1) {
     $es_end_point = '127.0.0.1:9200';

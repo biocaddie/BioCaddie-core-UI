@@ -74,8 +74,8 @@ class openFMRIRepository extends RepositoryBase {
         for ($i = 0; $i < count($results); $i++) {
             $show_line = [];
             $r = $results[$i];
-
             foreach ($ids as $id) {
+
                 $id_list = explode('.', $id);
                 $idLevel = count($id_list);
                 $id0 = $id_list[0];
@@ -96,6 +96,7 @@ class openFMRIRepository extends RepositoryBase {
                         }
                     }
                 } else {
+
                     if (isset($r['highlight'][$id])) {
                         $r['_source'][$id0][$id1] = implode(' ', $r['highlight'][$id]);
                     }
@@ -116,7 +117,10 @@ class openFMRIRepository extends RepositoryBase {
                 }
 
                 if ($id == 'dataset.title' || $id == 'dataset.description') {
-                    $show = '<div user="comment">' . $show . '</div>';
+                    $show = '<div user ="comment">' . $show . '</div>';
+                }
+                if($id=='organism.name'){
+                    $show =$r['_source']['organism'][0]['name'];
                 }
 
                 array_push($show_line, $show);

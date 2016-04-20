@@ -23,7 +23,7 @@ class NursaRepository extends RepositoryBase {
     public $type = 'dataset';
 
     //search page
-    public $datasource_headers = ['dataset.title', 'dataset.description', 'study.title' ];
+    public $datasource_headers = ['dataset.title', 'dataset.description'];
     public $core_fields_show_name = [
         'dataset.title'=>'Title',
         'dataset.description'=>'Description',
@@ -31,8 +31,8 @@ class NursaRepository extends RepositoryBase {
     ];
 
     //search-repository page
-    public $headers = ['Title', 'Description', 'Data Acquisition','Study' ];
-    public $header_ids = ['dataset.title', 'dataset.description', 'dataAcquisition.title','study.title' ];
+    public $headers = ['Title', 'Description', 'Data Acquisition'];
+    public $header_ids = ['dataset.title', 'dataset.description', 'dataAcquisition.title'];
 
     //display-item page
     public $core_fields = [
@@ -50,7 +50,6 @@ class NursaRepository extends RepositoryBase {
         'dataRepository.name',
         'dataRepository.ID',
         'dataRepository.homePage',
-        'study.title'
     ];
 
 

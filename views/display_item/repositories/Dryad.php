@@ -27,7 +27,7 @@ function displayResult($service) {
                 </tr>
                 <tr>
                     <td><strong>Date Issued:</strong></td>
-                    <td><?php echo date("d-m-Y", strtotime($results["dataset.dateIssued"])); ?></td>
+                    <td><?php echo date("m-d-Y", strtotime($results["dataset.dateIssued"])); ?></td>
                 </tr>
                 <tr>
                     <td><strong>Keywords:</strong></td>
@@ -35,11 +35,11 @@ function displayResult($service) {
                 </tr>
                 <tr>
                     <td><strong>Date Available:</strong></td>
-                    <td><?php echo date("d-m-Y", strtotime($results["dataset.dateAvailable"])); ?></td>
+                    <td><?php echo date("m-d-Y", strtotime($results["dataset.dateAvailable"])); ?></td>
                 </tr>
                 <tr>
                     <td><strong>Date Accession:</strong></td>
-                    <td><?php echo date("d-m-Y", strtotime($results["dataset.dateAccession"])); ?></td>
+                    <td><?php echo date("m-d-Y", strtotime($results["dataset.dateAccession"])); ?></td>
                 </tr>
                 <tr>
                     <td><strong>License:</strong></td>
@@ -51,11 +51,12 @@ function displayResult($service) {
                 </tr>
                 <tr>
                     <td><strong>Download URL:</strong></td>
-                    <td><?php echo "<a class='hyperlink' target=_blank href='".$results["dataset.downloadURL"]."'>".$results["dataset.downloadURL"]."</a>"; ?></td>
+                    <!--<td><?php echo "<a class='hyperlink' target=_blank href='".$results["dataset.downloadURL"]."'>".$results["dataset.downloadURL"]."</a>"; ?></td>-->
+                    <td><?php echo "<a class='hyperlink' target=_blank href='".$results["doi"]."'>".$results["doi"]."</a>"; ?></td>
                 </tr>
                 <tr>
                     <td><strong>Date Last Update:</strong></td>
-                    <td><?php echo date("d-m-Y", strtotime($results["dataset.dateLastUpdate"])); ?></td>
+                    <td><?php echo date("m-d-Y", strtotime($results["dataset.dateLastUpdate"])); ?></td>
                 </tr>
                 <tr>
                     <td><strong>Description:</strong></td>

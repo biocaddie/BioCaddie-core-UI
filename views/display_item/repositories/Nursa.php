@@ -32,7 +32,8 @@ function displayResult($service) {
                 </tr>
                 <tr>
                     <td><strong>Download URL:</strong></td>
-                    <td><?php echo '<a class="hyperlink" href="'.$results["dataset.downloadURL"].'">'.$results["dataset.downloadURL"]."</a>"; ?></td>
+                    <!--<td><?php echo '<a class="hyperlink" href="'.$results["dataset.downloadURL"].'">'.$results["dataset.downloadURL"]."</a>"; ?></td>-->
+                    <td><a class="hyperlink" href="http://dx.doi.org/<?php echo $results["dataset.ID"];?>">http://dx.doi.org/<?php echo $results["dataset.ID"];?></a> </td>
                 </tr>
                 <tr>
                     <td><strong>Description:</strong></td>
@@ -74,15 +75,15 @@ function displayResult($service) {
         </div>
 
         <div class="panel panel-info">
-            <div class="panel-heading" role="tab" id="heading-study">
+            <div class="panel-heading" role="tab" id="heading-repo">
                 <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-target="#collapse-study" href="#collapse-study" aria-expanded="true" aria-controls="collapse-study">
+                    <a role="button" data-toggle="collapse" data-target="#collapse-repo" href="#collapse-repo" aria-expanded="true" aria-controls="collapse-repo">
                         <i class="fa fa-chevron-up"></i>
                         Repository
                     </a>
                 </h4>
             </div>
-            <div id="collapse-study" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-study">
+            <div id="collapse-repo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-repo">
                 <div class="panel-body">
                     <table class="table table-striped">
                         <tbody>

@@ -6,7 +6,7 @@
 body {
     position: relative;
     margin-top: 10px;
-    font-family: 'Roboto', "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;/*'Roboto',*/
     font-size: 14px;   
     padding-bottom: 10rem;
     min-height: 100%;
@@ -28,7 +28,7 @@ a:hover, a:focus {
 }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
-    font-family: "Roboto", Helvetica, Arial, sans-serif;
+    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;/*"Roboto",*/
     font-weight: bold;
 }
 
@@ -770,7 +770,6 @@ ol.search-result > li .row-number {
 ol.search-result .result-heading {
     margin: 0 0 2px 0;
     font-size: 15px;
-    font-weight: bold;
 }
 
 ol.search-result .result-heading a {
@@ -849,6 +848,9 @@ ul.no-disk {
     padding: 0 0 0 10px;
 }
 
+.btn .badge {
+    text-shadow: none;
+}
 
 .badge-default {
     background-color: #999;
@@ -1032,3 +1034,4 @@ button[class*='field'] { width: 150px;}
     font-weight: normal;
     padding: 20px;
 }
+

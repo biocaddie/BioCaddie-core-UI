@@ -1,13 +1,15 @@
 <?php
 
 function partialSearchPanel($searchBuilder) {
-    if ($searchBuilder->getSearchType() == 'repository') {
-        $repo_status = 'checked';
-        $data_status = 'unchecked';
-    } else {
-        $repo_status = 'unchecked';
-        $data_status = 'checked';
-    }
+
+        if ($searchBuilder->getSearchType() == 'repository') {
+            $repo_status = 'checked';
+            $data_status = 'unchecked';
+        } else {
+            $repo_status = 'unchecked';
+            $data_status = 'checked';
+        }
+
     ?>
     <div class="jumbotron search-block-2">
         <form id="search-form" action='search.php' method='get' autocomplete='off'>

@@ -84,7 +84,6 @@ if (isset($_POST['radio-share'])) {
             if ($searchBuilder->getSearchType() == 'data') {
                 echo partialRepositories($searchBuilder);
                 echo partialDatatypes($searchBuilder);
-
             }
             ?>
             <div id="repo-filter"></div>
@@ -99,7 +98,6 @@ if (isset($_POST['radio-share'])) {
                 <?php /* ==== Pagination Panel ==== */ ?>
                 <?php if ($searchBuilder->getTotalRows() > 0): ?>
                     <?php
-
                         echo partialResultsStatus($searchBuilder);
                     ?>
                     <?php echo partialSwitch($searchBuilder); ?>
@@ -138,7 +136,7 @@ if (isset($_POST['radio-share'])) {
                     echo partialSynonym($searchBuilder);
                 ?>
                 <?php echo partialSearchDetails($searchBuilder); ?>
-                <?php echo partialRelatedKeywords($searchBuilder); ?>
+                <?php //echo partialRelatedKeywords($searchBuilder); ?>
             </div>
         </div>
     </div>

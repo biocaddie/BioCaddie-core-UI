@@ -13,7 +13,7 @@ function partialDatatypes($searchBuilder) {
         ?>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <strong><span class="glyphicon glyphicon-chevron-up"></span> Data Types</strong>
+                <strong> Data Types</strong>
             </div>
             <div class="panel-body">
                 <ul class="no-disk">

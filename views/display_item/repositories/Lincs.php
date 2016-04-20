@@ -28,8 +28,8 @@ function displayResult($service) {
                     <td><?php echo $results["cellLine.name"]; ?></td>
                 </tr>
                 <tr>
-                    <td><strong>Data Types:</strong></td>
-                    <td><?php echo $results["dataset.dataTypes"]; ?></td>
+                    <td><strong>Data Type:</strong></td>
+                    <td><?php echo $results["dataset.dataType"]; ?></td>
                 </tr>
                 <tr>
                     <td><strong>Biological Process:</strong></td>
@@ -59,12 +59,10 @@ function displayResult($service) {
                     <td><strong>Person:</strong></td>
                     <td><?php echo $results["person.name"]; ?></td>
                 </tr>
+                <?php $newdownloadlink = "http://lincsportal.ccs.miami.edu/datasets/#/view/".$results['dataset.ID'];?>
                 <tr>
                     <td><strong> download URL:</strong></td>
-                    <td>
-                        <a href="<?php echo $results["dataset.downloadURL"]; ?>">
-                            <?php echo $results["dataset.downloadURL"]; ?>
-                        </a>
+                    <td><a href="<?php echo $newdownloadlink;?>"><?php echo $newdownloadlink;?></a>
                     </td>
                 </tr>
                 <tr>

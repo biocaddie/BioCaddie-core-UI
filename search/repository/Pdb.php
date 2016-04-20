@@ -17,7 +17,7 @@ class PdbRepository extends RepositoryBase {
     public $id = '0002';
     public $source = "http://www.rcsb.org/pdb/explore/explore.do?structureId=";
     public $search_fields = ['dataItem.ID', 'dataItem.title', 'dataItem.keywords', 'dataItem.description',
-        'citation.title', 'citation.journal'];
+        'citation.title', 'citation.journal','citation.PMID'];
     public $facets_fields = ['citation.journal', "dataItem.keywords",'organism.source.scientificName'];
     public $facets_show_name = [
         'citation.journal' => 'Journal',

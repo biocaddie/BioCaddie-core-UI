@@ -15,7 +15,6 @@ function partialSearchDetails($searchBuilder)
 
     <div class="panel panel-primary" id="details">
         <div class="panel-heading">
-            <span class="glyphicon glyphicon-chevron-up"></span>
             <strong>Search Details </strong>
         </div>
 

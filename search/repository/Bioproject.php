@@ -26,7 +26,7 @@ class BioProjectRepository extends RepositoryBase {
         'dataItem.description'=>"Description",
         'organism.target.ncbiID'=>"NCBI ID"
     ];
-    public $link_field = 'dataItem.title';
+    public $link_field = 'dataItem.ID';
     public $source_main_page = 'http://www.ncbi.nlm.nih.gov/bioproject';
     public $sort_field = 'citation.count';
 

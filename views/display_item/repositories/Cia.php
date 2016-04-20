@@ -32,7 +32,7 @@ function displayResult($service) {
                 </tr>
                 <tr>
                     <td><strong>Date LastUpdate:</strong></td>
-                    <td><?php echo date("d-m-Y", strtotime($results["dataset.dateLastUpdate"])); ?></td>
+                    <td><?php echo date("m-d-Y", strtotime($results["dataset.dateLastUpdate"])); ?></td>
                 </tr>
                 <tr>
                     <td><strong>Status: </strong></td>

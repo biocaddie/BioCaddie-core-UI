@@ -33,7 +33,7 @@ function displayResult($service) {
                     <tr>
                     <tr>
                         <td><strong>Data Released:</strong></td>
-                        <td><?php echo date("d-m-Y", strtotime($results["dataset.dateReleased"])); ?></td>
+                        <td><?php echo date("m-d-Y", strtotime($results["dataset.dateReleased"])); ?></td>
                     </tr>
                     <tr>
                         <td><strong>Dataset ID :</strong></td>

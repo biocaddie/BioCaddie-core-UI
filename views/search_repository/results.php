@@ -3,7 +3,6 @@
 function partialResults($searchBuilder) {
     if ($searchBuilder->getTotalRows() > 0) {
         $maxLen = 160;
-        $index = 0;
         ?>
         <table class="table table-striped table-condensed search-repo">
             <thead>
@@ -21,13 +20,14 @@ function partialResults($searchBuilder) {
                     <tr>
                         <?php foreach ($row as $field) { ?>
                             <td>
-                                <?php if ($checkBoxShown == false) { ?>
-                                    <input name="share-check" type="checkbox" value="<?php echo $index ?>" />
-                                    <?php
-                                    $checkBoxShown = true;
-                                }
-                                ?>
                                 <?php
+                                if ($checkBoxShown == false) {
+                                    $checkBoxShown = true;
+                                    $shareLink = explode("&", substr($field, strpos($field, "?") + 1, strpos($field, ">") - strpos($field, "?") + 1));
+                                    ?>
+                                    <input name="share-check" type="checkbox" value="<?php echo 'share-item-' . $shareLink[0] . '&' . $shareLink[2] ?>" />
+                                    <?php
+                                }
                                 if (!is_array($field)) {
                                     echo $field;
                                 } else {
@@ -51,10 +51,7 @@ function partialResults($searchBuilder) {
                         $checkBoxShown = false;
                         ?>
                     </tr>
-                    <?php
-                    $index++;
-                }
-                ?>
+                <?php } ?>
             </tbody>
         </table>
     <?php } else { ?> 

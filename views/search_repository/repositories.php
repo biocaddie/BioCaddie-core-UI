@@ -56,20 +56,6 @@ function partialRepositories($searchBuilder) {
                       </ul>
                       </li>
                    <?php endif; ?>
-                <li>
-                   <!-- <hr style="margin: 5px 0;">
-                        <a href="search.php?query=<?php echo $searchBuilder->getQuery() ?>&searchtype=<?php echo $searchBuilder->getSearchType() ?>">
-                        <i class="fa fa-square-o"></i> Select All
-                        </a>-->
-
-                </li>
-                <!-- <li>
-                    <hr style="margin: 5px 0;">
-
-                    <a href="search.php?query=<?php echo $searchBuilder->getQuery() ?>&searchtype=<?php echo $searchBuilder->getSearchType() ?>">
-                        <a href="search.php?query=<?php echo $searchBuilder->getQuery() ?>&searchtype=<?php echo $searchBuilder->getSearchType() ?>" class="btn btn-default btn-sm" role="button"> Go back to all search results</a> <!--<i class="fa fa-check-square-o"></i>-->
-                <!--  </a>
-              </li>-->
             </ul>
         </div>
     </div>

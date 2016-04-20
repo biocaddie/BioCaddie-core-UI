@@ -35,6 +35,19 @@ require_once dirname(__FILE__) . '/trackactivity.php';
             <?php require_once(dirname(__FILE__) . "/views/index/new-features.php"); ?>
         </div>
     </div>
+
+    <!--<div class="row">
+        <div class="col-lg-4 col-md-6">
+            <?php require_once(dirname(__FILE__) . "/views/index/announcements.php"); ?>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <?php require_once(dirname(__FILE__) . "/views/index/latest-datasets.php"); ?>
+        </div>
+        <div class="col-lg-4 col-md-6">
+            <?php require_once(dirname(__FILE__) . "/views/index/most-accessed-repositories.php"); ?>
+        </div>
+    </div>-->
+
 </div>
 
 <?php require_once(dirname(__FILE__) . "/views/index/pilot-projects.php"); ?>

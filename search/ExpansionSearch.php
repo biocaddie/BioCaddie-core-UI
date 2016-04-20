@@ -22,6 +22,7 @@ class ExpansionSearch extends ElasticSearch
     {
 
         $ExpansionTerms = new ExpansionTerms();
+        $this->update_query_string();
         $ExpansionTerms->setOriginalTerm($this->query);
         $ExpansionTerms->setOriginalumlsID($this->query);
         $expan_query = $ExpansionTerms->get_expansion_query();
@@ -58,37 +59,33 @@ class ExpansionSearch extends ElasticSearch
         }
         return $query_part;
     }
-    private function cleanUp($text){
-       $text = str_replace(array('(',')','-'),' ',$text);
+    private function cleanUp($text)
+    {
+        $text = str_replace(array('(', ')', '-'), ' ', $text);
         return $text;
-}
+    }
+
+
     private function generateQueryPart1() {
         $expan_query = $this->getTerminologyquery();
-
         array_push($expan_query,$this->query);
         $q = array();
-
         foreach($expan_query as $query){
-
             array_push($q, implode('" AND "', explode(' ', $query)));
         }
-
         $query = '("' . implode('" ) OR ("', $q ) . '")';
-
         $query_part = ['query_string'=>[
             'fields'=>$this->search_fields,
             'query'=> $query ]];
-
         return $query_part;
     }
     private function generateQueryPart(){
-
         $expan_query = $this->getTerminologyquery();
-
         $query_part = [['multi_match'=>[
             'query'=>$this->query,
             'fields'=>$this->search_fields,
-            'operator'=>'and']]];
+            'operator'=>'and',
+            'type' => $this->querytype]]];
         foreach($expan_query as $query){
             array_push($query_part,['multi_match'=>[
                 'query'=>$query,
@@ -98,27 +95,4 @@ class ExpansionSearch extends ElasticSearch
         return $query_part;
 
     }
-
-
-
 }
-
-/*$search = new ExpansionSearch();
-//$search = new ElasticSearch();
-//$search->query = 'cancer';
-$search->query ='myocardial infarction';
-$search->search_fields = '_all';
-$search->facets_fields = [];
-//$search->filter_fields = ['dataItem.keywords' => ['cancer']];
-$search->es_index = 'geo';
-$search->es_type = '';
-
-$count = $search->getSearchRowCount();
-$result = $search->getSearchResult();
-
-$repositoryHits = $result['hits']['total'];
-// Set the total number of documents for current repository
-$repository->num = $repositoryHits;
-echo $repository->num;
-
-//print_r($search->getTerminologyquery());*/

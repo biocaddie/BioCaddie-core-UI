@@ -24,7 +24,7 @@ function displayResult($service) {
                 </tr>
                 <tr>
                     <td><strong>Data Released:</strong></td>
-                    <td><?php echo date("d-m-Y", strtotime($results["dataset.dataReleased"])); ?></td>
+                    <td><?php echo date("m-d-Y", strtotime($results["dataset.dataReleased"])); ?></td>
                 </tr>
                 <tr>
                     <td><strong>Download URL:</strong></td>

@@ -14,8 +14,18 @@ function partialRepositories($searchBuilder) {
         ?>
         <div class="panel panel-default">
             <div class="panel-heading">
-                <strong><span class="glyphicon glyphicon-chevron-up"></span> Repositories</strong>
+                <strong>Repositories</strong>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <?php if($searchBuilder->isRepositorySelected()):?>
+                    <a class="hyperlink" role="button" href="search.php?query=<?php echo $searchBuilder->getQuery() ?>&searchtype=<?php echo $searchBuilder->getSearchType() ?>">
+
+                        <i class="glyphicon glyphicon-remove-sign"></i>
+                        Clear All
+                    </a>
+                <?php endif;?>
             </div>
+
+
             <div class="panel-body">
                 <ul class="no-disk" id="repositoryList">
                     <?php foreach ($repositores as $repositoryName => $details):?>

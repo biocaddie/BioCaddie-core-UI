@@ -17,7 +17,7 @@ $consent = new StudyConsent();
 if(!empty($_POST['email'])) {
     $consent->setEmail($_POST['email']);
     $consent->setConsent(1);
-    $consent->setConsentTime(date("Y-m-d H:i:s"));
+    $consent->setConsentTime(date("Y-m-d"));
     $consent->setUsername($_SESSION['email']);
 
     if($consent->saveConsent($dbconn)){

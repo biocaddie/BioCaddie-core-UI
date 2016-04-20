@@ -14,8 +14,10 @@ class SraRepository extends RepositoryBase {
         'strategy' => 'Strategy'];
     public $index = 'sra';
     public $type = 'analysis';
-    public $headers = ['Title', 'Accession', 'Organism', 'Strategy', 'Size'];
+
+    public $headers = ['Title', 'Accession', 'Organism', 'Strategy', 'Size (Mb)'];
     public $header_ids = ['title', 'accession', 'organism', 'strategy', 'size'];
+
     public $datasource_headers = ['title', 'accession', 'organism', 'size',];
     public $core_fields = ['title', 'accession', 'organism', 'strategy', 'size'];
     public $core_fields_show_name = ['title' => 'Title',

@@ -173,10 +173,10 @@ class SearchBuilder
         $this->query = filter_input(INPUT_GET, "query", FILTER_SANITIZE_STRING);
 
         if ($this->query === NULL || strlen($this->query) == 0) {
-            return false;
+            $this->query = " ";
         }
 
-        // To track database's search history
+        // To track user's search history
         if (!isset($_SESSION["history"]['query'])) {
             $_SESSION["history"]['query'] = array();
             $_SESSION["history"]['date'] = array();
@@ -229,8 +229,8 @@ class SearchBuilder
         $this->totalRows = 0;
         $search = $this->getSearchObject();
 
-
         $esResults = $search->getSearchResult();
+
         $this->orignalSearchResults=$esResults;
 
 
@@ -240,7 +240,6 @@ class SearchBuilder
             $repositories_counts[$key] = $bucket['doc_count'];
         }
         if(isset($this->selectedDatatypes) or sizeof($this->selectedRepositories) >= 1){
-
             $search_all = $this->get_search_object_of_all_repositories();
             $esResults_all = $search_all->getSearchResult();
             foreach ($esResults_all['aggregations']['_index']['buckets'] as $bucket) {
@@ -320,7 +319,7 @@ class SearchBuilder
                 $elasticSearchIndexes = substr($elasticSearchIndexes, 0, -1);
             }
         }
-
+        //echo $elasticSearchIndexes;
         //for select multiple repositories
         if (sizeof($this->selectedRepositories) >= 1) {
             $index = [];
@@ -339,6 +338,7 @@ class SearchBuilder
             $search = new ElasticSearch();
         }
         $search->search_fields = $this->repositories->getSearchFields();
+        //$search->facets_fields = [];
         $search->facets_fields = ['_index'];
         $search->facet_size = 20;
         $search->query = $this->getQuery();
@@ -366,8 +366,9 @@ class SearchBuilder
                 $orinialItem = $this->getResultSource($indexTypeHeader, $key, $fields, $row);
                 if ($this->getSearchType() != 'repository') {
                         $visibleFields['ref'] = 'display-item.php?repository=' . $indexTypeHeader[$key][3] . '&idName=' . $indexTypeHeader[$key][4] . '&id=' . $row['_id'];
+                        $visibleFields['ref_raw'] = 'share-item-repository=' . $indexTypeHeader[$key][3] . '&id=' . $row['_id'];                        
                 } else {
-                    $visibleFields['ref'] = $row['_source']['url'];
+                    $visibleFields['ref'] = $row['_source']['url'];                    
                 }
 
                 $visibleFields['source'] = $indexTypeHeader[$key][2];
@@ -376,7 +377,7 @@ class SearchBuilder
                 array_push($returnValue, $visibleFields);
             }
         }
-
+        
         return $returnValue;
     }
 
@@ -387,6 +388,10 @@ class SearchBuilder
             $show_item = [];
             for ($i = 0; $i < sizeof($headersId); $i++) {
                 $newName = $indexTypeHeader[$key][5][$headersId[$i]];
+                if(isset($item['highlight'][$headersId[$i]])){
+                    $show_item[$newName] = $item['highlight'][$headersId[$i]][0];
+                    continue;
+                }
                 $fields = explode('.', $headersId[$i]);
 
                 if (count($fields) == 2) {
@@ -419,8 +424,7 @@ class SearchBuilder
                     $show_item[$key] = date("m-d-Y",strtotime($show_item[$key]));
                 }
             }
-            $show_item['_id'] = $item['_id'];
-
+            //$show_item['_id'] = $item['_id'];
             return $show_item;
         }
         return NULL;
@@ -662,5 +666,4 @@ class SearchBuilder
             $search->sort = $this->getSort();
             return $search;
     }
-
 }

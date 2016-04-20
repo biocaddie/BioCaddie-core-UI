@@ -29,7 +29,7 @@ function partialRelatedKeywords($searchBuilder) {
                 </li>
                 <li>
                     <span class="fa fa-tags"></span>
-                    <span>Varian <strong>cancer</strong></span>
+                    <span>Ovarian <strong>cancer</strong></span>
                 </li>
             </ul>
         </div>

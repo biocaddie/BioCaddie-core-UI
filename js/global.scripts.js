@@ -37,13 +37,13 @@ $(document).ready(function () {
     });
 
     $("#share-form").submit(function (event) {
-        var $checkedRows = $('input[name="share-check"]:checked');
         var selectedRows = '';
-        $.each($checkedRows, function (index, row) {
-            selectedRows += $(row).val() + ',';
+        $.each(Cookies.get(), function (index, row) {
+            if (row.substring(0, 11) === 'share-item-') {
+                selectedRows += row.trim() + ',';
+            }
         });
         selectedRows = selectedRows.substr(0, selectedRows.length - 1);
-
         if (selectedRows === '')
         {
             alert('You have to select a record to share first.');
@@ -51,22 +51,67 @@ $(document).ready(function () {
             return false;
         }
         else {
-            console.log(selectedRows);
             var input = $("<input name='selected-rows'>").attr("type", "hidden").val(selectedRows);
             $('#share-form').append($(input));
             $('#myModal').modal('hide');
         }
     });
+
+    $("input[name='share-check'][type='checkbox']").change(function () {
+        if (this.checked) {
+            Cookies.set($(this).val(), $(this).val());
+        }
+        else {
+            Cookies.remove($(this).val());
+        }
+        updateSelectedSharedItems();
+    });
+    updateSelectedSharedItems();
+    setPreselectedSharedItems();
+
+    $('#share-clear').click(function () {
+        $.each(Cookies.get(), function (index, row) {
+            if (row.substring(0, 11) === 'share-item-') {
+                Cookies.remove(row);
+                $("input[name='share-check'][type='checkbox'][value='" + row + "']").prop('checked', false);
+            }
+        });
+        updateSelectedSharedItems();
+    });
 });
 
+function updateSelectedSharedItems() {
+    var count = 0;
+    $.each(Cookies.get(), function (index, row) {
+        if (row.substring(0, 11) === 'share-item-') {
+            count++;
+        }
+    });
+    if (count === 0) {
+        $('#share-btn').hide();
+    }
+    else {
+        $('#share-btn').show();
+        $('#share-qty').text(count);
+    }
+}
+
+function setPreselectedSharedItems() {
+    $.each(Cookies.get(), function (index, row) {
+        if (row.substring(0, 11) === 'share-item-') {
+            $("input[name='share-check'][type='checkbox'][value='" + row + "']").prop('checked', true);
+        }
+    });
+}
+
 $(window).bind('beforeunload', function () {
-    setTimeout(function() {
+    setTimeout(function () {
         $.LoadingOverlay("show", {
             image: "",
             fontawesome: "fa fa-spinner fa-spin"
         });
         dontPopup = true;
-    },3000);
+    }, 3000);
 });
 
 function shareToggler(show) {

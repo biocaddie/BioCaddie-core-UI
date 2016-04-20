@@ -44,25 +44,25 @@ class SingleItemDisplayService {
     public function getItemUid() {
         return $this->itemUid;
     }
-    
+
     private $queryString;
 
     public function getQueryString() {
         return $this->queryString;
     }
-    
+
     private $repositoryName;
 
     public function getRepositoryName() {
         return $this->repositoryName;
     }
-    
+
     private $datatypes;
 
     public function getDatatypes() {
         return $this->datatypes;
     }
-    
+
     private $filters;
 
     public function getFilters() {
@@ -106,12 +106,12 @@ class SingleItemDisplayService {
         if (!isset($this->currentRepository)) {
             return false;
         }
-        
+
         $this->queryString = filter_input(INPUT_GET, "query", FILTER_SANITIZE_STRING);
         $this->repositoryName = $this->currentRepository->show_name;
         $this->datatypes = filter_input(INPUT_GET, "datatypes", FILTER_SANITIZE_STRING);
         $this->filters = filter_input(INPUT_GET, "filters", FILTER_SANITIZE_STRING);
-        
+
         return true;
     }
 
@@ -120,21 +120,19 @@ class SingleItemDisplayService {
         $rows = NULL;
         $core_fields = NULL;
 
-            $search = new ElasticSearch();
-            $search->search_fields = ['_id'];
-            $search->query = $this->getItemId();
-            $search->filter_fields = [];
-            $search->es_index = $this->getCurrentRepository()->index;
-            $search->es_type = $this->getCurrentRepository()->type;
-            $core_fields = $this->getCurrentRepository()->core_fields;
-            $results = $search->getSearchResult();
-            $rows = $results['hits']['hits'][0]['_source'];
-            $this->itemUid = $results['hits']['hits'][0]['_id'];
-
+        $search = new ElasticSearch();
+        $search->search_fields = ['_id'];
+        $search->query = $this->getItemId();
+        $search->filter_fields = [];
+        $search->es_index = $this->getCurrentRepository()->index;
+        $search->es_type = $this->getCurrentRepository()->type;
+        $core_fields = $this->getCurrentRepository()->core_fields;
+        $results = $search->getSearchResult();
+        $rows = $results['hits']['hits'][0]['_source'];
+        $this->itemUid = $results['hits']['hits'][0]['_id'];
         $this->searchResults = [];
+        $external_link_icon = '&nbsp;&nbsp;&nbsp;<img style="height: 20px ;width:50px" src="./img/repositories/'. $this->getCurrentRepository()->id.'.png">';//' <span class="glyphicon glyphicon-new-window"></span>'
         foreach ($core_fields as $field) {
-            $displayValue = '';
-
             $keys = explode('.', $field);
             $repositoryValue = NULL;
 
@@ -154,301 +152,283 @@ class SingleItemDisplayService {
                 //$repositoryValue = $rows[$keys[0]][$keys[1]][$keys[2]];
             }
 
-            if (is_array($repositoryValue)) {
-                $displayValue = json_encode($repositoryValue);
-            } else {
-                $displayValue = $repositoryValue;
-            }
-
+            $displayValue = is_array($repositoryValue) ? json_encode($repositoryValue) : $repositoryValue;
             $replaceList = [ '{' => '', '}' => '', '[' => '', ']' => '', '"' => ''];
             $this->searchResults[$field] = str_replace(array_keys($replaceList), array_values($replaceList), $displayValue);
-        }
 
-        if($this->getCurrentRepository()->id == "0002" || $this->getCurrentRepository()->id == "0005"|| $this->getCurrentRepository()->id == "0006"){
+        }
+        if ($this->getCurrentRepository()->id == "0002" || $this->getCurrentRepository()->id == "0005" || $this->getCurrentRepository()->id == "0006") {
+            $this->searchResults[
+                    $this->getCurrentRepository()->link_field] =
+                     '<a href="'
+                    . $this->getCurrentRepository()->source
+                    . $this->searchResults['dataItem.ID']//. $this->searchResults[$this->getCurrentRepository()->link_field]
+                    . '" target="_blank">'
+                    .$this->searchResults[$this->getCurrentRepository()->link_field]
+                    .  $external_link_icon
+                    . '</a>';
+        } elseif ($this->getCurrentRepository()->id == "0001") {
+            $this->searchResults[
+                    $this->getCurrentRepository()->link_field] =
+                     '<a href="'
+                    . $this->getCurrentRepository()->source
+                    . $this->searchResults['path']
+                    . '" target="_blank">'
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    .  $external_link_icon
+                    . '</a>';
+        } elseif ($this->getCurrentRepository()->id == "0003") {
             $this->searchResults[
             $this->getCurrentRepository()->link_field] =
-                $this->searchResults[$this->getCurrentRepository()->link_field]
-                .'<a href="'
-                . $this->getCurrentRepository()->source
-                . $this->searchResults['dataItem.ID']//. $this->searchResults[$this->getCurrentRepository()->link_field]
-                . '" target="_blank">'
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
-                . '</a>';
-        }elseif($this->getCurrentRepository()->id == "0001"){
-            $this->searchResults[
-            $this->getCurrentRepository()->link_field] =
-                $this->searchResults[$this->getCurrentRepository()->link_field]
-                .'<a href="'
-                . $this->getCurrentRepository()->source
-                . $this->searchResults['path']//. $this->searchResults[$this->getCurrentRepository()->link_field]
-                . '" target="_blank">'
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
-                . '</a>';
-        }elseif($this->getCurrentRepository()->id == "0003"){
-            $this->searchResults[
-            $this->getCurrentRepository()->link_field] =
-                $this->searchResults[$this->getCurrentRepository()->link_field]
-                .'<a href="'
+                '<a href="'
                 . $this->getCurrentRepository()->source
                 . $this->searchResults['dataItem.geo_accession']//. $this->searchResults[$this->getCurrentRepository()->link_field]
                 . '" target="_blank">'
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
+                . $this->searchResults[$this->getCurrentRepository()->link_field]
+                .  $external_link_icon
                 . '</a>';
         }elseif($this->getCurrentRepository()->id == "0004"){
-             if (isset($rows['dataset']['downloadURL'])) {
-               $this->searchResults[$this->getCurrentRepository()->link_field] = '<a href="'
-                . $rows['dataset']['downloadURL']
-                . '" target="_blank">'
-                . $this->searchResults[$this->getCurrentRepository()->link_field]
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
-                . '</a>';
+            if (isset($rows['dataset']['ID'])) {
+                $this->searchResults[$this->getCurrentRepository()->link_field] = '<a href="http://lincsportal.ccs.miami.edu/datasets/#/view/'
+                    .  $rows['dataset']['ID']
+                    . '" target="_blank">'
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    .  $external_link_icon
+                    . '</a>';
             }
-        }
-        elseif($this->getCurrentRepository()->id == "0007"){
+        } elseif ($this->getCurrentRepository()->id == "0007") {
             $this->searchResults[
-            $this->getCurrentRepository()->link_field] =
-                $this->searchResults[$this->getCurrentRepository()->link_field]
-                .'<a href="'
-                . $this->getCurrentRepository()->source
-                . $this->searchResults['accession']//. $this->searchResults[$this->getCurrentRepository()->link_field]
-                . '" target="_blank">'
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
-                . '</a>';
-        }
-       elseif($this->getCurrentRepository()->id == "0008"){
+                    $this->getCurrentRepository()->link_field] =
+                     '<a href="'
+                    . $this->getCurrentRepository()->source
+                    . $this->searchResults['accession']//. $this->searchResults[$this->getCurrentRepository()->link_field]
+                    . '" target="_blank">'
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    .  $external_link_icon
+                    . '</a>';
+        } elseif ($this->getCurrentRepository()->id == "0008") {
 
             $this->searchResults['dataItem.title'] = reduce_dupilicate_in_title($this->searchResults['dataItem.title']);
-            $this->searchResults['dataItem.title'] = $this->searchResults['dataItem.title'].'<a href="'
-                .$this->getCurrentRepository()->source
-                .$this->searchResults[$this->getCurrentRepository()->link_field]
-                . '" target="_blank">'
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
-                . '</a>';
+            $this->searchResults['dataItem.title'] = '<a href="'
+                    . $this->getCurrentRepository()->source
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    . '" target="_blank">'
+                    . $this->searchResults['dataItem.title']
+                    .  $external_link_icon
+                    . '</a>';
+        } elseif ($this->getCurrentRepository()->id == "0009") {
 
-        }
-        elseif($this->getCurrentRepository()->id == "0009"){
-
-            $this->searchResults['Dataset.briefTitle'] = $this->searchResults['Dataset.briefTitle'].'<a href="'
-                .$this->getCurrentRepository()->source
-                .$rows['DataSet']['identifier']
-                . '" target="_blank">'
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
-                . '</a>';
-
-        }elseif($this->getCurrentRepository()->id == "0010"){
+            $this->searchResults['Dataset.briefTitle'] =  '<a href="'
+                    . $this->getCurrentRepository()->source
+                    . $rows['DataSet']['identifier']
+                    . '" target="_blank">'
+                    . $this->searchResults['Dataset.briefTitle']
+                    .  $external_link_icon
+                    . '</a>';
+        } elseif ($this->getCurrentRepository()->id == "0010") {
+            $doi = '';
+            foreach($rows['identifiers']['ID'] as $id){
+                if(strpos($id, 'doi:') === 0){
+                    $doi = 'http://dx.doi.org/'.$id;
+                }
+            }
+            $this->searchResults['doi']=$doi;
             $this->searchResults[
             $this->getCurrentRepository()->link_field] = '<a href="'
-                . $rows['identifiers']['ID'][1]
+                . $doi
                 . '" target="_blank">'
                 . $this->searchResults[$this->getCurrentRepository()->link_field]
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
+                .  $external_link_icon
                 . '</a>';
-
-        } elseif($this->getCurrentRepository()->id == "0011"){
-            $this->searchResults[
-            $this->getCurrentRepository()->link_field] = '<a href="'
-                . $rows['dataset']['ID']
-                . '" target="_blank">'
-                . $this->searchResults[$this->getCurrentRepository()->link_field]
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
-                . '</a>';
-
-        }elseif($this->getCurrentRepository()->id == "0013"){
-            $this->searchResults[
-            $this->getCurrentRepository()->link_field] = '<a href="'
-                .$this->getCurrentRepository()->source
-                . $rows['dataset']['title']
-                . '" target="_blank">'
-                . $this->searchResults[$this->getCurrentRepository()->link_field]
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
-                . '</a>';
-
-        }
-        elseif($this->getCurrentRepository()->id == "0012") {
-            $this->searchResults[$this->getCurrentRepository()->link_field] = '<a href="'
-                . $rows['dataset']['downloadURL']
-                . '" target="_blank">'
-                . $this->searchResults[$this->getCurrentRepository()->link_field]
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
-                . '</a>';
-        }
-        elseif($this->getCurrentRepository()->id == "0014") {
-            $this->searchResults[$this->getCurrentRepository()->link_field] = '<a href="'
-                . $rows['dataset']['downloadURL']
-                . '" target="_blank">'
-                . $this->searchResults[$this->getCurrentRepository()->link_field]
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
-                . '</a>';
-            $this->searchResults['organism.name']=$rows['organism'][0]['name'];
-            $this->searchResults['organism.strain']=$rows['organism'][0]['strain'];
-        }
-        elseif($this->getCurrentRepository()->id == "0015") {
-                $this->searchResults[$this->getCurrentRepository()->link_field] = '<a href="'
-                    . $rows['url']
+           /* $this->searchResults[
+                    $this->getCurrentRepository()->link_field] = '<a href="'
+                    . $rows['identifiers']['ID'][1]
                     . '" target="_blank">'
                     . $this->searchResults[$this->getCurrentRepository()->link_field]
                     . ' <span class="glyphicon glyphicon-new-window"></span>'
+                    . '</a>';*/
+        } elseif ($this->getCurrentRepository()->id == "0011") {
+            $this->searchResults[
+                    $this->getCurrentRepository()->link_field] = '<a href="'
+                    . $rows['dataset']['ID']
+                    . '" target="_blank">'
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    .  $external_link_icon
                     . '</a>';
-                $this->searchResults['organism.name'] = $rows['organism'][0]['name'];
-               $this->searchResults['organism.strain']=$rows['organism'][0]['strain'];
-            }
-
-        elseif($this->getCurrentRepository()->id == "0016") {
+        } elseif ($this->getCurrentRepository()->id == "0013") {
+            $this->searchResults[
+                    $this->getCurrentRepository()->link_field] = '<a href="'
+                    . $this->getCurrentRepository()->source
+                    . $rows['dataset']['title']
+                    . '" target="_blank">'
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    .  $external_link_icon
+                    . '</a>';
+        } elseif ($this->getCurrentRepository()->id == "0012") {
             $this->searchResults[$this->getCurrentRepository()->link_field] = '<a href="'
-                . $rows['dataset']['downloadURL']
-                . '" target="_blank">'
-                . $this->searchResults[$this->getCurrentRepository()->link_field]
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
-                . '</a>';
-
-            $this->searchResults['disease.name']= $rows['disease'][0]['name'];
-            $this->searchResults['organism.name']=$rows['organism'][0]['name'];
-            $this->searchResults['organism.scientificName']=$rows['organism'][0]['scientificName'];
-        }
-        elseif($this->getCurrentRepository()->id == "0017") {
+                    . $rows['dataset']['downloadURL']
+                    . '" target="_blank">'
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    .  $external_link_icon
+                    . '</a>';
+        } elseif ($this->getCurrentRepository()->id == "0014") {
             $this->searchResults[$this->getCurrentRepository()->link_field] = '<a href="'
-                . $rows['dataset']['downloadURL']
-                . '" target="_blank">'
-                . $this->searchResults[$this->getCurrentRepository()->link_field]
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
-                . '</a>';
+                    . $rows['dataset']['downloadURL']
+                    . '" target="_blank">'
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    .  $external_link_icon
+                    . '</a>';
+            $this->searchResults['organism.name'] = $rows['organism'][0]['name'];
+            $this->searchResults['organism.strain'] = $rows['organism'][0]['strain'];
+        } elseif ($this->getCurrentRepository()->id == "0015") {
+            $this->searchResults[$this->getCurrentRepository()->link_field] = '<a href="'
+                    . $rows['url']
+                    . '" target="_blank">'
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    .  $external_link_icon
+                    . '</a>';
+            $this->searchResults['organism.name'] = $rows['organism'][0]['name'];
+            $this->searchResults['organism.strain'] = $rows['organism'][0]['strain'];
+        } elseif ($this->getCurrentRepository()->id == "0016") {
+            $this->searchResults[$this->getCurrentRepository()->link_field] = '<a href="'
+                    . $rows['dataset']['downloadURL']
+                    . '" target="_blank">'
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    .  $external_link_icon
+                    . '</a>';
+
+            $this->searchResults['disease.name'] = $rows['disease'][0]['name'];
+            $this->searchResults['organism.name'] = $rows['organism'][0]['name'];
+            $this->searchResults['organism.scientificName'] = $rows['organism'][0]['scientificName'];
+        } elseif ($this->getCurrentRepository()->id == "0017") {
+            $this->searchResults[$this->getCurrentRepository()->link_field] = '<a href="'
+                    . $rows['dataset']['downloadURL']
+                    . '" target="_blank">'
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    .  $external_link_icon
+                    . '</a>';
 
             $dimensions = '';
-            foreach($rows['dimension'] as $dimension){
-                if (strlen($dimensions)==0){
+            foreach ($rows['dimension'] as $dimension) {
+                if (strlen($dimensions) == 0) {
                     $dimensions = $dimension['name'];
-                }
-                else{
+                } else {
                     $dimensions = $dimensions . '<br>' . $dimension['name'];
                 }
             }
-            $this->searchResults['dimension.name']=$dimensions;
-            $this->searchResults['organism.scientificName']=$rows['organism'][0]['scientificName'];
-        }
-        elseif($this->getCurrentRepository()->id == "0018") {
+            $this->searchResults['dimension.name'] = $dimensions;
+            $this->searchResults['organism.scientificName'] = $rows['organism'][0]['scientificName'];
+        } elseif ($this->getCurrentRepository()->id == "0018") {
             $this->searchResults[$this->getCurrentRepository()->link_field] = '<a href="'
-                . $rows['dataset']['downloadURL']
-                . '" target="_blank">'
-                . $this->searchResults[$this->getCurrentRepository()->link_field]
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
-                . '</a>';
+                    . $rows['dataset']['downloadURL']
+                    . '" target="_blank">'
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    .  $external_link_icon
+                    . '</a>';
 
             $diseases = '';
-            foreach($rows['disease'] as $disease){
-                if (strlen($diseases)==0){
+            foreach ($rows['disease'] as $disease) {
+                if (strlen($diseases) == 0) {
                     $diseases = $disease['name'];
-                }
-                else{
+                } else {
                     $diseases = $diseases . '<br>' . $disease['name'];
                 }
             }
-            $this->searchResults['disease.name']=$diseases;
-            $this->searchResults['organism.scientificName']=$rows['organism'][0]['scientificName'];
-        }
-        elseif($this->getCurrentRepository()->id == "0019") {
+            $this->searchResults['disease.name'] = $diseases;
+            $this->searchResults['organism.scientificName'] = $rows['organism'][0]['scientificName'];
+        } elseif ($this->getCurrentRepository()->id == "0019") {
 
             $this->searchResults[$this->getCurrentRepository()->link_field] = '<a href="'
-                . $rows['dataset']['downloadURL']
-                . '" target="_blank">'
-                . $this->searchResults[$this->getCurrentRepository()->link_field]
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
-                . '</a>';
+                    . $rows['dataset']['downloadURL']
+                    . '" target="_blank">'
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    .  $external_link_icon
+                    . '</a>';
 
             $this->searchResults['organism.name'] = $rows['organism'][0]['name'];
-
-        }
-        elseif($this->getCurrentRepository()->id == "0020"  or $this->getCurrentRepository()->id =="0023") {
+        } elseif ($this->getCurrentRepository()->id == "0020" or $this->getCurrentRepository()->id == "0023") {
 
             $this->searchResults[$this->getCurrentRepository()->link_field] = '<a href="'
-                . $rows['dataset']['downloadURL']
-                . '" target="_blank">'
-                . $this->searchResults[$this->getCurrentRepository()->link_field]
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
-                . '</a>';
-        }
-        elseif($this->getCurrentRepository()->id == "0021") {
+                    . $rows['dataset']['downloadURL']
+                    . '" target="_blank">'
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    .  $external_link_icon
+                    . '</a>';
+        } elseif ($this->getCurrentRepository()->id == "0021") {
             $this->searchResults[$this->getCurrentRepository()->link_field] = '<a href="'
-                . $rows['dataset']['downloadURL']
-                . '" target="_blank">'
-                . $this->searchResults[$this->getCurrentRepository()->link_field]
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
-                . '</a>';
+                    . $rows['dataset']['downloadURL']
+                    . '" target="_blank">'
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    .  $external_link_icon
+                    . '</a>';
             $this->searchResults['organism.name'] = $rows['organism'][0]['name'];
-        }
-        elseif($this->getCurrentRepository()->id == "0022") {
+        } elseif ($this->getCurrentRepository()->id == "0022") {
 
             $this->searchResults[$this->getCurrentRepository()->link_field] = '<a href="'
-                . $rows['dataset']['downloadURL']
-                . '" target="_blank">'
-                . $this->searchResults[$this->getCurrentRepository()->link_field]
-                . ' <span class="glyphicon glyphicon-new-window"></span>'
-                . '</a>';
+                    . $rows['dataset']['downloadURL']
+                    . '" target="_blank">'
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    .  $external_link_icon
+                    . '</a>';
 
             $persons = '';
-            foreach($rows['person'] as $person){
-                if (strlen($persons)==0){
+            foreach ($rows['person'] as $person) {
+                if (strlen($persons) == 0) {
                     $persons = $person['name'];
-                }
-                else{
+                } else {
                     $persons = $persons . '<br>' . $person['name'];
                 }
             }
-            $this->searchResults['person.name']=$persons;
+            $this->searchResults['person.name'] = $persons;
 
             $organisms = '';
-            foreach($rows['organism'] as $organism){
-                if (strlen($organisms)==0){
+            foreach ($rows['organism'] as $organism) {
+                if (strlen($organisms) == 0) {
                     $organisms = $organism['name'];
-                }
-                else{
+                } else {
                     $organisms = $organisms . '<br>' . $organism['name'];
                 }
             }
-            $this->searchResults['organism.name']=$organisms;
+            $this->searchResults['organism.name'] = $organisms;
 
             $publications = '';
 
-            foreach($rows['publication'] as $publication){
-                if (strlen($publications)==0){
+            foreach ($rows['publication'] as $publication) {
+                if (strlen($publications) == 0) {
                     $publications = $publication;
-
-                }
-                else{
+                } else {
                     $publications = $publications . '<br>' . $publication;
                 }
             }
-            $this->searchResults['publication.name']=$publications;
+            $this->searchResults['publication.name'] = $publications;
 
             $keywords = '';
-            foreach($rows['keywords'] as $organism){
-                if (strlen($keywords)==0){
+            foreach ($rows['keywords'] as $organism) {
+                if (strlen($keywords) == 0) {
                     $keywords = $organism;
-                }
-                else{
+                } else {
                     $keywords = $keywords . '<br>' . $organism;
                 }
             }
-            $this->searchResults['keywords']=$keywords;
+            $this->searchResults['keywords'] = $keywords;
 
             $instruments = '';
-            foreach($rows['instrument'] as $organism){
-                if (strlen($instruments)==0){
+            foreach ($rows['instrument'] as $organism) {
+                if (strlen($instruments) == 0) {
                     $instruments = $organism['name'];
-                }
-                else{
+                } else {
                     $instruments = $instruments . '<br>' . $organism['name'];
                 }
             }
-            $this->searchResults['instrument']=$instruments;
-        }
-        else{
+            $this->searchResults['instrument'] = $instruments;
+        } else {
             $this->searchResults[
-            $this->getCurrentRepository()->link_field] = '<a href="'
-                . $this->getCurrentRepository()->source
-                . $this->searchResults[$this->getCurrentRepository()->link_field]
-                . '" target="_blank">'
-                . $this->searchResults[$this->getCurrentRepository()->link_field]
-                . '</a>';
+                    $this->getCurrentRepository()->link_field] = '<a href="'
+                    . $this->getCurrentRepository()->source
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    . '" target="_blank">'
+                    . $this->searchResults[$this->getCurrentRepository()->link_field]
+                    . '</a>';
         }
     }
 

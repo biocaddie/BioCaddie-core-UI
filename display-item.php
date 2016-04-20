@@ -40,6 +40,7 @@ if ($_SERVER["HTTP_REFERER"]) {
     <div class="row">
         <div class="col-lg-12">
             <?php echo partialSearchPanel($service); ?>
+            <?php // echo partialBreadcrumbPanel($service); ?>
         </div>
         <div class="col-lg-12">
 

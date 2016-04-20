@@ -17,7 +17,7 @@
          </div>
           <div class="input-group-btn">
             <div class="col-md-4">
-            <input class="btn btn-default" id="btn-search" type='submit' value=''>
+              <input class="btn-primary btn btn-default" type='submit' value='Search'>
           </div>
           </div><!-- /btn-group -->
         </div><!--input-group-->
