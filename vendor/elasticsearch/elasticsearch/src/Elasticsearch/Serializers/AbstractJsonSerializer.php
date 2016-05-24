@@ -6,7 +6,7 @@ use Elasticsearch\Common\Exceptions\Serializer\JsonSerializationError;
 use Elasticsearch\Common\Exceptions\Serializer\JsonDeserializationError;
 
 /**
- * An abstract base user for serializers that go to/from JSON.
+ * An abstract base class for serializers that go to/from JSON.
  *
  * @author   Christopher Davis <cdavis9999@gmail.com>
  * @license  http://www.apache.org/licenses/LICENSE-2.0 Apache2

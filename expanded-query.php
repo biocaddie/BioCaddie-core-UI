@@ -18,10 +18,11 @@ if(isset($_GET['q'])){
 
 <?php include dirname(__FILE__) . '/views/header.php'; ?>
 
+<?php include dirname(__FILE__) . '/views/breadcrumb.php'; ?>
     <div class="container">
 
         <div class="row">
-            <h3>Synonyms of "<?php echo $query; ?>"</h3>
+            <h3>Synonyms of "<?php echo htmlspecialchars($query); ?>"</h3>
         </div>
 
         <div class="panel-body">

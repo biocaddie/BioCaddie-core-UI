@@ -31,7 +31,7 @@ function displayResult($service) {
                     <td><strong><?php echo $results['dataset.title']; ?></strong></td>
                 </tr>
                 <tr>
-                    <td><strong>Download URL:</strong></td>
+                    <td><strong>Landing Page URL:</strong></td>
                     <!--<td><?php echo '<a class="hyperlink" href="'.$results["dataset.downloadURL"].'">'.$results["dataset.downloadURL"]."</a>"; ?></td>-->
                     <td><a class="hyperlink" href="http://dx.doi.org/<?php echo $results["dataset.ID"];?>">http://dx.doi.org/<?php echo $results["dataset.ID"];?></a> </td>
                 </tr>

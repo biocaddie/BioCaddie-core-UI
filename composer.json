@@ -2,6 +2,7 @@
 	"require":{
 		"elasticsearch/elasticsearch":"~1.0",
 		"google/apiclient": "1.0.*@beta",
-		"swiftmailer/swiftmailer": "^5.4"
+		"swiftmailer/swiftmailer": "^5.4",
+		"knplabs/github-api": "~1.4"
 	}
 }

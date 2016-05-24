@@ -73,11 +73,16 @@ function displayResult($service) {
                                                         ?>
                                                         <tr>
                                                             <td style="width: 20%;"><strong><?php echo $repository->core_fields_show_name[$element]; ?>:</strong></td>
+
                                                             <td>
                                                                 <?php
                                                                 if (strpos($results[$element], ':')) {
+                                                                    if($repository->core_fields_show_name[$element]=='PMID'){?>
+
+                                                                        <a class='hyperlink' href="https://www.ncbi.nlm.nih.gov/pubmed/<?php echo substr($results[$element],5);?>" target="_blank"><?php echo substr($results[$element],5);?></a>
+                                                                    <?php }else{
                                                                     echo str_replace(',', '<br />', $results[$element]);
-                                                                } else {
+                                                                } }else {
                                                                     echo $results[$element];
                                                                 }
                                                                 ?>

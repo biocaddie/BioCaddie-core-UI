@@ -9,6 +9,7 @@ use org\bovigo\vfs\vfsStreamDirectory;
 use Psr\Log\LogLevel;
 use Symfony\Component\Config\Definition\Exception\Exception;
 use Mockery as m;
+use TestNamespace\TestNamespace;
 
 /**
  * Class ClientTest
@@ -123,7 +124,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorEmptyPort()
     {
-        $mockPimple = m::mock('\Pimple\Container')->shouldReceive('offsetGet')->getMock()->shouldReceive('offsetSet')->getMock();
+        $mockPimple = m::mock('\Pimple\Container')->shouldReceive('offsetGet')->getMock()
+            ->shouldReceive('offsetSet')->getMock()
+            ->shouldReceive('offsetExists')->andReturn(false)->getMock();
         $mockDIC = m::mock('DICBuilder')->shouldReceive('getDIC')->once()->andReturn($mockPimple)->getMock();
 
         $that = $this;  //hurp durp
@@ -143,7 +146,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorNoPort()
     {
-        $mockPimple = m::mock('\Pimple\Container')->shouldReceive('offsetGet')->getMock()->shouldReceive('offsetSet')->getMock();
+        $mockPimple = m::mock('\Pimple\Container')->shouldReceive('offsetGet')->getMock()
+            ->shouldReceive('offsetSet')->getMock()
+            ->shouldReceive('offsetExists')->andReturn(false)->getMock();
         $mockDIC = m::mock('DICBuilder')->shouldReceive('getDIC')->once()->andReturn($mockPimple)->getMock();
 
         $that = $this;  //hurp durp
@@ -163,7 +168,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorWithPort()
     {
-        $mockPimple = m::mock('\Pimple\Container')->shouldReceive('offsetGet')->getMock()->shouldReceive('offsetSet')->getMock();
+        $mockPimple = m::mock('\Pimple\Container')->shouldReceive('offsetGet')->getMock()
+            ->shouldReceive('offsetSet')->getMock()
+            ->shouldReceive('offsetExists')->andReturn(false)->getMock();
         $mockDIC = m::mock('DICBuilder')->shouldReceive('getDIC')->once()->andReturn($mockPimple)->getMock();
 
         $that = $this;  //hurp durp
@@ -183,7 +190,9 @@ class ClientTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorWithSchemeAndPort()
     {
-        $mockPimple = m::mock('\Pimple\Container')->shouldReceive('offsetGet')->getMock()->shouldReceive('offsetSet')->getMock();
+        $mockPimple = m::mock('\Pimple\Container')->shouldReceive('offsetGet')->getMock()
+            ->shouldReceive('offsetSet')->getMock()
+            ->shouldReceive('offsetExists')->andReturn(false)->getMock();
         $mockDIC = m::mock('DICBuilder')->shouldReceive('getDIC')->once()->andReturn($mockPimple)->getMock();
 
         $that = $this;  //hurp durp
@@ -362,5 +371,31 @@ class ClientTest extends \PHPUnit_Framework_TestCase
             'custom' => array('customToken' => 'abc', 'otherToken' => 123)
         );
         $exists = $client->exists($getParams);
+    }
+
+
+    public function testUserNamespace() {
+        $params = array();
+        $params['customNamespaces'] = array('test' => 'TestNamespace\TestNamespace');
+        $client = new Elasticsearch\Client($params);
+
+        $this->assertEquals($client->test()->echoString(), "abc");
+    }
+}
+
+namespace TestNamespace;
+
+use Elasticsearch\Namespaces\AbstractNamespace;
+
+class TestNamespace extends AbstractNamespace {
+
+    public static function build() {
+        return function ($dicParams) {
+            return new TestNamespace($dicParams['transport'], $dicParams['endpoint']);
+        };
+    }
+
+    public function echoString() {
+        return "abc";
     }
 }

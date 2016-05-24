@@ -5,12 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>BioCADDIE | Data Discovery Index</title>
+    <title>DataMed | bioCADDIE DDI</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
 
-    <link rel="icon" href="./img/favicon.ico">
+    <link rel="icon" href="./img/favicon.png">
 
     <!--jquery-->
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css"/>
@@ -56,10 +56,6 @@
         ga('send', 'pageview');
 
     </script>
-
-    <style>
-
-    </style>
 </head>
 
 
@@ -107,12 +103,8 @@
                 <?php }else{?>
                     <li role="presentation" class="active"><a href="login.php" id="partial_login_a">
                             <?php
-                           /* if(!$_SESSION['name']==""){
-                                echo $_SESSION['name'];
-                            }else{echo $_SESSION['email'];}*/
                             echo "MyDataMed";
-
-                            ?> <!--show email if name is null-->
+                            ?>
                         </a></li>
                     <li role="presentation" class="active"><a href='login.php?logout'>Logout</a></li>
                 <?php }?>

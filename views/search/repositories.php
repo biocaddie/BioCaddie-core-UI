@@ -2,10 +2,16 @@
 function partialRepositories($searchBuilder) {
     $nums = array();
     $repositores = $searchBuilder->getRepositoriesList();
+
     //var_dump($repositores);
+
     foreach ($repositores as $key => $row)
     {
         $nums[$key] = $row['rows'];
+        //for put the clinical trials to the last
+        if($key=="ClinicalTrials"){
+            $nums[$key] = -1*$row['rows'];
+        }
     }
     array_multisort($nums, SORT_DESC, $repositores);
     $repoN = 0;
@@ -15,11 +21,10 @@ function partialRepositories($searchBuilder) {
         <div class="panel panel-default">
             <div class="panel-heading">
                 <strong>Repositories</strong>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <?php if($searchBuilder->isRepositorySelected()):?>
-                    <a class="hyperlink" role="button" href="search.php?query=<?php echo $searchBuilder->getQuery() ?>&searchtype=<?php echo $searchBuilder->getSearchType() ?>">
+                    <a class="hyperlink pull-right" role="button" href="search.php?query=<?php echo $searchBuilder->getQuery() ?>&searchtype=<?php echo $searchBuilder->getSearchType() ?>">
 
-                        <i class="glyphicon glyphicon-remove-sign"></i>
+                        <i class="glyphicon glyphicon-remove-sign "></i>
                         Clear All
                     </a>
                 <?php endif;?>
@@ -39,6 +44,9 @@ function partialRepositories($searchBuilder) {
 
                         <li>
                             <a href="<?php echo $searchBuilder->getUrlBySelectedRepository($details['id']) ?>">
+                                <?php if($repositoryName=="ClinicalTrials"):?>
+                                        <div style="color:gray">
+                                <?php endif;?>
                                 <?php
                                 if ($details['selected'] == true): ?>
                                     <i class="fa fa-check-square" value="<?php echo $searchBuilder->getUrlByRepository($details['id'])?>"></i>
@@ -49,26 +57,18 @@ function partialRepositories($searchBuilder) {
                             <span data-toggle="tooltip" data-placement="right" title=<?php echo $details['whole']?> > <?php echo $repositoryName; ?></span>
                             <?php echo '(' . $details['rows'] .')';?>
                             <?php $repoN = $repoN + 1; ?>
+                            <?php if($repositoryName=="ClinicalTrials"):?>
+                                    </div>
+                            <?php endif;?>
                         </li>
+
                     <?php endforeach; ?>
 
                       <?php if ($repoN >= $threshold): ?>
                            </ul>
                            </li>
                       <?php endif; ?>
-                    <!--<li>
-                         <a href="<?php echo $searchBuilder->getUrlWithQyery() ?>">-->
 
-                        <!--   <?php if($searchBuilder->isRepositorySelected()):?>
-                       <a href="search.php?query=<?php echo $searchBuilder->getQuery() ?>&searchtype=<?php echo $searchBuilder->getSearchType() ?>">
-                              <i class="fa fa-square-o"></i> Select All
-                        </a>
-                                <?php else:?>
-                                <i class="fa fa-check-square-o"></i> Select All
-                            <?php endif;?>
-
-
-                    </li>-->
                 </ul>
             </div>
         </div>

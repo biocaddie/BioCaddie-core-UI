@@ -9,7 +9,18 @@
 function partialSearchDetails($searchBuilder)
 {
     $query = $searchBuilder->getQuery();
-    $detail = "(".$searchBuilder->getSearchType().")".$query;
+    if(preg_match('/(AND|OR|NOT|\[|\])/', $query)){
+        $detail = "(".$searchBuilder->getSearchType().')'.$query;
+        $synonyms=[];
+    }
+    else{
+        $detail = "(".$searchBuilder->getSearchType().')"'.$query.'"';
+        $synonyms=$searchBuilder->getExpansionquery();
+
+    }
+    foreach($synonyms as $synonyms){
+        $detail = $detail .' OR "'.$synonyms.'"';
+    }
 
     ?>
 

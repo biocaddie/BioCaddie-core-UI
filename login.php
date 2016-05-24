@@ -5,7 +5,8 @@ require_once 'dbcontroller.php';
 require_once './database/User.php';
 require_once './database/GoogleUser.php';
 require_once './database/Search.php';
-
+require_once './database/UserCollection.php';
+require_once dirname(__FILE__) .'/search/SubmitDataService.php';
 
 require_once dirname(__FILE__) . '/trackactivity.php';
 

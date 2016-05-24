@@ -6,7 +6,7 @@ require_once dirname(__FILE__) . '/Parser.php';
 class ElasticSearch extends ElasticSearchBase {
 
     public $offset = 1;
-    public $rowsPerPage = 10;
+    public $rowsPerPage = 20;
     public $highlight = ['fields' => ['*' => [ "pre_tags" => ["<strong>"], "post_tags" => ["</strong>"],"number_of_fragments" =>0]]];
     public $facet_size = 10;
     public $querytype = 'most_fields';
@@ -30,7 +30,6 @@ class ElasticSearch extends ElasticSearchBase {
 
     public function generateResult($body) {
         global $es;
-
         if (sizeof($this->es_type) > 0) {
             $result = $es->search([
                 'index' => $this->es_index,
@@ -64,7 +63,6 @@ class ElasticSearch extends ElasticSearchBase {
         if (count(array_keys($sort) >= 1)) {
             $body['sort'] = $sort;
         }
-
         return $body;
     }
 
@@ -179,7 +177,6 @@ class ElasticSearch extends ElasticSearchBase {
         $facets = $this->generateFacets();
 
         $search_query = $this->generateBoolQuery();
-
         $sort = $this->generate_sort();
         $body = ['from' => ($this->offset - 1) * $this->rowsPerPage,
             'size' => $this->rowsPerPage,
@@ -205,8 +202,6 @@ class ElasticSearch extends ElasticSearchBase {
         $parser=new Parser();
         $parsedQuery = $parser->set_Content($this->query)->tokenize()->parse();
 
-
-
         if(count($parsedQuery)==1){
             $query_part=$this->generateQuery();
 
@@ -220,7 +215,6 @@ class ElasticSearch extends ElasticSearchBase {
             }
 
         }
-
         return $query_part;
     }
 
@@ -267,7 +261,7 @@ class ElasticSearch extends ElasticSearchBase {
                     }
 
                     array_push($query_part['bool'][$oprArray[$operator]],
-                        array('multi_match'=>array('query' =>$quertterm,'fields' =>$queryfields)));
+                        array('multi_match'=>array('query' =>$quertterm,'fields' =>$queryfields, "operator"=>"and")));
                 }
 
             }

@@ -28,7 +28,7 @@ class ClinicalTrialsRepository extends RepositoryBase {
     public $datasource_headers = ['Dataset.briefTitle', 'Dataset.creator', 'Study.phase','Dataset.description' ];
 
     //search-repository page
-    public $headers = ['Title', 'Creator', 'Study Phase','Disease','Status','Date','Country' ];
+    public $headers = ['Title', 'Creator', 'Study Phase','Disease','Status','Deposition Date','Country' ];
     public $header_ids = ['Dataset.briefTitle', 'Dataset.creator', 'Study.phase','Disease.name','Study.status','Dataset.depositionDate','Study.location.country' ];
 
     //display-item page

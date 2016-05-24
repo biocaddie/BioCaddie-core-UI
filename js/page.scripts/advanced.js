@@ -1,6 +1,6 @@
 var rowCount = 0;
 
-function advancedSearch(query) {
+/*function advancedSearch(query) {
     var data = query;
 
     $.ajax({
@@ -19,7 +19,9 @@ function advancedSearch(query) {
             console.log("Details: " + desc + "\nError:" + err);
         }
     });
-}
+}*/
+
+
 function contructQuery(){
 
     var query = "";
@@ -30,17 +32,24 @@ function contructQuery(){
     var field = "";
     var operator = "";
 
-
-
     $("div[id*='group']").each(function (index) {
+
         index = index + 1;
         value = $.trim($("#field" + index).val());
         field = $.trim($("#drop" + index).text());
 
+
+
+
         if (index > 1) {
-            // Construct query for displaying
-            operator = $("#op" + index).text();
-            query = query + " " + operator + " " + "\"" + value + "\"[" + field + "]";
+            if(value.length>0){
+                // Construct query for displaying
+                operator = $("#op" + index).text();
+                query = query + " " + operator + " " + "\"" + value + "\"[" + field + "]";
+            }else{
+                return query;
+            }
+
         } else {
             // Construct query for displaying
             query = query + "\"" + value + "\"[" + field + "]";
@@ -99,7 +108,7 @@ $(document).ready(function () {
         });
     });
 
-    /*** dynamically generated dropdown menus show selected text***/
+    /*** Show selected text from dynamically generated dropdown menu***/
     $(document).on('click', '.dropdown-menu li a', function () {
         var selText = $(this).text() + " ";
         $(this).parents('.dropdown').find('.dropdown-toggle').html(selText + '<span class="caret"></span>');
@@ -130,26 +139,50 @@ $(document).ready(function () {
         }
     });
 
+    /*steps*/
 
-    /*** Save Search button onclick***/
-    $('#btn-save').click(function () {
-        var searchType = document.querySelector('input[name="searchtype"]:checked').value;
-        var query = "(" + searchType + ")"+contructQuery();
-         advancedSearch(query);
+    // Step 1
+    $("input[name='searchtype']").change(function(){
+        $('#step1').removeClass("disabled");
+        $('#step1').addClass("complete");
 
     });
 
-
-
-    $('#btn-search').click(function(){
-        var query = contructQuery();
-        $('#query').val(query);
+    // Step 2
+    $('#field1').on('keyup', function(){
+        $('#step2').removeClass("disabled");
+        $('#step2').addClass("complete");
+        $('#btn-search').removeClass("disabled");
+        $('#btn-show').removeClass("disabled");
     });
 
+    // Step 3
+    $('.accessibility').click(function(){
+        $('#step3').removeClass("disabled");
+        $('#step3').addClass("complete");
+    });
+
+    // Step 4
     $('#btn-show').click(function(){
         var query = contructQuery();
         $('#query').val(query);
+
+        $('#step4').removeClass("disabled");
+        $('#step4').addClass("complete");
     });
+
+    // Step 5
+    $('#btn-search').click(function(){
+        var query = contructQuery();
+        $('#query').val(query);
+
+        $('#step4').removeClass("disabled");
+        $('#step4').addClass("complete");
+
+        $('#step5').removeClass("disabled");
+        $('#step5').addClass("complete");
+    });
+
 });
 
 

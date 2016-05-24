@@ -6,12 +6,13 @@
  * Time: 1:38 PM
  */
 require_once dirname(__FILE__) . '/config/datasources.php';
-require_once dirname(__FILE__) . '/Search/ElasticSearch.php';
+require_once dirname(__FILE__) . '/search/ExpansionSearch.php';
 
-Class NLPSearch extends Elasticsearch
+Class NLPSearch extends ExpansionSearch
 {
-    private $url = 'http://localhost:8080/simple-webapp/cdr';
-    public $es_index = 'arrayexpress_030916nlp';
+   // private $url = 'http://localhost:8080/nlp-process-webapp/cdr';
+    private $url = 'http://clamp.uth.edu/nlp-process-webapp/cdr';
+    public $es_index = 'arrayexpress_20160523nlp';
 
 
     private function get_NLP($data)
@@ -23,6 +24,7 @@ Class NLPSearch extends Elasticsearch
         $response = curl_exec($curl);
         curl_close($curl);
         $data = json_decode($response, true);
+        var_dump($data);
         $time_post = microtime(true);
         $exec_time = $time_post - $time_pre;
         var_dump("execution time of get NLP: ",$exec_time);
@@ -51,19 +53,27 @@ Class NLPSearch extends Elasticsearch
 
             ];
         }
-        echo '<pre>';
-        print_r($query_part);
-        echo '</pre>';
+        //echo '<pre>';
+        //print_r($query_part);
+        //echo '</pre>';
         return $query_part;
     }
 
     private function construct_NLP_query($NLP_data){
-        $disease = $NLP_data['DiseaseID'];
-        $chemical = $NLP_data['ChemcialID'];
-        $gene = $NLP_data['GeneID'];
-        $BP = $NLP_data['GOID'];
+        $diseaseID = $NLP_data['DiseaseID'];
+        $chemicalID = $NLP_data['ChemcialID'];
+        $geneID = $NLP_data['GeneID'];
+        $BPID = $NLP_data['GOID'];
+        $meshID = $NLP_data['MeshID'];
+        $disease = $NLP_data['Disease'];
+        $chemical = $NLP_data['Chemical'];
+        $gene = $NLP_data['gene'];
+        $BP = $NLP_data['BP'];
+        $mesh = $NLP_data['Meshterm'];
+        $cellline=$NLP_data['CellLine'];
+
         $d_result = "";
-        foreach($disease as $d ){
+        foreach($diseaseID as $d ){
             if(strlen($d_result)==0){
                 $d_result = 'NLP_fields.DiseaseID:'.$d;
             }
@@ -72,7 +82,7 @@ Class NLPSearch extends Elasticsearch
             }
         }
         $c_result = "";
-        foreach($chemical as $d ){
+        foreach($chemicalID as $d ){
             if(strlen($c_result)==0){
                 $c_result = 'NLP_fields.ChemcialID:'.$d;
             }
@@ -81,21 +91,39 @@ Class NLPSearch extends Elasticsearch
             }
         }
         $bp_result = "";
-        foreach($BP as $d ){
+        foreach($BPID as $d ){
             if(strlen($bp_result)==0){
-                $bp_result = 'NLP_fields.GOID:'.$d;
+                $bp_result = 'NLP_fields.GOID:"'.$d.'"';
             }
             else{
-                $bp_result = $bp_result.' OR '.'NLP_fields.GOID:'.$d;
+                $bp_result = $bp_result.' OR '.'NLP_fields.GOID:"'.$d.'"';
             }
         }
         $g_result = "";
-        foreach($gene as $d ){
+        foreach($geneID as $d ){
             if(strlen($g_result)==0){
                 $g_result = 'NLP_fields.GeneID:'.$d;
             }
             else{
                 $g_result = $g_result.' OR '.'NLP_fields.GeneID:'.$d;
+            }
+        }
+        $cellline_result="";
+        foreach($cellline as $d ){
+            if(strlen($cellline_result)==0){
+                $cellline_result = 'NLP_fields.cellline:'.$d;
+            }
+            else{
+                $cellline_result = $cellline_result.' OR '.'NLP_fields.cellline:'.$d;
+            }
+        }
+        $mesh_result="";
+        foreach($meshID as $d ){
+            if(strlen($mesh_result)==0){
+                $mesh_result = 'NLP_fields.meshID:'.$d;
+            }
+            else{
+                $mesh_result = $mesh_result.' OR '.'NLP_fields.meshID:'.$d;
             }
         }
 
@@ -127,41 +155,64 @@ Class NLPSearch extends Elasticsearch
                 $result = '('.$g_result.')';
             }
         }
-
+        if(strlen($mesh_result)>0){
+            if(strlen($result)>0){
+                $result = $result.'AND('.$mesh_result.')';
+            }
+            else{
+                $result = '('.$mesh_result.')';
+            }
+        }
+        if(strlen($cellline_result)>0){
+            if(strlen($result)>0){
+                $result = $result.'AND('.$cellline_result.')';
+            }
+            else{
+                $result = '('.$cellline_result.')';
+            }
+        }
         return $result;
     }
     private function generateQueryPart()
     {
 
+
+        $expan_query = $this->getTerminologyquery();
+        $expan_query=['Malignant neoplasm of lung','lung neoplasm'];
+        $expan_query=[];
+        $query_part = [['multi_match'=>[
+            'query'=>$this->query,
+            'fields'=>$this->search_fields,
+            'operator'=>'and',
+            'boost'=>'1',
+            'type' => $this->querytype]]];
+
+        foreach($expan_query as $query){
+            array_push($query_part,['multi_match'=>[
+                'query'=>$query,
+                'fields'=>$this->search_fields,
+                'operator'=>'and',
+                'boost'=>'1']]);
+        }
+
         $NLP_data = $this->get_NLP($this->query);
         //$NLP_data = [];
-        var_dump($NLP_data);
+        //var_dump($NLP_data);
         //$query_part = [];
-        $query_part = [['multi_match' => [
+        /*$query_part = [['multi_match' => [
             'query' => $this->query,
             'fields' => $this->search_fields,
             'operator' => 'and',
-            'boost'=>'1']]];
+            'boost'=>'1']]];*/
        $query_string = ["query_string"=>[
            //'query'=>'(NLP_fields.DiseaseID:'.$NLP_data['DiseaseID'][0].')AND(NLP_fields.ChemcialID:'.$NLP_data['ChemcialID'][0].')',
            'query'=>$this->construct_NLP_query($NLP_data),
            'boost'=>'2'
        ]];
+
         //$query_part = [];
         array_push($query_part,$query_string);
-       /* foreach($NLP_data as $NLP=>$value) {
-            var_dump(stripos($NLP, "ID"));
-            if(sizeof($value)==0 or !stripos($NLP, "ID")){
-                continue;
-            }
-            foreach($value as $singlevalue){
-               array_push($query_part, ['multi_match' => [
-                'query' => $singlevalue,
-                'fields' => ['NLP_fields.'.$NLP],
-                'operator' => 'and',
-                'boost' => '2']]);
-           }
-        }*/
+
         echo '<pre>';
         print_r($query_part);
         echo '</pre>';
@@ -172,17 +223,21 @@ Class NLPSearch extends Elasticsearch
 }
 
 $NERSearch = new NLPSearch();
-$NERSearch->search_fields = ['dataItem.description','dataItem.title'];
+$NERSearch->search_fields = ['dataset.description','dataset.title','dataset.dataType','treatment.title'];
 
 $NERSearch->facets_fields = [];
 $NERSearch->filter_fields = [];
-$NERSearch->query = "cancer EGFR";
+$NERSearch->query = "breast cancer";//"lung carcinoma EGFR gene expression glucose MDA-MB-231";
 $result = $NERSearch->getSearchResult();
+var_dump($result);
 $repositoryHits = $result['hits']['total'];
 echo $repositoryHits;
+for($i=0;$i<10;$i++){
 echo '<pre>';
-print_r($result['hits']['hits']);
+print_r($result['hits']['hits'][$i]['_score']);
+print_r($result['hits']['hits'][$i]['_source']['dataset']['title']);
 echo '</pre>';
+}
 /*
 $url = 'http://localhost:8080/simple-webapp/cdr';
 //$data = array('data' => 'lung cancer gene expression EGFR yes or not');

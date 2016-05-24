@@ -134,3 +134,4 @@ function signOut() {
 
     window.location = "login.php";
 }
+

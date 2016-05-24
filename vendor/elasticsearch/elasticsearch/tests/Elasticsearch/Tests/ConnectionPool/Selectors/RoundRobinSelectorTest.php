@@ -83,4 +83,4 @@ class RoundRobinSelectorTest extends \PHPUnit_Framework_TestCase
 
     }//end testAddTenConnectionsestFiveTRemoveThree()
 
-}//end database
+}//end class

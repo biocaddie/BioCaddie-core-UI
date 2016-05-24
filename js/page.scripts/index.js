@@ -32,6 +32,7 @@ function search() {
                             for (var i = 2; i < 6; i++) {
                                 text += displayResult(query, data['repository'][i]);
                             }
+                            text += displayResult(query, data['repository'][19]);//NURSA
                             break;
                         case "Nucleotide Sequence":
                             text += displayResult(query, data['repository'][6]);
@@ -41,7 +42,6 @@ function search() {
                             text += displayResult(query, data['repository'][9]);
                             text += displayResult(query, data['repository'][11]);
                             text += displayResult(query, data['repository'][17]);//Niddkcr
-                            text += displayResult(query, data['repository'][19]);//NURSA
                             break;
                         case "Clinical Trials":
                             text += displayResult(query, data['repository'][8]);

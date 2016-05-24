@@ -77,15 +77,28 @@ class PubmedPublication {
     // Get a list of pmid
     private function get_pmid($query) {
         $url = "http://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi?db=pubmed&term=" . urlencode($query);
-        $resultXML = file_get_contents($url);
+        $url = str_replace("%26nbsp%3B","",$url);
+        $resultXML = $this->curl_get_contents($url);
 
         // Parse returned xml
         $xmlArray = simplexml_load_string($resultXML)
                 or die("Error: SimpleXML cannot create object");
-
-        $numId = count($xmlArray->IdList->Id);
         $idArray = $xmlArray->IdList->Id;
         return $idArray;
+    }
+
+    function curl_get_contents($url)
+    {
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+        return $data;
     }
 
 }

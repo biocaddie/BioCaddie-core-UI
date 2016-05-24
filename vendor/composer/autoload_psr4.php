@@ -8,5 +8,6 @@ $baseDir = dirname($vendorDir);
 return array(
     'Symfony\\Component\\EventDispatcher\\' => array($vendorDir . '/symfony/event-dispatcher'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
+    'Github\\' => array($vendorDir . '/knplabs/github-api/lib/Github'),
     'Elasticsearch\\' => array($vendorDir . '/elasticsearch/elasticsearch/src/Elasticsearch'),
 );

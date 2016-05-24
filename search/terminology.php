@@ -144,7 +144,7 @@ class ExpansionTerms
     {
         $search = new ElasticSearch();
         $search->query = $originalTerm;
-        $search->search_fields = '_all';
+        $search->search_fields = ['term'];
         $search->facets_fields = [];
         $search->filter_fields = [];
         $search->es_index = 'terms';
@@ -153,11 +153,12 @@ class ExpansionTerms
         $repositoryHits = $result['hits']['total'];
         $this->originalumlsID = '';
         if($repositoryHits>0){
-            $this->originalumlsID = 'umls:_'.$result['hits']['hits'][0]['_source']['cuis'][0];
+            //$this->originalumlsID = 'umls:_'.$result['hits']['hits'][0]['_source']['cuis'][0];
+            $this->originalumlsID = $result['hits']['hits'][0]['_source']['cuis'];
         }
-
+       //var_dump($result['hits']['hits'][0]['_source']['cuis']);
     }
-    public function get_umlsId_info()
+    public function get_umlsId_info1()
     {
         $url = "http://localhost:9000/scigraph/graph/neighbors/".$this->getOriginalumlsID(); #umls:_C0242379
 
@@ -180,6 +181,29 @@ class ExpansionTerms
         }
         return Null ;
     }
+    public function get_umlsId_info($cuiID)
+    {
+        $url = "http://localhost:9000/scigraph/graph/neighbors/umls:_".$cuiID; #umls:_C0242379
+
+        if (substr(php_uname(), 0, 7) == "Windows") {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_URL, $url);
+            $json = curl_exec($ch);
+            curl_close($ch);
+        } else {
+            $json = exec("curl -H \"Connection: Keep-Alive\" -XGET " . $url);
+        }
+
+        $data = json_decode($json, true);
+        $nodes =$data["nodes"];
+        foreach($nodes as $node) {
+            if ($node['id'] == 'umls:_'.$cuiID) {
+                return $node;
+            }
+        }
+        return Null ;
+    }
 
     private function parse_node($node){
         $synonyms = array();
@@ -191,6 +215,7 @@ class ExpansionTerms
     }
     public function get_expansion_query_old(){
         $expansionquery = array();
+
         $relations = $this->get_umlsId_info();
         foreach($relations as $relation){
             $expansionquery = array_merge($expansionquery,$relation->getSynonym());
@@ -200,9 +225,14 @@ class ExpansionTerms
         return $expansionquery;
     }
     public function get_expansion_query(){
-        $node = $this->get_umlsId_info();
-        $expansionquery = $this->parse_node($node);
-        //$expansionquery = array_slice($this->parse_node($node),0,5); //limit synonyms to 5
+        $cuiIDs=$this->getOriginalumlsID();
+        $expansionquery=[];
+        foreach($cuiIDs as $cuiID){
+            $node = $this->get_umlsId_info($cuiID);
+            $expansionquery = array_merge($expansionquery,$this->parse_node($node));
+            //$expansionquery = array_slice($this->parse_node($node),0,5); //limit synonyms to 5
+        }
+        $expansionquery=array_unique($expansionquery);
         return $expansionquery;
     }
 }

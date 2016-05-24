@@ -39,7 +39,7 @@
         </div>
     <?php } else { ?>
     <div class="row">
-        <div style="margin-bottom:30px;margin-top:50px">
+        <div style="margin-top:10px">
             <button type="submit" class="btn btn-primary" id="btn-save" disabled="true">Save Search Query</button>
         </div>
         </div>

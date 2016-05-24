@@ -12,7 +12,7 @@ if (is_ajax() && isset($query)) {
     $search_repository = new ElasticSearch();
     $search_repository->search_fields = $repositoryObj->getSearchFields();
     $search_repository->facets_fields = ['_index'];
-    $search_repository->facet_size = 20;
+    $search_repository->facet_size = 300;
     $search_repository->query = $query;
     $search_repository->filter_fields = [];
     $search_repository->es_index = getElasticSearchIndexes();
@@ -27,24 +27,12 @@ if (is_ajax() && isset($query)) {
 
     foreach ($repositoryObj->getRepositories() as $repository) {
 
-        /*$search_repository = new ElasticSearch();
-        $search_repository->search_fields = $repository->search_fields;
-        $search_repository->facets_fields = $repository->facets_fields;
-        $search_repository->query = $query;
-        $search_repository->filter_fields = [];
-        $search_repository->es_index = $repository->index;
-        $search_repository->es_type = $repository->type;
-        $result = $search_repository->getSearchResult();
-
-        $repository->num = $result['hits']['total'];
-*/
         if(array_key_exists($repository->index,$repositories_counts)) {
             $repository->num = $repositories_counts[$repository->index];
         }
         else {
             $repository->num = 0;
         }
-    //    $total_num = $total_num + $repository->num;
     }
 
     $elasticSearchIndexes = '';
@@ -60,19 +48,10 @@ if (is_ajax() && isset($query)) {
     }
     $indexes = substr($elasticSearchIndexes, 0, -1);
 
-   /* $search_all_repository = new ElasticSearch();
-    $search_all_repository->search_fields = $repositoryObj->getSearchFields();
-    $search_all_repository->facets_fields = $repository->facets_fields;
-    $search_all_repository->query = $query;
-    $search_all_repository->filter_fields = [];
-    $search_all_repository->es_index = $indexes;
-    $search_all_repository->es_type = '';
-    $all_result = $search_all_repository->getSearchResult();
-    $total_num = $all_result['hits']['total'];
-    $all_items = $all_result['hits']['hits'];*/
     $total_num = $esResults['hits']['total'];
 
     $all_items = $esResults['hits']['hits'];
+
     // For datasets href
     $href = '"search.php?query=' . $query . '"';
     $all_num = '(' . ($total_num) . ')';

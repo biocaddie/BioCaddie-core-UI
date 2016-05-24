@@ -1,94 +1,53 @@
 
 <?php
 
+$datatypes = getDatatypes();
+$show_flag = "none";
 if (sizeof($_POST)>1) {
-    $showing_label = [
-        'NAME'=>"Submitter's Name",
-        'EMAIL'=>"Submitter Email",
-        'ORGANIZATION'=>"Submitter's Organization",
-        'address'=>"Submitter's address",
-        "title"=>'Dataset Title',
-        "description"=>'Dataset Description',
-        'id'=>"Dataset Identifier",
-        "datatype"=>"Dataset datatype",
-        "downloadURL"=>"Dataset download URL",
-        "Keywords"=>"Dataset Keywords",
-        "releasedate"=>"Dataset Release Date",
-        "pubtitle"=>"Publication Title",
-        "journal"=>"Publication Journal",
-        "author"=>"Authors",
-        "pmid"=>"Pubmed ID",
-        "organism"=>"Organism Name",
-        "Strain"=>"Organism Strain",
-        "orgname"=>"Organization Name",
-        "homepage"=>"Organization Homepage",
-        "abbreviation"=>"Organization Abbreviation"
-    ];
-    $index_label=[
-        "title"=>'dataset.title',
-        "description"=>'dataset.description',
-        'id'=>"dataset.ID",
-        "datatype"=>"dataset.datatype",
-        "downloadURL"=>"dataset.downloadURL",
-        "Keywords"=>"dataset.keywords",
-        "releasedate"=>"dataset.dataReleased",
-        "pubtitle"=>"publication.title",
-        "journal"=>"publication.journal",
-        "author"=>"publication.authors",
-        "pmid"=>"publication.pmid",
-        "organism"=>"organism.name",
-        "Strain"=>"organism.strain",
-        "orgname"=>"organization.name",
-        "homepage"=>"organization.homePage",
-        "abbreviation"=>"organization.abbreviation"
-    ];
+    if($_POST['dataset_datatype']=="Other"){
+        $show_flag = "block";
+    }
     if(isset($_POST['overview'])){
-        show_table($showing_label);
+        show_table();
     }
     elseif(isset($_POST['submit'])){
-        index_to_ES($index_label);
+        submit_to_db();
         echo '<script type="text/javascript">';
         echo 'alert("You submission has been received.Thank you!")';
         echo '</script>';
     }
 }
-function index_to_ES($index_label){
-    global $es;
-    $body = [];
-    foreach(array_keys($_POST) as $key){
-        if(strlen($_POST[$key])>0 && array_key_exists($key,$index_label)){
-            $newkey = $index_label[$key];
-            $ids = explode('.',$newkey);
-            $body[$ids[0]][$ids[1]]=$_POST[$key];
-        }
-    }
-    $params = [
-        'index' => 'datamed',
-        'type' => 'dataset',
-        'body' => $body
-    ];
-    $es->index($params);
+function submit_to_db(){
+    $objDBController = new DBController_submit();
+    $dbconn=$objDBController->getConn();
+    submit($dbconn,$_POST);
 }
-function show_table($showing_label){?>
 
+function show_table(){?>
+   <?php $showing_label = get_showing_label();?>
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     <h4>Please review your dataset information before submission</h4>
         <div class="panel panel-info">
             <div id="collapse-resource" class="panel-collapse collapse in" role="tabpanel" >
             <table class="table table-striped">
                 <tbody>
-            <?php foreach(array_keys($_POST) as $key){?>
-                  <?php if(strlen($_POST[$key])>0){?>
-            <tr>
-                <td style="width: 20%;"><?php echo $showing_label[$key];?></td>
-                <td><?php echo $_POST[$key];?></td>
-            </tr>
+            <?php foreach(get_ids() as $key){?>
+                  <?php if(strlen($_POST[$key])>0 && array_key_exists($key,$showing_label)){?>
 
-            <?php }}?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                <tr>
+                    <td style="width: 20%;"><?php echo $showing_label[$key];?></td>
+                    <?php if($key=="dataset_datatype" && $_POST["dataset_datatype"]=="Other"):?>
+                        <td><?php echo $_POST['otherDatatype'];?></td>
+                    <?php else: ?>
+                        <td> <?php echo $_POST[$key];?></td>
+                     <?php endif; ?>
+                </tr>
+
+                <?php }}?>
+                </tbody>
+            </table>
+             </div>
+         </div>
 
        <div class="panel-footer" style="height: 60px">
             <div>
@@ -96,9 +55,11 @@ function show_table($showing_label){?>
             </div>
         </div><!--/.panel-footer-->
         </div>
-<?php } ?>
+ <?php } ?>
 
-    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+
+
+    <div class="panel-group" id="Submitter" role="tablist" aria-multiselectable="true">
         <div class="panel panel-info">
             <div class="panel-heading" role="tab" id="heading-resource">
                 <h4 class="panel-title">
@@ -112,20 +73,20 @@ function show_table($showing_label){?>
                     <table class="table table-striped">
                         <tbody>
                         <tr>
-                            <td style="width: 20%;"><strong>* Name:</strong></td>
-                            <td><span><input type="text" name="NAME" class="form-control" id="pwd" placeholder="Your name" value="<?php echo $_POST['NAME'];?>" required></span></td>
+                            <td style="width: 20%;"><strong>* Name</strong></td>
+                            <td><span><input type="text" name="submitter_name" class="form-control" id="submitter_name" placeholder="Your name" value="<?php echo $_POST["submitter_name"];?>" required></span></td>
                         </tr>
                         <tr>
-                            <td><strong>* Email:</strong></td>
-                            <td><input type="email" name="EMAIL" class="form-control" id="email" placeholder="Your email"  value="<?php echo $_POST['EMAIL'];?>"required></td>
+                            <td><strong>* Email</strong></td>
+                            <td><input type="email" name="submitter_email", class="form-control" id="submitter_email" placeholder="Your email"  value="<?php echo $_POST["submitter_email"];?>"required></td>
                         </tr>
                         <tr>
                             <td><strong>* Submitting organization</strong></td>
-                            <td><input type="text" name="ORGANIZATION" class="form-control" id="subject" value="<?php echo $_POST['ORGANIZATION'];?>" required ></td>
+                            <td><input type="text" name="submitter_organization" class="form-control" id="submitter_organization" value="<?php echo $_POST["submitter_organization"];?>" required ></td>
                         </tr>
                         <tr>
-                            <td><strong>* Adress:</strong></td>
-                            <td><input type="text" name="address" class="form-control" id="address" value="<?php echo $_POST['address'];?>" required ></td>
+                            <td><strong>* Address</strong></td>
+                            <td><input type="text" name="submitter_address" class="form-control" id="submitter_address" value="<?php echo $_POST["submitter_address"];?>" required ></td>
                         </tr>
                         </tbody>
                     </table>
@@ -133,8 +94,8 @@ function show_table($showing_label){?>
             </div>
         </div>
         </div>
-       <div class="panel panel-info" id="accordion1">
-            <div class="panel-heading" role="tab" id="heading-resource1">
+       <div class="panel panel-info" id="dataset">
+            <div class="panel-heading" role="tab">
                 <h4 class="panel-title">
                     <a role="button">
                         Dataset
@@ -146,121 +107,292 @@ function show_table($showing_label){?>
                     <table class="table table-striped">
                         <tbody>
                         <tr>
-                            <td style="width: 20%;"><strong>* Title:</strong></td>
-                            <td><span><input type="text" name="title" class="form-control" id="title" placeholder="" value="<?php echo $_POST['title'];?>" required></span></td>
+                            <td style="width: 20%;"><strong>* Title</strong></td>
+                            <td><span><input type="text" name='dataset_title' class="form-control" id='dataset_title' placeholder="" value="<?php echo $_POST['dataset_title'];?>" required></span></td>
                         </tr>
                         <tr>
-                            <td><strong>* Description:</strong></td>
-                            <td><textarea type="text" name="description" class="form-control" id="description" rows="4" required><?php echo $_POST['description'];?></textarea></td>
+                            <td><strong>* Description</strong></td>
+                            <td><textarea type="text" name="dataset_description" class="form-control" id='dataset_description' rows="4" required><?php echo $_POST['dataset_description'];?></textarea></td>
                         </tr>
                         <tr>
-                            <td><strong>Identifier</strong></td>
-                            <td><input type="text" name="id" class="form-control" id="id" value="<?php echo $_POST['id'];?>" ></td>
+                            <td><strong>* Datatype</strong></td>
+
+                            <td>
+
+                                <input style="display:<?php echo $show_flag;?>;float: right; width: 78%" type="text"  name="otherDatatype" class="form-control" id="otherDatatype" value="<?php echo $_POST['otherDatatype'];?>" >
+
+                                <div style="overflow: hidden; padding-right: .5em;" class="dropdown">
+                                    <select class="button" name="dataset_datatype" onchange="showinputbox(this)" value="<?php echo $_POST["dataset_datatype"];?>">
+                                        <?php foreach($datatypes as $datatype):
+                                            $select = "";
+                                            if($_POST["dataset_datatype"]==$datatype) {
+                                                $select = "selected";
+                                            }?>
+                                            <option <?php echo $select;?> value="<?php echo $datatype;?>"><?php echo $datatype;?></option>
+                                        <?php endforeach;?>
+
+                                        <?php $select = "";
+                                        if($_POST["dataset_datatype"]=="Other") {
+                                            $select = "selected";
+
+                                        }?>
+                                        <option <?php echo $select;?>  value="Other">Other</option>
+                                    </select>
+
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td><strong>Datatype</strong></td>
-                            <td><input type="text" name="datatype" class="form-control" id="datatype" value="<?php echo $_POST['datatype'];?>" ></td>
+                            <td><strong>* Download URL</strong></td>
+                            <td><input type="text" name="dataset_downloadurl" class="form-control" id="dataset_downloadurl" value="<?php echo $_POST["dataset_downloadurl"];?>"  required></td>
                         </tr>
                         <tr>
-                            <td><strong>Download URL:</strong></td>
-                            <td><input type="text" name="downloadURL" class="form-control" id="downloadURL" value="<?php echo $_POST['downloadURL'];?>" ></td>
+                            <td>
+                                <strong>Identifier</strong>
+                                <button type="button" class = "glyphicon glyphicon-question-sign" style="color:gray; border: none; background-color:#f9f9f9" data-toggle="popover" data-placement="right" data-content="A code uniquely identifying the dataset" ></button>
+                            </td>
+
+                            <td><input type="text" name="dataset_identifier" class="form-control" id="dataset_identifier" value="<?php echo $_POST["dataset_identifier"];?>" ></td>
                         </tr>
                         <tr>
-                            <td><strong>Keywords:</strong></td>
-                            <td><input type="text" name="Keywords" class="form-control" id="Keywords" value="<?php echo $_POST['Keywords'];?>" ></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Release Date:</strong></td>
-                            <td><input type="text" name="releasedate" class="form-control" id="releasedate" value="<?php echo $_POST['releasedate'];?>" ></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="panel-heading" role="tab" id="heading-resource2">
-                <h4 class="panel-title">
-                    <a role="button">
-                        Publication
-                    </a>
-                </h4>
-            </div>
-            <div id="collapse-resource2" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resource2">
-                <div class="panel-body" style="margin-bottom: -30px">
-                    <table class="table table-striped">
-                        <tbody>
-                        <tr>
-                            <td style="width: 20%;"><strong> Title:</strong></td>
-                            <td><span><input type="text" name="pubtitle" class="form-control" id="pubtitle" placeholder="" value="<?php echo $_POST['pubtitle'];?>" ></span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Journal:</strong></td>
-                            <td><span><input type="text" name="journal" class="form-control" id="journal" placeholder="" value="<?php echo $_POST['journal'];?>" ></span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Authors</strong></td>
-                            <td><input type="text" name="author" class="form-control" id="author" value="<?php echo $_POST['author'];?>" ></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Pubmed ID:</strong></td>
-                            <td><input type="text" name="pmid" class="form-control" id="pmid" value="<?php echo $_POST['pmid'];?>" ></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="panel-heading" role="tab" id="heading-resource4">
-                <h4 class="panel-title">
-                    <a role="button">
-                        Organism
-                    </a>
-                </h4>
-            </div>
-            <div id="collapse-resource4" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resource4">
-                <div class="panel-body" style="margin-bottom: -30px">
-                    <table class="table table-striped">
-                        <tbody>
-                        <tr>
-                            <td style="width: 20%;"><strong> Name:</strong></td>
-                            <td><span><input type="text" name="organism" class="form-control" id="organism" placeholder="" value="<?php echo $_POST['organism'];?>" ></span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Strain:</strong></td>
-                            <td><span><input type="text" name="Strain" class="form-control" id="Strain" placeholder="" value="<?php echo $_POST['Strain'];?>" ></span></td>
+                            <td>
+                                <strong>Identifier Scheme</strong>
+                                <button type="button" class = "glyphicon glyphicon-question-sign" style="color:gray; border: none; background-color:#f9f9f9" data-toggle="popover" data-placement="right" data-content="information about how identifiers are formed,maintained and minted" ></button>
+                            </td>
+                            <td><input type="text" name='dataset_idscheme' class="form-control" id='dataset_idscheme' value="<?php echo $_POST['dataset_idscheme'];?>" ></td>
                         </tr>
 
+                        <tr>
+                            <td><strong>Size</strong>
+                                <button type="button" class = "glyphicon glyphicon-question-sign" style="color:gray; border: none; background-color:#f9f9f9" data-toggle="popover" data-placement="right" data-content="Size of the dataset" ></button></td>
+                            <td><input type="text" name="dataset_size" class="form-control" id="dataset_size" value="<?php echo $_POST["dataset_size"];?>"></td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Version</strong>
+                                <button type="button" class = "glyphicon glyphicon-question-sign" style="color:gray; border: none; background-color:#f9f9f9" data-toggle="popover" data-placement="right" data-content="A release point for the dataset when applicable" ></button></td>
+                            <td><input type="text" name='dataset_version' class="form-control" id='dataset_version' value="<?php echo $_POST['dataset_version'];?>" ></td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Release Date</strong></td>
+                            <td><input type="text" name="dataset_date" class="form-control" id="dataset_date" value="<?php echo $_POST["dataset_date"];?>" ></td>
+                        </tr>
+                        <tr>
+                            <td><strong>License</strong>
+                                <button type="button" class = "glyphicon glyphicon-question-sign" style="color:gray; border: none; background-color:#f9f9f9" data-toggle="popover" data-placement="right" data-content="Relevant terms of usage and license" ></button>
+                            </td>
+
+                            <td><input type="text" name="dataset_license" class="form-control" id="dataset_license" value="<?php echo $_POST["dataset_license"];?>" ></td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
-            <div class="panel-heading" role="tab" id="heading-resource3">
-                <h4 class="panel-title">
-                    <a role="button">
-                        Organization
-                    </a>
-                </h4>
-            </div>
+           <div class="panel-heading" role="tab" >
+               <h4 class="panel-title">
+                   Study
+               </h4>
+           </div>
            <div class="panel-collapse collapse in" role="tabpanel">
-                <div class="panel-body" style="margin-bottom: -30px">
-                    <table class="table table-striped">
-                        <tbody>
-                        <tr>
-                            <td style="width: 20%;"><strong> Name:</strong></td>
-                            <td><span><input type="text" name="orgname" class="form-control" id="orgname" placeholder="" value="<?php echo $_POST['orgname'];?>" ></span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Homepage:</strong></td>
-                            <td><span><input type="text" name="homepage" class="form-control" id="homepage" placeholder="" value="<?php echo $_POST['homepage'];?>" ></span></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Abbreviation</strong></td>
-                            <td><input type="text" name="abbreviation" class="form-control" id="abbreviation" value="<?php echo $_POST['abbreviation'];?>" ></td>
-                        </tr>
+               <div class="panel-body" style="margin-bottom: -30px">
+                   <table class="table table-striped">
+                       <tbody>
+                       <tr>
+                           <td style="width: 20%;"><strong> Title</strong></td>
+                           <td><span><input type="text" name="study_title" class="form-control" id="study_title" placeholder="" value="<?php echo $_POST["study_title"];?>" ></span></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Study Type</strong>
+                               <button type="button" class = "glyphicon glyphicon-question-sign" style="color:gray; border: none; background-color:#f9f9f9" data-toggle="popover" data-placement="right" data-content="The type of study, e.g. intervention or observation or meta-analysis" ></button>
+                           </td>
+                           <td><span><input type="text" name="study_studytype" class="form-control" id="study_studytype" placeholder="" value="<?php echo $_POST["study_studytype"];?>" ></span></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Keywords</strong></td>
+                           <td><span><input type="text" name="study_keywords" class="form-control" id="study_keywords" placeholder="" value="<?php echo $_POST["study_keywords"];?>" ></span></td>
+                       </tr>
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+           <div class="panel-heading" role="tab" id="heading-resource4">
+               <h4 class="panel-title">
+                   Organism
 
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+               </h4>
+           </div>
+           <div id="collapse-resource4" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resource4">
+               <div class="panel-body" style="margin-bottom: -30px">
+                   <table class="table table-striped">
+                       <tbody>
+                       <tr>
+                           <td style="width: 20%;"><strong> Name</strong>
+                               <button type="button" class = "glyphicon glyphicon-question-sign" style="color:gray; border: none; background-color:#f9f9f9" data-toggle="popover" data-placement="right" data-content="The scientific name of an organism" ></button></td>
+                           <td><span><input type="text" name="organism_name" class="form-control" id="organism_name" placeholder="" value="<?php echo $_POST["organism_name"];?>" ></span></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Strain</strong></td>
+                           <td><span><input type="text" name="organism_strain" class="form-control" id="organism_strain" placeholder="" value="<?php echo $_POST["organism_strain"];?>" ></span></td>
+                       </tr>
+
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+
+
+           <div class="panel-heading" role="tab" id="heading-resource2">
+               <h4 class="panel-title">Publication</h4>
+           </div>
+           <div id="collapse-resource2" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resource2">
+               <div class="panel-body" style="margin-bottom: -30px">
+                   <table class="table table-striped">
+                       <tbody>
+                       <tr>
+                           <td style="width: 20%;"><strong> Title</strong></td>
+                           <td><span><input type="text" name="publication_title" class="form-control" id="publication_title" placeholder="" value="<?php echo $_POST["publication_title"];?>" ></span></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Journal</strong></td>
+                           <td><span><input type="text" name="publication_journal" class="form-control" id="publication_journal" placeholder="" value="<?php echo $_POST["publication_journal"];?>" ></span></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Authors</strong></td>
+                           <td><input type="text" name="publication_authors" class="form-control" id="publication_authors" value="<?php echo $_POST["publication_authors"];?>" ></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Pubmed ID</strong></td>
+                           <td><input type="text" name="publication_pmid" class="form-control" id="publication_pmid" value="<?php echo $_POST["publication_pmid"];?>" ></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Date</strong></td>
+                           <td><input type="text" name='publication_date' class="form-control" id='publication_date' value="<?php echo $_POST['publication_date'];?>" ></td>
+                       </tr>
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+           <div class="panel-heading" role="tab" id="heading-resource2">
+               <h4 class="panel-title">
+                   <a role="button">
+                       Data Standard
+                   </a>
+               </h4>
+           </div>
+
+           <div id="collapse-resource2" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resource2">
+               <div class="panel-body" style="margin-bottom: -30px">
+                   <table class="table table-striped">
+                       <tbody>
+                       <tr>
+                           <td style="width: 20%;"><strong> Name</strong></td>
+                           <td><span><input type="text" name="datastandard_name" class="form-control" id="datastandard_name" placeholder="" value="<?php echo $_POST["datastandard_name"];?>" ></span></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Homepage</strong></td>
+                           <td><span><input type="text" name="datastandard_homepage" class="form-control" id="datastandard_homepage" placeholder="" value="<?php echo $_POST["datastandard_homepage"];?>" ></span></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Identifier</strong>
+                               <button type="button" class = "glyphicon glyphicon-question-sign" style="color:gray; border: none; background-color:#f9f9f9" data-toggle="popover" data-placement="right" data-content="A code uniquely identifiying an entity locally to a system or globally" ></button></td>
+                           <td><input type="text" name="datastandard_id" class="form-control" id="datastandard_id" value="<?php echo $_POST["datastandard_id"];?>" ></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Identifier Scheme</strong>
+                               <button type="button" class = "glyphicon glyphicon-question-sign" style="color:gray; border: none; background-color:#f9f9f9" data-toggle="popover" data-placement="right" data-content="Information about how identifiers are formed,maintained and minted" ></button></td>
+                           <td><input type="text" name="datastandard_idscheme" class="form-control" id="datastandard_idscheme" value="<?php echo $_POST["datastandard_idscheme"];?>" ></td>
+                       </tr>
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+           <div class="panel-heading" role="tab" id="heading-resource2">
+               <h4 class="panel-title">
+                       Data Repository
+               </h4>
+           </div>
+           <div id="collapse-resource2"  role="tabpanel" aria-labelledby="heading-resource2">
+               <div class="panel-body" style="margin-bottom: -30px">
+                   <table class="table table-striped">
+                       <tbody>
+                       <tr>
+                           <td style="width: 20%;"><strong> Name</strong></td>
+                           <td><span><input type="text" name="datarepo_name" class="form-control" id="datarepo_name" placeholder="" value="<?php echo $_POST["datarepo_name"];?>" ></span></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Abbreviation</strong></td>
+                           <td><span><input type="text" name="datarepo_abbr" class="form-control" id="datarepo_abbr" placeholder="" value="<?php echo $_POST["datarepo_abbr"];?>" ></span></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Identifier</strong></td>
+                           <td><input type="text" name="datarepo_id" class="form-control" id="datarepo_id" value="<?php echo $_POST["datarepo_id"];?>" ></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Homepage</strong></td>
+                           <td><input type="text" name="datarepo_homepage" class="form-control" id="datarepo_homepage" value="<?php echo $_POST["datarepo_homepage"];?>" ></td>
+                       </tr>
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+
+           <div class="panel-heading" role="tab" id="heading-resource2">
+               <h4 class="panel-title">Grant</h4>
+           </div>
+           <div id="collapse-resource2" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resource2">
+               <div class="panel-body" style="margin-bottom: -30px">
+                   <table class="table table-striped">
+                       <tbody>
+                       <tr>
+                           <td style="width: 20%;"><strong> Name</strong></td>
+                           <td><span><input type="text" name="grant_name" class="form-control" id="grant_name" placeholder="" value="<?php echo $_POST["grant_name"];?>" ></span></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Funder</strong>
+                               <button type="button" class = "glyphicon glyphicon-question-sign" style="color:gray; border: none; background-color:#f9f9f9" data-toggle="popover" data-placement="right" data-content="The organization(s) which has awarded the funds supporting the project" ></button></td>
+                           <td><span><input type="text" name="grant_funder" class="form-control" id="grant_funder" placeholder="" value="<?php echo $_POST["grant_funder"];?>" ></span></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Identifier</strong></td>
+                           <td><input type="text" name="grant_id" class="form-control" id="grant_id" value="<?php echo $_POST["grant_id"];?>" ></td>
+                       </tr>
+
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+
+
+            <div class="panel-heading" role="tab" id="heading-resource3">
+               <h4 class="panel-title">
+                   Organization
+               </h4>
+           </div>
+           <div class="panel-collapse collapse in" role="tabpanel">
+               <div class="panel-body" style="margin-bottom: -30px">
+                   <table class="table table-striped">
+                       <tbody>
+                       <tr>
+                           <td style="width: 20%;"><strong> Name</strong></td>
+                           <td><span><input type="text" name="organization_name" class="form-control" id="organization_name" placeholder="" value="<?php echo $_POST["organization_name"];?>" ></span></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Homepage</strong></td>
+                           <td><span><input type="text" name="organization_homepage" class="form-control" id="organization_homepage" placeholder="" value="<?php echo $_POST["organization_homepage"];?>" ></span></td>
+                       </tr>
+                       <tr>
+                           <td><strong>Abbreviation</strong></td>
+                           <td><input type="text" name="organization_abbr" class="form-control" id="organization_abbr" value="<?php echo $_POST["organization_abbr"];?>" ></td>
+                       </tr>
+
+                       </tbody>
+                   </table>
+               </div>
+           </div>
+
         </div>
+
         <div class="panel-footer" style="height: 60px">
             <div>
                 <button type="submit" class="btn btn-warning pull-right" id="btn-overview" name="overview">Review</button>
@@ -270,5 +402,10 @@ function show_table($showing_label){?>
 
 
 
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="popover"]').popover();
+    });
+</script>
 
 

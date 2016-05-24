@@ -3,9 +3,9 @@
 
 function partialPagination($searchBuilder) {
     $min = max(1, $searchBuilder->getOffset() - 5);
-    $min = min($min, ceil($searchBuilder->getTotalRows() / $searchBuilder->getRowsLimit()) - 10);
+    $min = min($min, ceil($searchBuilder->getTotalRows() / $searchBuilder->getRowsPerPage()) - 10);
     $min = max($min, 1);
-    $max = min(ceil($searchBuilder->getTotalRows() / $searchBuilder->getRowsLimit()), $searchBuilder->getOffset() + 5);
+    $max = min(ceil($searchBuilder->getTotalRows() / $searchBuilder->getRowsPerPage()), $searchBuilder->getOffset() + 5);
     $max = max(10, $max);
     ?>
     <div class="pull-left">
@@ -21,7 +21,7 @@ function partialPagination($searchBuilder) {
                 </a>
             </li>
             <?php
-            for ($i = $min; $i <= min($max, ceil($searchBuilder->getTotalRows() / $searchBuilder->getRowsLimit())); $i++) {
+            for ($i = $min; $i <= min($max, ceil($searchBuilder->getTotalRows() / $searchBuilder->getRowsPerPage())); $i++) {
                 $activeFlag = $searchBuilder->getOffset() == $i ? 'class="active"' : '';
                 ?>
                 <li <?php echo $activeFlag; ?>>
@@ -29,12 +29,12 @@ function partialPagination($searchBuilder) {
                 </li>
             <?php } ?>
             <li>
-                <a href="<?php echo $searchBuilder->getUrlByOffset(get_next($searchBuilder->getOffset(), $searchBuilder->getTotalRows(), $searchBuilder->getRowsLimit())) ?>" aria-label="Next">
+                <a href="<?php echo $searchBuilder->getUrlByOffset(get_next($searchBuilder->getOffset(), $searchBuilder->getTotalRows(), $searchBuilder->getRowsPerPage())) ?>" aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
             <li>
-                <a href="<?php echo $searchBuilder->getUrlByOffset(ceil($searchBuilder->getTotalRows() / $searchBuilder->getRowsLimit())) ?>" aria-label="Next">
+                <a href="<?php echo $searchBuilder->getUrlByOffset(ceil($searchBuilder->getTotalRows() / $searchBuilder->getRowsPerPage())) ?>" aria-label="Next">
                     <span aria-hidden="true">Last</span>
                 </a>
             </li>

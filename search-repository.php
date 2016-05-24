@@ -11,6 +11,7 @@ require_once dirname(__FILE__) . '/views/search_repository/sorting.php';
 require_once dirname(__FILE__) . '/views/search_repository/results.php';
 require_once dirname(__FILE__) . '/views/search_repository/pilot_projects.php';
 require_once dirname(__FILE__) . '/views/search_repository/switch_view.php';
+require_once dirname(__FILE__) . '/views/search_repository/breadcrumb.php';
 require_once dirname(__FILE__) . '/views/feedback.php';
 $searchBuilder = new SearchRepositoryBuilder();
 
@@ -75,6 +76,9 @@ if (isset($_POST['radio-share'])) {
 <div class="container">
     <?php /* Search Panel */ ?>
     <?php echo partialSearchPanel($searchBuilder); ?>
+
+    <!--breadcrumb-->
+    <?php echo breadcrumb($searchBuilder); ?>
 
     <div class="row">
         <?php /* ###### Filter Panel ###### */ ?>

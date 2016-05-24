@@ -65,7 +65,7 @@ function partialResults($searchBuilder) {
         <div class="alert alert-warning">
             <strong>NO ITEMS FOUND!</strong>
             <p>The following term was not found in bioCADDIE:
-                <strong class="text-danger"><?php echo $searchBuilder->getQuery(); ?></strong>
+                <strong class="text-danger"><?php echo $searchBuilder->getQuery(); ?></strong> with <strong class="text-danger"><?php echo $_GET['access']?></strong> accessibility.
             </p>
         </div>
         <?php

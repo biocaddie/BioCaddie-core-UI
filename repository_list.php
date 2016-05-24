@@ -30,7 +30,7 @@ $n=1;
            <td>
            <img style="height: 40px ;width:100px; margin :20px" src="./img/repositories/<?php echo $id; ?>.png">
            </td>
-           <td><strong><a class="hyperlink" href="<?php echo "http://localhost/biocaddie-ui/search-repository.php?query=%20&searchtype=data&repository=".$id;?>"><?php echo $name?></a></strong></td>
+           <td><strong><a class="hyperlink" href="<?php echo "search-repository.php?query=%20&searchtype=data&repository=".$id;?>"><?php echo $name?></a></strong></td>
        </tr>
    <?php endforeach;?>
     </table>

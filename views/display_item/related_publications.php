@@ -16,10 +16,12 @@ function partialRelatedPublications($service) {
         $query = $result['title'];
     }
 
-    $query = strip_tags($query);
+    $query = trim(strip_tags($query));
+
 
     $pubmedPublication = new PubmedPublication();
     $itemArray = $pubmedPublication->getPublication($query, 5);
+
     if (sizeof($itemArray) > 0) {
         ?>
         <div id="related-publications" class="panel panel-warning">
@@ -38,4 +40,5 @@ function partialRelatedPublications($service) {
             </div>
         </div>
     <?php }
+
 } ?>

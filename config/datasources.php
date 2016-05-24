@@ -27,9 +27,9 @@ function getDatatypes() {
 function getDatatypesMapping() {
     return ['Protein Structure' => ['pdb'],
         'Phenotype' => ['phenodisco','mpd'],
-        'Gene Expression' => ['geo',  'arrayexpress', 'gemma'], //'geo',
+        'Gene Expression' => ['geo',  'arrayexpress', 'gemma','nursadatasets'], //'geo',
         'Nucleotide Sequence' => ['sra'],
-        'Unspecified' => ['lincs','bioproject','dryad','dataverse','niddkcr','nursadatasets'],
+        'Unspecified' => ['lincs','bioproject','dryad','dataverse','niddkcr'],
         'Clinical Trials'=>['clinicaltrials','ctn'],
         'Imaging Data'=>['cvrg','neuromorpho','ctn','cia','openfmri'],
         'Morphology'=>['neuromorpho'],
@@ -68,6 +68,35 @@ function getRepositoryIDMapping() {
     ];
 }
 
+
+// Map repository ID to repository name
+function getRepositoryIDNameMapping() {
+    return ['0001' => 'dbGaP',
+        '0002' => 'PDB',
+        '0003' => 'GEO',
+        '0004' => 'LINCS',
+        '0005' => 'GEMMA',
+        '0006' => 'ArrayExpress',
+        '0007' => 'SRA',
+        '0008'=> 'BioProject',
+        '0009' => 'ClinicalTrials',
+        '0010'=>'Dryad',
+        '0011'=>'cvrg',
+        '0012'=>'Dataverse',
+        '0013'=>'NeuroMorpho.Org',
+        '0014'=>'PeptideAtlas',
+        '0015'=>'CTN',
+        '0016'=>'CIA',
+        '0017'=>'MPD',
+        '0018'=>'NIDDKCR',
+        '0019'=>'openfmri',
+        '0020'=>'NURSA',
+        '0021'=>'PhysioBank',
+        '0022'=>'Proteomexchange',
+        '0023'=>'YPED',
+    ];
+}
+
 // Returns data types list.
 function getElasticSearchIndexes() {
 
@@ -75,4 +104,23 @@ function getElasticSearchIndexes() {
           .'cvrg'.','.'dataverse' .','.'neuromorpho'.','.'peptideatlas'.','.'ctn'.','.'cia'.','.'mpd'.','.'niddkcr'.','.'physiobank'.','.'proteomexchange'.','.'openfmri'.','.'nursadatasets'.','
           .'yped';
 
+}
+
+// Returns a list of accessibility.
+function getAllAccess() {
+    return ['download', 'remoteAccess', 'remoteService', 'enclave','notAvailable'];
+}
+
+// Returns data types mapping to elastic search indexes.
+function getAccessibilityMapping() {
+    return ['download' => ['phenodisco','pdb','geo','lincs','gemma',
+                            'arrayexpress','sra','bioproject','clinicaltrials','dryad',
+                            'cvrg','dataverse','neuromorpho','peptideatlas','ctn',
+                            'cia','mpd', 'niddkcr','openfmri','nursadatasets',
+                            'physiobank','proteomexchange','yped'],
+        'remoteAccess' => [],
+        'remoteService' => ['openfmri'],
+        'enclave' => [],
+        'notAvailable' => [],
+    ];
 }

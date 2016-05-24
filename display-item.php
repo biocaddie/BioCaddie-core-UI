@@ -36,20 +36,17 @@ if ($_SERVER["HTTP_REFERER"]) {
 
 ?>
 <?php include dirname(__FILE__) . '/views/header.php'; ?>
+
 <div class="container">   
     <div class="row">
         <div class="col-lg-12">
             <?php echo partialSearchPanel($service); ?>
             <?php // echo partialBreadcrumbPanel($service); ?>
         </div>
+
+
         <div class="col-lg-12">
-
-            <div class="input-group-btn">
-                <a href="<?php echo $backLink ?>" class="btn btn-default" style="margin-bottom: 5px">
-                    <i class="fa fa-chevron-left"></i>
-                </a>
-            </div>
-
+            <?php include dirname(__FILE__) . '/views/breadcrumb.php'; ?>
             </div>
 
         <div class="col-lg-9">

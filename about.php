@@ -2,12 +2,15 @@
 
 require_once dirname(__FILE__) .'/config/config.php';
 require_once dirname(__FILE__) . '/trackactivity.php';
+require_once 'vendor/autoload.php';
 
 $errors = '';
 $name = '';
 $email = '';
 $message = '';
 $subject ='';
+
+
 
 if(isset($_POST['submit']))
 {
@@ -29,9 +32,10 @@ if(isset($_POST['submit']))
 	{
 		//send the email
 		sendEmails();
+		postToGitHub();
 
 		echo '<script type="text/javascript">';
-		echo 'alert("You request has been received and we will contact you soon")';
+		echo 'alert("You request has been received and posted to <a class="hyperlink" href = "https://github.com/biocaddie/prototype_issues/issues">GitHub </a>. We will contact you soon.")';
 		echo '</script>';
 	}
 }
@@ -42,6 +46,7 @@ function sendEmails(){
 
 	$from = $_POST["EMAIL"];
 	$to = array("xiaoling.chen@uth.tmc.edu","ruiling.liu@uth.tmc.edu","Anupama.E.Gururaj@uth.tmc.edu","Saeid.Pournejati@uth.tmc.edu");
+
 	$body = 'bioCADDIE contact request<br>
         ----------------------------------------<br>
         NAME: '.$_POST["NAME"].'<br>
@@ -60,6 +65,12 @@ function sendEmails(){
 			->setBody($body)
 			->setContentType("text/html");
 	$mailer->send($message);
+}
+
+function postToGitHub(){
+	$client = new \Github\Client();
+	$client->authenticate('biocaddie.mail@gmail.com', 'biocaddie4050@', Github\Client::AUTH_HTTP_PASSWORD);
+	$client->api('issue')->create('biocaddie', 'prototype_issues', array('title' => $_POST['SUBJECT'], 'body' => $_POST["MESSAGE"]));
 }
 
 ?>
@@ -115,7 +126,11 @@ function sendEmails(){
 				<input id="6_letters_code" name="6_letters_code" type="text"><br>
 				<small>Can't read the image? click <a href='javascript: refreshCaptcha();' class="hyperlink">here</a> to refresh</small>
 			</p>
-			    <input type="submit" value="Submit" name='submit'>
+					<div class="row" >
+					<div class ="col-md-1">
+			    <input type="submit" value="Submit" name='submit'  class="btn btn-warning" onclick="process()" id="submitBtn" style="margin-bottom: 20px">
+						</div>
+</div>
 			</div>
 		</form>
     </div>
@@ -123,11 +138,19 @@ function sendEmails(){
 
 
 <?php include dirname(__FILE__) . '/views/footer.php'; ?>
+
 <script language='JavaScript' type='text/javascript'>
 function refreshCaptcha()
 {
 	var img = document.images['captchaimg'];
 	img.src = img.src.substring(0,img.src.lastIndexOf("?"))+"?rand="+Math.random()*1000;
+}
+
+
+/*show loading sign on button click*/
+function process(){
+	$('#submitBtn').prop("disabled",true);
+	alert("Your request has been received.");
 }
 </script>
 </body>

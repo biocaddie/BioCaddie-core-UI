@@ -19,21 +19,17 @@ function displayResult($service) {
             <table class="table table-default">
                 <tbody>
                     <tr>
-                        <td style="width: 20%;"><strong>Full Title:</strong></td>
+                        <td style="width: 20%;"><strong>Title:</strong></td>
                         <td><strong><?php echo $results[$repository->datasource_headers[0]]; ?></strong></td>
                     </tr>
                     <tr>
                         <td><strong>ID:</strong></td>
-                        <td><?php echo $results["dataItem.ID"]; ?></td>
-                    </tr>
-                    <tr>
-                        <td><strong>Experiment Type:</strong></td>
-                        <td><?php echo $results["dataItem.experimentType"]; ?></td>
+                        <td><?php echo $results["dataset.ID"]; ?></td>
                     </tr>
                     <tr>
                         <td><strong>Description:</strong></td>
                         <td><div class="comment more">
-                             <?php   echo $results["dataItem.description"];?>
+                             <?php   echo $results["dataset.description"];?>
                          </div></td>
 
 
@@ -57,26 +53,185 @@ function displayResult($service) {
                         <table class="table table-striped">
                             <tbody>
                                 <tr>
-                                    <td style="width: 20%;"><strong>Submission Date:</strong></td>
-                                    <td><?php echo $results["dataItem.submissionDate"]; ?></td>
+                                    <td style="width: 20%;"><strong>Data Type:</strong></td>
+                                    <td><?php echo $results["dataset.dataType"]; ?></td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Release Date:</strong></td>
-                                    <td><?php echo $results["dataItem.releaseDate"]; ?></td>
+                                    <td><strong>Date Modified:</strong></td>
+                                    <td><?php echo $results["dataset.dateModified"]; ?></td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Last Update:</strong></td>
-                                    <td><?php echo $results["dataItem.lastUpdateDate"]; ?></td>
+                                    <td><strong>Date Released:</strong></td>
+                                    <td><?php echo $results["dataset.dateReleased"]; ?></td>
                                 </tr>
                                 <tr>
-                                    <td><strong>Experiment Species:</strong></td>
-                                    <td><?php echo $results["organism.experiment.species"]; ?></td>
+                                    <td><strong>Date Submitted:</strong></td>
+                                    <td><?php echo $results["dataset.dateSubmitted"]; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Download URL:</strong></td>
+                                    <td><a class="hyperlink" href="<?php echo $results["dataset.downloadURL"];?>"><?php echo $results["dataset.downloadURL"];?></a> </td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Keywords:</strong></td>
+                                    <td><?php echo $results["dataset.keywords"]; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Provider:</strong></td>
+                                    <td><?php echo $results["dataset.provider"]; ?></td>
                                 </tr>
                             </tbody>   
                         </table>
                     </div>
                 </div>
-            </div>            
+            </div>
+
+
+
+
+            <div class="panel panel-info">
+                <div class="panel-heading" role="tab" id="heading-resource">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-resource" aria-expanded="true" aria-controls="collapse-resource">
+                            <i class="fa fa-chevron-up"></i>
+                            Data Acquisition
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-resource" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resource">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <td style="width: 20%;"><strong>ID:</strong></td>
+                                <td><?php echo $results["dataAcquisition.ID"]; ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Title:</strong></td>
+                                <td><?php echo $results["dataAcquisition.title"]; ?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="panel panel-info">
+                <div class="panel-heading" role="tab" id="heading-resource">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-resource" aria-expanded="true" aria-controls="collapse-resource">
+                            <i class="fa fa-chevron-up"></i>
+                            Repository
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-resource" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resource">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <td style="width: 20%;"><strong>ID:</strong></td>
+                                <td><?php echo $results["dataRepository.ID"]; ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Homepage:</strong></td>
+                                <td><?php echo $results["dataRepository.homePage"]; ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Name:</strong></td>
+                                <td><?php echo $results["dataRepository.name"]; ?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-info">
+                <div class="panel-heading" role="tab" id="heading-resource">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-resource" aria-expanded="true" aria-controls="collapse-resource">
+                            <i class="fa fa-chevron-up"></i>
+                            Organization
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-resource" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resource">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <td style="width: 20%;"><strong>ID:</strong></td>
+                                <td><?php echo $results["organization.ID"]; ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Homepage:</strong></td>
+                                <td><?php echo $results["organization.homePage"]; ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Name:</strong></td>
+                                <td><?php echo $results["organization.name"]; ?></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Abbreviation:</strong></td>
+                                <td><?php echo $results["organization.abbreviation"]; ?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-info">
+                <div class="panel-heading" role="tab" id="heading-resource">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-resource" aria-expanded="true" aria-controls="collapse-resource">
+                            <i class="fa fa-chevron-up"></i>
+                            Organism
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-resource" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resource">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <td style="width: 20%;"><strong>Name:</strong></td>
+                                <td><?php echo $results["organism.name"]; ?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="panel panel-info">
+                <div class="panel-heading" role="tab" id="heading-resource">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-resource" aria-expanded="true" aria-controls="collapse-resource">
+                            <i class="fa fa-chevron-up"></i>
+                            Treatment
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapse-resource" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resource">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <td style="width: 20%;"><strong>Title:</strong></td>
+                                <td><?php echo $results["treatment.title"]; ?></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
         </div>
     </div>
 <?php } ?>

@@ -59,6 +59,12 @@ class ExpansionSearch extends ElasticSearch
         }
         return $query_part;
     }
+
+    protected function generateBoolQuery(){
+        $query_part=$this->generateQuery();
+        return $query_part;
+    }
+
     private function cleanUp($text)
     {
         $text = str_replace(array('(', ')', '-'), ' ', $text);

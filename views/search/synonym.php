@@ -9,8 +9,14 @@
 function partialSynonym($searchBuilder)
 {
     $count=0;
-    $_SESSION['synonym']=$searchBuilder->getExpansionquery();
+    //$_SESSION['synonym']=$searchBuilder->getExpansionquery();
     $_SESSION['query']=$searchBuilder->getQuery();
+    if(preg_match('/(AND|OR|NOT|\[|\])/', $searchBuilder->getQuery())){
+        $_SESSION['synonym']=[];
+    }
+    else{
+        $_SESSION['synonym']=$searchBuilder->getExpansionquery();
+    }
 
     ?>
 

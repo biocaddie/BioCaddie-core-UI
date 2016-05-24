@@ -4,11 +4,11 @@ function partialSorting($searchBuilder)
 {
     ?>
 
-    <div class="pull-right" >
+    <div class="pull-left" >
         <span>Sorted By:</span>
         <div class="dropdown">
             <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdown-sort"
-                    data-toggle="dropdown" style="margin-right:0">
+                    data-toggle="dropdown">
                 <?php echo ucwords($searchBuilder->getSort()) ?>
                 <span class="caret"></span>
             </button>

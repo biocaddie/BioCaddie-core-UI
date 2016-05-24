@@ -32,6 +32,10 @@ function partialShare($postLink) {
                                 <input type="radio" name="radio-share" value="email" id="radio-share-email" onchange="shareToggler(true);" autocomplete="off"> 
                                 <i class="fa fa-envelope" style="margin-right: 5px;"></i>E-Mail
                             </label>
+                            <label class="btn btn-default btn-sm">
+                                <input type="radio" name="radio-share" value="collections" id="radio-share-collections" onchange="shareToggler(false);" autocomplete="off">
+                                <i class="fa fa-database" style="margin-right: 5px;"></i>Collections
+                            </label>
                         </div>
 
                         <div class="option">                            

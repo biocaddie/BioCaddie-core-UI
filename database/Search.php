@@ -106,7 +106,6 @@ class Search
 
     public function deleteSearch($dbconn){
         try{
-            var_dump($this->searchId);
             $sql ="DELETE FROM saved_search WHERE search_id=".$this->searchId;
             $result = $dbconn->query($sql);
             $dbconn = null;

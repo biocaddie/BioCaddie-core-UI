@@ -8,11 +8,24 @@ if (isset($_SESSION["history"])) {
     $date = $_SESSION["history"]['date'];
 }
 
+
 $objDBController = new DBController();
 $dbconn=$objDBController->getConn();
+
+//Get saved searches
 $search = new Search();
 $search->setUemail($_SESSION['email']);
 $result = $search->showPartialSearch($dbconn);
+
+//Get collections
+$collections = new UserCollection();
+$collections->setUserEmail($_SESSION['email']);
+$collectionsList = $collections ->showPartialCollections($dbconn);
+
+//Check if manager
+$email=$_SESSION['email'];
+$flag = check_manager_email($objDBController,$email);
+
 
 ?>
 
@@ -25,88 +38,29 @@ $result = $search->showPartialSearch($dbconn);
                 <p class="oauthemail"><?php echo $userData["email"]; ?></p>
                 <div class='logout'><a href='?logout'>Logout</a></div>
             </div>
+
         </div>
+        <?php if ($flag):?>
+          <div class="box" style="text-align: left">
+              <ul>
+                  <li>
+                     <a class='hyperlink' href="manage_submit_data.php"> <strong>Manage submitted dataset</strong></a>
+                  </li>
+                  <li>
+                     <a class='hyperlink' href="manage_submit_repository.php"> <strong>Manage submitted repository</strong></a>
+                  </li>
+              </ul>
+          </div>
+        <?php endif;?>
     </div>
 
     <div class="col-lg-8">
-        <div id="savedSearch" class="panel panel-primary">
-            <div class="panel-heading">
-                <strong>Saved Search Query</strong>
-            </div>
+        <?php require_once 'profileSavedSearch.php';?>
+        <?php require_once 'profileRecentActivity.php';?>
+        <?php require_once 'profileCollections.php';?>
 
-            <div class="panel-body">
-                <table class="table">
-                    <thead>
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Term</th>
-                    </thead>
 
-                    <?php foreach ($result as $row) {
-                        $href="./search.php?query=". $row['search_term']."&searchtype=". $row['search_type'];
-                        $href = str_replace('"','',$href);
-                        ?>
-                    <tbody>
-                    <tr>
-                        <td><?php echo $row['create_time'];?></td>
-                        <td><?php echo $row['search_type'];?></td>
-                        <td><a class="hyperlink"
-                               href='<?php echo $href?>'><?php echo $row['search_term'] ?></a></td>
-                    </tr>
-                    </tbody>
 
-                    <?php }?>
-                    </table>
-            </div>
-            <div class="panel-footer">
-                <a class="hyperlink" href="savedsearch.php">View Saved Search Query >></a>
-            </div>
-        </div>
-
-        <div id="recentActivity" class="panel panel-primary">
-            <div class="panel-heading"><strong><span class="glyphicon glyphicon-chevron-up"></span> Recent
-                    Activities</strong></div>
-            <div class="panel-body">
-                <table class="table">
-                    <thead>
-                    <th>Date</th>
-                    <th>Type</th>
-                    <th>Term</th>
-                    </thead>
-
-                    <?php
-                    if (count($history) > 0) {
-                    $counter = count($history) - 1;
-                    ?>
-
-                    <tbody>
-                    <?php foreach (array_reverse($history) as $historyItem):
-                        $items = explode("|||", $historyItem);
-                        $query = $items[0];
-                        $searchtype = $items[1];
-                        ?>
-                        <tr>
-                            <td>
-                                <?php echo $date[$counter]; ?>
-                            </td>
-                            <td>
-                                <?php echo $searchtype ?>
-                            </td>
-                            <td>
-                                <a class="hyperlink"
-                                   href="./search.php?query=<?php echo $query ?>&searchtype=<?php echo $searchtype ?>"><?php echo $query ?></a>
-                            </td>
-                        </tr>
-                        <?php $counter--;endforeach; ?>
-                    </tbody>
-                    <?php } ?>
-                </table>
-            </div>
-
-            <div class="panel-footer">
-                <a class="hyperlink" href="recentactivity.php">See All Recent Activity >></a>
-            </div>
-        </div>
     </div>
 
     </div>

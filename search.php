@@ -1,27 +1,36 @@
 <?php
 require_once dirname(__FILE__) . '/config/config.php';
 require_once dirname(__FILE__) . '/search/SearchBuilder.php';
+
 require_once dirname(__FILE__) . '/views/search/search_panel.php';
+require_once dirname(__FILE__) . '/views/search/breadcrumb.php';
+
+// Left column
 require_once dirname(__FILE__) . '/views/search/repositories.php';
 require_once dirname(__FILE__) . '/views/search/datatypes.php';
-require_once dirname(__FILE__) . '/views/search/result_status.php';
-require_once dirname(__FILE__) . '/views/search/pagination.php';
-
-require_once dirname(__FILE__) . '/views/search/sorting.php';
-require_once dirname(__FILE__) . '/views/search/results.php';
-
-require_once dirname(__FILE__) . '/views/search/partialActivities.php';
-require_once dirname(__FILE__) . '/views/search/related_keywords.php';
+require_once dirname(__FILE__) . '/views/search/accessibility.php';
 require_once dirname(__FILE__) . '/views/feedback.php';
 
+
+// Middle column
+require_once dirname(__FILE__) . '/views/search/results.php';
+require_once dirname(__FILE__) . '/views/search/switch_view.php';
+require_once dirname(__FILE__) . '/views/search/pagination.php';
+require_once dirname(__FILE__) . '/views/search/result_status.php';
+require_once dirname(__FILE__) . '/views/search/sorting.php';
+
+// Right column
+require_once dirname(__FILE__) . '/views/search/partialActivities.php';
 require_once dirname(__FILE__) . '/views/search/synonym.php';
 require_once dirname(__FILE__) . '/views/search/search_details.php';
 
-require_once dirname(__FILE__) . '/views/search/switch_view.php';
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
 
 $searchBuilder = new SearchBuilder();
 
-
+/*Share search results*/
 if (isset($_POST['radio-share'])) {
     $shareType = $_POST['radio-share'];
     $sharedData = "";
@@ -47,8 +56,7 @@ if (isset($_POST['radio-share'])) {
         header('Content-Length: ' . strlen($sharedData));
         header('Connection: close');
         echo $sharedData;
-    }
-    // Email
+    } // Email
     else {
         require_once dirname(__FILE__) . '/vendor/swiftmailer/swiftmailer/lib/swift_required.php';
 
@@ -58,16 +66,16 @@ if (isset($_POST['radio-share'])) {
         $body = '<p>' . $_POST['EmailBody'] . '</p>' . $sharedData;
 
         $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, "ssl")
-                ->setUsername('biocaddie.mail@gmail.com')
-                ->setPassword('biocaddie4050@');
+            ->setUsername('biocaddie.mail@gmail.com')
+            ->setPassword('biocaddie4050@');
 
         $mailer = Swift_Mailer::newInstance($transport);
 
         $message = Swift_Message::newInstance('bioCaddie Data Export' . $subject)
-                ->setFrom(array($from => 'bioCaddie'))
-                ->setTo(array($to))
-                ->setBody($body)
-                ->setContentType("text/html");
+            ->setFrom(array($from => 'bioCaddie'))
+            ->setTo(array($to))
+            ->setBody($body)
+            ->setContentType("text/html");
 
         $result = $mailer->send($message);
     }
@@ -76,7 +84,9 @@ if (isset($_POST['radio-share'])) {
 <?php include dirname(__FILE__) . '/views/header.php'; ?>
 
 <div class="container">
-    <?php echo partialSearchPanel($searchBuilder); ?>   
+    <?php echo partialSearchPanel($searchBuilder); ?>
+    <?php echo breadcrumb($searchBuilder); ?>
+
     <div class="row">
         <?php /* ###### Filter Panel ###### */ ?>
         <div class="col-sm-4 col-md-3">
@@ -84,6 +94,7 @@ if (isset($_POST['radio-share'])) {
             if ($searchBuilder->getSearchType() == 'data') {
                 echo partialRepositories($searchBuilder);
                 echo partialDatatypes($searchBuilder);
+
             }
             ?>
             <div id="repo-filter"></div>
@@ -97,15 +108,16 @@ if (isset($_POST['radio-share'])) {
 
                 <?php /* ==== Pagination Panel ==== */ ?>
                 <?php if ($searchBuilder->getTotalRows() > 0): ?>
-                    <?php
-                        echo partialResultsStatus($searchBuilder);
-                    ?>
+                    <?php echo partialResultsStatus($searchBuilder);?>
                     <?php echo partialSwitch($searchBuilder); ?>
-                    <?php echo partialSorting($searchBuilder); ?>                    
                     <div class="clearfix"></div>
-                    <?php
-                        echo partialPagination($searchBuilder);
-                    ?>
+                    <?php echo partialPagination($searchBuilder);?>
+                    <div class="clearfix"></div>
+                    <div style="margin-bottom: 60px">
+                    <?php echo partialSorting($searchBuilder); ?>
+                    <?php echo partialAccessibility($searchBuilder);?>
+
+                        </div>
                 <?php endif; ?>
 
 
@@ -113,9 +125,7 @@ if (isset($_POST['radio-share'])) {
 
 
                 <?php /* ==== Search Result List ==== */ ?>
-                <?php
-                    echo partialResults($searchBuilder);
-                ?>
+                <?php echo partialResults($searchBuilder);?>
 
                 <hr>
                 <?php /* ==== Pagination Panel ==== */ ?>
@@ -124,19 +134,14 @@ if (isset($_POST['radio-share'])) {
                     <div class="clearfix"></div>
                     <?php echo partialPagination($searchBuilder); ?>
                 <?php endif; ?>
-
-
                 <div class="clearfix"></div>
             </div>
 
             <?php /* ###### Info Panel ###### */ ?>
-            <div class="col-md-3 hidden-sm">            
+            <div class="col-md-3 hidden-sm">
                 <?php echo partialActivities(); ?>
-                <?php
-                    echo partialSynonym($searchBuilder);
-                ?>
+                <?php echo partialSynonym($searchBuilder);?>
                 <?php echo partialSearchDetails($searchBuilder); ?>
-                <?php //echo partialRelatedKeywords($searchBuilder); ?>
             </div>
         </div>
     </div>

@@ -1,5 +1,4 @@
 <?php
-
 require_once '../dbcontroller.php';
 require_once '../database/Search.php';
 

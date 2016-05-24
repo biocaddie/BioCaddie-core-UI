@@ -36,4 +36,4 @@ class RandomSelector implements SelectorInterface
     }
 
 
-}//end database
+}//end class

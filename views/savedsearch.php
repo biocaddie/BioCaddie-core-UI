@@ -18,7 +18,9 @@
                 <th>Term</th>
                 </thead>
 
-                <?php foreach ($result as $row) {
+                <?php
+                if(count($result)>0){
+                foreach ($result as $row) {
                     $href = "./search.php?query=" . $row['search_term'] . "&searchtype=" . $row['search_type'];
                     $href = str_replace('"', '', $href);
                     ?>
@@ -32,7 +34,8 @@
                         <td><a class="hyperlink" href='<?php echo $href ?>'><?php echo $row['search_term'] ?></a></td>
                     </tr>
                     </tbody>
-                <?php } ?>
+                <?php }
+                }?>
             </table>
         </div>
     </div>

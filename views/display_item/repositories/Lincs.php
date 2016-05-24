@@ -62,8 +62,8 @@ function displayResult($service) {
                 <?php $newdownloadlink = "http://lincsportal.ccs.miami.edu/datasets/#/view/".$results['dataset.ID'];?>
                 <tr>
                     <td><strong> download URL:</strong></td>
-                    <td><a href="<?php echo $newdownloadlink;?>"><?php echo $newdownloadlink;?></a>
-                    </td>
+                    <td><a class="hyperlink" href="<?php echo $newdownloadlink;?>"><?php echo $newdownloadlink;?></a></td>
+
                 </tr>
                 <tr>
                     <td><strong> Release Date:</strong></td>

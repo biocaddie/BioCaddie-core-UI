@@ -37,7 +37,7 @@ class Transport
     private $connectionPool;
 
     /**
-     * @var array Array of seed nodes provided by the database
+     * @var array Array of seed nodes provided by the user
      */
     private $seeds = array();
 
@@ -59,7 +59,7 @@ class Transport
 
 
     /**
-     * Transport database is responsible for dispatching requests to the
+     * Transport class is responsible for dispatching requests to the
      * underlying cluster connections
      *
      * @param array                    $hosts  Array of hosts in cluster
@@ -181,10 +181,10 @@ class Transport
             $caughtException = $exception;
 
         } catch (Exceptions\ClientErrorResponseException $exception) {
-            throw $exception;   //We need 4xx errors to go straight to the database, no retries
+            throw $exception;   //We need 4xx errors to go straight to the user, no retries
 
         } catch (Exceptions\ServerErrorResponseException $exception) {
-            throw $exception;   //We need 5xx errors to go straight to the database, no retries
+            throw $exception;   //We need 5xx errors to go straight to the user, no retries
 
         } catch (TransportException $exception) {
             $connection->markDead();

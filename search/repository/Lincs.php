@@ -12,10 +12,11 @@ class LincsRepository extends RepositoryBase {
     public $whole_name = '';
     public $source = "https://lincs.hms.harvard.edu/db/datasets/";
     public $search_fields = ['dataset.title','protein.name', 'cellLine.name', 'biologicalProcess.name','person.name','assay'];
-    public $facets_fields = ['cellLine.name.raw','dimension.name.raw','biologicalProcess.name.raw'];
+    public $facets_fields = ['cellLine.name.raw','dataset.dataType.raw','biologicalProcess.name.raw',"assay.name.raw"];
     public $facets_show_name = ['cellLine.name.raw' => 'Cell Line',
-        'dimension.name.raw'=>'Dimension',
-        'biologicalProcess.name.raw'=>'Biological Process'
+        'dataset.dataType.raw'=>'Data Type',
+        'biologicalProcess.name.raw'=>'Biological Process',
+        "assay.name.raw"=>"Assay"
     ];
     public $index = 'lincs';
     public $type = 'dataset';

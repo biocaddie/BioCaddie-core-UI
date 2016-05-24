@@ -44,7 +44,7 @@ function displayResult($service) {
                 </tr>
                 <tr>
                     <td><strong>Pmid:</strong></td>
-                    <td><?php echo substr($results['pmid'],5);?></td>
+                    <td><a class='hyperlink' href="https://www.ncbi.nlm.nih.gov/pubmed/<?php echo substr($results['pmid'],5);?>" target="_blank"><?php echo substr($results['pmid'],5);?></td>
                 </tr>
                 </tbody>
             </table>

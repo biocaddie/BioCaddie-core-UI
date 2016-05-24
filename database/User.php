@@ -71,7 +71,6 @@ class User
 
             if($stmt->rowCount()>0){
                 if(password_verify($upass,$userRow['password'])){
-                //if($upass==$userRow['password']){
                     $_SESSION['user_session']=$userRow['user_id'];
                     $_SESSION['name']=$userRow['username'];
                     $this->uname=$userRow['username'];

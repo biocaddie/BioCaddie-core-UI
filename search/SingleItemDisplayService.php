@@ -131,7 +131,7 @@ class SingleItemDisplayService {
         $rows = $results['hits']['hits'][0]['_source'];
         $this->itemUid = $results['hits']['hits'][0]['_id'];
         $this->searchResults = [];
-        $external_link_icon = '&nbsp;&nbsp;&nbsp;<img style="height: 20px ;width:50px" src="./img/repositories/'. $this->getCurrentRepository()->id.'.png">';//' <span class="glyphicon glyphicon-new-window"></span>'
+        $external_link_icon = '&nbsp;&nbsp;&nbsp;<img style="height: 20px ;width:50px" src="./img/repositories/'. $this->getCurrentRepository()->id.'.png">';
         foreach ($core_fields as $field) {
             $keys = explode('.', $field);
             $repositoryValue = NULL;
@@ -148,8 +148,6 @@ class SingleItemDisplayService {
                 } else {
                     $repositoryValue = $rows[$keys[0]][$keys[1]][$keys[2]];
                 }
-
-                //$repositoryValue = $rows[$keys[0]][$keys[1]][$keys[2]];
             }
 
             $displayValue = is_array($repositoryValue) ? json_encode($repositoryValue) : $repositoryValue;
@@ -157,12 +155,12 @@ class SingleItemDisplayService {
             $this->searchResults[$field] = str_replace(array_keys($replaceList), array_values($replaceList), $displayValue);
 
         }
-        if ($this->getCurrentRepository()->id == "0002" || $this->getCurrentRepository()->id == "0005" || $this->getCurrentRepository()->id == "0006") {
+        if ($this->getCurrentRepository()->id == "0002" || $this->getCurrentRepository()->id == "0005" ) {
             $this->searchResults[
                     $this->getCurrentRepository()->link_field] =
                      '<a href="'
                     . $this->getCurrentRepository()->source
-                    . $this->searchResults['dataItem.ID']//. $this->searchResults[$this->getCurrentRepository()->link_field]
+                    . $this->searchResults['dataItem.ID']
                     . '" target="_blank">'
                     .$this->searchResults[$this->getCurrentRepository()->link_field]
                     .  $external_link_icon
@@ -182,12 +180,13 @@ class SingleItemDisplayService {
             $this->getCurrentRepository()->link_field] =
                 '<a href="'
                 . $this->getCurrentRepository()->source
-                . $this->searchResults['dataItem.geo_accession']//. $this->searchResults[$this->getCurrentRepository()->link_field]
+                . $this->searchResults['dataItem.geo_accession']
                 . '" target="_blank">'
                 . $this->searchResults[$this->getCurrentRepository()->link_field]
                 .  $external_link_icon
                 . '</a>';
         }elseif($this->getCurrentRepository()->id == "0004"){
+
             if (isset($rows['dataset']['ID'])) {
                 $this->searchResults[$this->getCurrentRepository()->link_field] = '<a href="http://lincsportal.ccs.miami.edu/datasets/#/view/'
                     .  $rows['dataset']['ID']
@@ -196,12 +195,22 @@ class SingleItemDisplayService {
                     .  $external_link_icon
                     . '</a>';
             }
-        } elseif ($this->getCurrentRepository()->id == "0007") {
+        }elseif($this->getCurrentRepository()->id == "0006"){
+            $this->searchResults[
+            $this->getCurrentRepository()->link_field] =
+                '<a href="'
+                . $this->getCurrentRepository()->source
+                . $this->searchResults['dataset.ID']
+                . '" target="_blank">'
+                . $this->searchResults[$this->getCurrentRepository()->link_field]
+                .  $external_link_icon
+                . '</a>';
+        }elseif ($this->getCurrentRepository()->id == "0007") {
             $this->searchResults[
                     $this->getCurrentRepository()->link_field] =
                      '<a href="'
                     . $this->getCurrentRepository()->source
-                    . $this->searchResults['accession']//. $this->searchResults[$this->getCurrentRepository()->link_field]
+                    . $this->searchResults['accession']
                     . '" target="_blank">'
                     . $this->searchResults[$this->getCurrentRepository()->link_field]
                     .  $external_link_icon
@@ -240,13 +249,7 @@ class SingleItemDisplayService {
                 . $this->searchResults[$this->getCurrentRepository()->link_field]
                 .  $external_link_icon
                 . '</a>';
-           /* $this->searchResults[
-                    $this->getCurrentRepository()->link_field] = '<a href="'
-                    . $rows['identifiers']['ID'][1]
-                    . '" target="_blank">'
-                    . $this->searchResults[$this->getCurrentRepository()->link_field]
-                    . ' <span class="glyphicon glyphicon-new-window"></span>'
-                    . '</a>';*/
+
         } elseif ($this->getCurrentRepository()->id == "0011") {
             $this->searchResults[
                     $this->getCurrentRepository()->link_field] = '<a href="'
@@ -422,6 +425,8 @@ class SingleItemDisplayService {
             }
             $this->searchResults['instrument'] = $instruments;
         } else {
+
+
             $this->searchResults[
                     $this->getCurrentRepository()->link_field] = '<a href="'
                     . $this->getCurrentRepository()->source

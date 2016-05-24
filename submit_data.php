@@ -4,14 +4,14 @@ require_once dirname(__FILE__) .'/config/config.php';
 require_once dirname(__FILE__) .'/config/datasources.php';
 require_once dirname(__FILE__) . '/search/SearchBuilder.php';
 require_once dirname(__FILE__) . '/trackactivity.php';
+require_once dirname(__FILE__) .'/search/SubmitDataService.php';
 
 include dirname(__FILE__) . '/views/header.php';
+
 ?>
-
-
 <div class="container">
     <div class="row" style="text-align:center">
-        <h3>Submit your dataset to bioCaddie DataMed</h3>
+        <h3>Get your dataset indexed in bioCaddie</h3>
     </div>
 
     <div  style="margin-top: 30px">
@@ -24,7 +24,7 @@ include dirname(__FILE__) . '/views/header.php';
 
 <?php
 /* Page Custom Scripts. */
-$scripts = ["./js/page.scripts/advanced.js"];
+$scripts = ["./js/page.scripts/submit.js"];
 ?>
 
 

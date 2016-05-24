@@ -236,23 +236,8 @@ class SearchRepositoryBuilder {
             $repositories_counts[$key] = $bucket['doc_count'];
         }
         foreach ($this->repositoryHolder->getRepositories() as $repository) {
-            /*if ($this->expanflag == 0) {
-                $search = new ExpansionSearch();
-            } else {
-                $search = new ElasticSearch();
-            }
-            $search->query = $this->getQuery();
-            $search->search_fields = $repository->search_fields;
-            $search->facets_fields = [];
-            $search->filter_fields = [];
-            $search->es_index = $repository->index;
-            $search->es_type = $repository->type;
-            $esResults = $search->getSearchRowCount();
-            $repositoryHits = $esResults['hits']['total'];*/
-
             $repositoryHits = $repositories_counts[$repository->index];
 
-            // Set the total number of documents for current repository
             $repository->num = $repositoryHits;
 
             $resultSet[$repository->show_name]['id'] = $repository->id;
@@ -403,8 +388,6 @@ class SearchRepositoryBuilder {
                         $terms = str_replace('"', '', $esResults['aggregations'][$key]['buckets']);
                         $term_array = [];
                         foreach ($terms as $term) {
-                            $name = '';
-                            $termKey = '';
                             if (isset($term['key_as_string'])) {
                                 $name = $this->encodeFacetsTerm($key, $term['key_as_string']);
                                 $termKey = $term['key_as_string'];
@@ -412,21 +395,12 @@ class SearchRepositoryBuilder {
                                 $name = $this->encodeFacetsTerm($key, $term['key']);
                                 $termKey = $term['key'];
                             }
-                            //$selected = (isset($this->selectedFilters) && array_key_exists($key, $this->selectedFilters) && in_array($termKey, $this->selectedFilters[$key])) ? true : false;
                             $selected = false;
                             array_push($term_array, ['tag_display_name' => $termKey, 'name' => $name, 'count' => $term['doc_count'], 'selected' => $selected]);
                         }
                         $displayName = $repository->facets_show_name[$key];
-                        //array_push($originalFacets, ['key' => $key, 'display_name' => $displayName, 'terms' => $term_array]);
                         $originalFacets[$key]=['display_name' => $displayName, 'terms' => $term_array];
                     }
-
-                    /*foreach(array_keys($esResults['aggregations']) as $name){
-                        $originalFacets[$name]=[];
-                        foreach($esResults['aggregations'][$name]['buckets'] as $item){
-                            $originalFacets[$name][$item['key']]=$item['doc_count'];
-                        }
-                    }*/
                     return $originalFacets;
 
                 }
