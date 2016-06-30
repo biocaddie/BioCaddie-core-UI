@@ -3,26 +3,40 @@
 
 $datatypes = getDatatypes();
 $show_flag = "none";
+$errors = '';
+$ready='';
 
 if (sizeof($_POST)>1) {
 
-    if($_POST['datarepo_datatype']=="Other"){
+    if ($_POST['datarepo_datatype'] == "Other") {
         $show_flag = "block";
     }
-    if(isset($_POST['overview'])){
-        show_table();
-    }
-    elseif(isset($_POST['submit'])){
-
-        submit_repository_to_db();
-        echo '<script type="text/javascript">';
-        echo 'alert("You submission has been received.Thank you!")';
-        echo '</script>';
+    if (isset($_POST['overview'])) {
+        show_table($errors,$ready);
+    } elseif (isset($_POST['submit'])) {
+        if (empty($_SESSION['6_letters_code']) ||
+            strcasecmp($_SESSION['6_letters_code'], $_POST['6_letters_code']) != 0
+        ) {
+            //Note: the captcha code is compared case insensitively.
+            //if you want case sensitive match, update the check above to
+            // strcmp()
+            $errors .= "\n The captcha code does not match!";
+        }
+        else{
+            $ready="yes";
+        }
+        show_table($errors,$ready);
+        if (empty($errors)) {
+            sendEmails();
+            submit_repository_to_db();
+            echo '<script type="text/javascript">';
+            echo 'alert("You submission has been received.Thank you!");';
+            echo 'document.location.href = "index.php";';
+            echo '</script>';
+        }
     }
 }
 
-
-//var_dump($_POST);
 $select1='Selected';
 $select2='';
 $select3='Selected';
@@ -39,12 +53,12 @@ if($_POST['work_question']=='Yes'){
     $select6='Selected';
 }
 function submit_repository_to_db(){
-    $objDBController = new DBController_submit();
+    $objDBController = new DBController();
     $dbconn=$objDBController->getConn();
     submit_repository($dbconn,$_POST);
 }
 
-function show_table(){?>
+function show_table($errors,$ready){?>
     <?php $showing_label=get_repository_showing_label();?>
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
     <h4>Please review your dataset information before submission</h4>
@@ -63,28 +77,77 @@ function show_table(){?>
                         <td> <?php echo $_POST[$key];?></td>
                      <?php endif; ?>
                 </tr>
-
                 <?php }}?>
-            <!--tr>
-                <td>Sample XML file:</td>
-                <td><?php echo $_FILES["uploadfile"]["name"];?></td>
-
-            </tr-->
-
 
                 </tbody>
             </table>
              </div>
          </div>
-
+        <?php $disable = "";?>
+        <?php if(!empty($errors)) {
+            echo "<p class='err' style='color:red'>" . nl2br($errors) . "</p>";
+        }?>
+        <?php if($ready=='yes'){
+             $disable="disabled";
+        }?>
+        <p>
+            <img src="html-contact-form-captcha/captcha_code_file.php?rand=<?php echo rand(); ?>" id='captchaimg' ><br>
+            <label for='message'>Enter the code above here :</label><br>
+            <input id="6_letters_code" name="6_letters_code" type="text"><br>
+            <small>Can't read the image? click <a href='javascript: refreshCaptcha();' class="hyperlink">here</a> to refresh</small>
+        </p>
         <div class="panel-footer" style="height: 60px">
             <div>
-                <button type="submit" class="btn btn-warning pull-right" id="btn-submit" name="submit">Submit</button>
+                <button type="submit" class="btn btn-warning pull-right" id="btn-submit" name="submit" <?php echo $disable;?>>Submit</button>
             </div>
         </div><!--/.panel-footer-->
     </div>
  <?php } ?>
 
+<?php function construct_message()
+{   $message = "";
+    $showing_label = get_repository_showing_label();
+    foreach (array_keys($_POST) as $key) {
+        if (strlen($_POST[$key]) > 0 && array_key_exists($key, $showing_label)) {
+
+            $message = $message. $showing_label[$key].':';
+        }
+        if ($key == "datarepo_datatype" && $_POST["datarepo_datatype"] == "Other") {
+            $message = $message. $_POST['otherDatatype'].'<br>';
+        } else {
+            $message = $message.  $_POST[$key].'<br>';
+        }
+    }
+    return $message;
+}
+
+function sendEmails(){
+    $subject = $_POST['datarepo_name'];
+
+    require_once dirname(__FILE__) . '/../../vendor/swiftmailer/swiftmailer/lib/swift_required.php';
+
+    $from = $_POST["contact_email"];
+    $to = array("xiaoling.chen@uth.tmc.edu","ruiling.liu@uth.tmc.edu","Anupama.E.Gururaj@uth.tmc.edu","Saeid.Pournejati@uth.tmc.edu");
+
+    $body = 'DataMed submit repository request review<br>
+    ----------------------------------------<br>
+    NAME: '.$_POST["contact_people"].'<br>
+    MESSAGE: '.construct_message().'<br>
+    EMAIL: '.$_POST["contact_email"];
+    $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, "ssl")
+    ->setUsername('biocaddie.mail@gmail.com')
+    ->setPassword('biocaddie4050@');
+
+    $mailer = Swift_Mailer::newInstance($transport);
+
+    $message = Swift_Message::newInstance('bioCADDIE submit repo email:' . $subject)
+    ->setFrom(array($from => 'bioCADDIE'))
+    ->setTo($to)
+    ->setBody($body)
+    ->setContentType("text/html");
+    $mailer->send($message);
+}
+?>
 
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         <div class="panel panel-info">
@@ -258,9 +321,17 @@ function show_table(){?>
 
 
 <script>
+
     $(document).ready(function(){
         $('[data-toggle="popover"]').popover();
     });
+
+    function refreshCaptcha()
+    {
+        var img = document.images['captchaimg'];
+        img.src = img.src.substring(0,img.src.lastIndexOf("?"))+"?rand="+Math.random()*1000;
+    }
+
 </script>
 
 

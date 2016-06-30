@@ -54,6 +54,7 @@ if (!isset($_SESSION['name'])) {
         $create_time = date("Y-m-d H:i:s");
         $collectionID = 0;
 
+        // Add to a new collection
         if ($collectionType == "new") {
             $collection_name = $_POST['collectionName'];
 
@@ -66,8 +67,10 @@ if (!isset($_SESSION['name'])) {
                     $usercollection->setCollectionName($collection_name);
                     $usercollection->setCreateTime($create_time);
                     $usercollection->setSettings($setting);
+
+                    // Create a new collection
+
                     $collectionID = $usercollection->createCollection($dbconn);
-                    $collectionID = $collectionID[0]['collection_id'];
 
                     $usercollection->setCollectionId($collectionID);
 
@@ -118,7 +121,9 @@ if (!isset($_SESSION['name'])) {
                     $error[] = "Please provide a unique collection name. A collection with the same name already exists.";
                 }
             }
-        } elseif ($collectionType == "existing") {
+        }
+        // Add to an exisitng collection
+        elseif ($collectionType == "existing") {
             // Get collection id using user email and collection name
             $collection_name = $_POST['selectName'];
             $usercollection->setCollectionName($collection_name);

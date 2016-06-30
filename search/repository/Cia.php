@@ -4,12 +4,12 @@ require_once dirname(__FILE__) . '/RepositoryBase.php';
 
 class CiaRepository extends RepositoryBase {
 
-    public $show_name = 'CIA';
-    public $whole_name ='Cancer&nbsp;Imaging&nbsp;Archive';
+    public $show_name = 'TCIA';
+    public $whole_name ='The&nbsp;Cancer&nbsp;Imaging&nbsp;Archive';
     public $id = '0016';
     public $source = "";
 
-    public $search_fields = ['dataset.ID', 'dataset.title', 'dataset.creator'];
+    public $search_fields = ['dataset.title', 'dataset.creator','organism.name','disease.name'];
     public $facets_fields = ['dataset.creator','dataset.license','dataset.status'];
     public $facets_show_name = [
         'dataset.creator' => 'Creator',

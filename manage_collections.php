@@ -24,7 +24,6 @@ if(isset($_SESSION['email'])){
 ?>
 
 <?php include dirname(__FILE__) . '/views/header.php'; ?>
-<?php include dirname(__FILE__) . '/views/breadcrumb.php'; ?>
 
 <?php
     if(isset($_GET['name'])){

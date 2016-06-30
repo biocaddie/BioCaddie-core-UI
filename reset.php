@@ -43,11 +43,21 @@ if (isset($_POST["ResetPasswordForm"]))
             echo "<div class='container'>Your password has been successfully reset.</div>";
             include dirname(__FILE__) . '/views/footer.php';
         }
-        else
-            echo "Your password's do not match.";
+        else{
+            include dirname(__FILE__) . '/views/header.php';
+            echo "<div class='container'>Your password's do not match.</div>";
+            include dirname(__FILE__) . '/views/footer.php';
+        }
     }
-    else
-        echo "Your password reset key is invalid.";
+    else{
+        include dirname(__FILE__) . '/views/header.php';
+        echo "<div class='container'>Your password reset key is invalid.</div>";
+        include dirname(__FILE__) . '/views/footer.php';
+    }
+
+}else{
+    header('Location: index.php');
+    exit;
 }
 
 ?>

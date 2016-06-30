@@ -2,12 +2,13 @@
 
 // Import ElasticSearch library.
 require_once dirname(__FILE__) . '/server.php';
+require_once dirname(__FILE__) . '/config.php';
 require_once dirname(__FILE__) . '/../vendor/autoload.php';
 
 // ElasticSearch Configuration.
 //$es_end_point = '129.106.149.72:9200';
-$es_end_point = '129.106.31.121:9200';
-
+//$es_end_point = '129.106.31.121:9200';
+global $es_end_point;
 // Set development server to local instance. 
 if ($config_switch == 1) {
     $es_end_point = '127.0.0.1:9200';
@@ -106,12 +107,12 @@ function getElasticSearchIndexes() {
 
 }
 
-// Returns a list of accessibility.
+// Returns a list of accessibility types.
 function getAllAccess() {
     return ['download', 'remoteAccess', 'remoteService', 'enclave','notAvailable'];
 }
 
-// Returns data types mapping to elastic search indexes.
+// Returns accessibility types mapping to elastic search indexes.
 function getAccessibilityMapping() {
     return ['download' => ['phenodisco','pdb','geo','lincs','gemma',
                             'arrayexpress','sra','bioproject','clinicaltrials','dryad',
@@ -124,3 +125,23 @@ function getAccessibilityMapping() {
         'notAvailable' => [],
     ];
 }
+
+// Return a list of authorization types
+function getAllAuth(){
+    return ['none','clickLicense','registration','duaIndividual','duaInstitution'];
+}
+
+// Return authorization types mapping to elasticsearch indexes.
+function getAuthMapping(){
+    return [
+        'none'=>['phenodisco','pdb','geo','lincs','gemma',
+                'arrayexpress','sra','bioproject','clinicaltrials','dryad',
+                'cvrg','neuromorpho','peptideatlas','cia','mpd',
+                'openfmri','nursadatasets','physiobank','proteomexchange','yped'],
+        'clickLicense'=>['dataverse'],
+        'registration'=>['ctn','niddkcr'],
+        'duaIndividual'=>[],
+        'duaInstitution'=>[]
+    ];
+}
+

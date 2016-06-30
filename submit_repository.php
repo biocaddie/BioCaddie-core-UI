@@ -11,7 +11,7 @@ include dirname(__FILE__) . '/views/header.php';
 
 <div class="container">
     <div class="row" style="text-align:center">
-        <h3>Get your repository indexed in bioCaddie</h3>
+        <h3>Get your repository indexed in bioCADDIE</h3>
     </div>
 
     <div  style="margin-top: 30px">

@@ -69,18 +69,22 @@ class UserCollection{
     }
 
 
-    public function createCollection ($dbconn){
+    public function createCollection ($dbconn)
+    {
+        $getUserEmail = $this->getUserEmail();
+        $getCollectionName = $this->getCollectionName();
+        $getCreateTime = $this->getCreateTime();
+        $getSettings = $this->getSettings();
+
         try{
             $stmt=$dbconn->prepare("INSERT INTO user_collections(user_email,collection_name,create_time, settings) VALUES (:user_email,:collection_name,:create_time,:settings)");
-            $stmt->bindparam(":user_email",$this->getUserEmail());
-            $stmt->bindparam(":collection_name",$this->getCollectionName());
-            $stmt->bindparam(":create_time",$this->getCreateTime());
-            $stmt->bindparam(":settings",$this->getSettings());
+            $stmt->bindparam(":user_email",$getUserEmail);
+            $stmt->bindparam(":collection_name",$getCollectionName);
+            $stmt->bindparam(":create_time",$getCreateTime);
+            $stmt->bindparam(":settings",$getSettings);
             $stmt->execute();
 
             $result = $dbconn->lastInsertId();
-
-            $dbconn = null;
             return $result;
 
         }catch(PDOException $e){
@@ -89,10 +93,12 @@ class UserCollection{
 
     }
 
-    public function getCollections ($dbconn){
+    public function getCollections ($dbconn)
+    {
+        $getUserEmail = $this->getUserEmail();
         try{
             $stmt = $dbconn->prepare("SELECT collection_name FROM user_collections WHERE user_email=:uemail");
-            $stmt -> execute(array(':uemail'=>$this->user_email));
+            $stmt -> execute(array(':uemail'=>$getUserEmail));
             $result = $stmt ->fetchAll();
 
             $dbconn = null;
@@ -103,11 +109,14 @@ class UserCollection{
 
     }
 
-    public function searchCollectionId($dbconn){
+    public function searchCollectionId($dbconn)
+    {
+        $getUserEmail = $this->getUserEmail();
+        $getCollectionName = $this->getCollectionName();
         try{
             $stmt = $dbconn->prepare("SELECT collection_id FROM user_collections WHERE user_email=:user_email AND collection_name=:collection_name");
-            $stmt->bindparam(":user_email",$this->user_email);
-            $stmt->bindparam(":collection_name",$this->collection_name);
+            $stmt->bindparam(":user_email",$getUserEmail);
+            $stmt->bindparam(":collection_name",$getCollectionName);
             $stmt -> execute();
             $result = $stmt ->fetchAll();
 
@@ -119,11 +128,14 @@ class UserCollection{
 
     }
 
-    public function showPartialCollections($dbconn){
+    public function showPartialCollections($dbconn)
+    {
+        $getUserEmail = $this->getUserEmail();
         try{
-
-            $sql ="SELECT * FROM user_collections WHERE user_email="."'".$this->user_email."' ORDER BY create_time DESC LIMIT 5";
-            $result = $dbconn->query($sql);
+            $stmt = $dbconn->prepare("SELECT * FROM user_collections WHERE user_email=:user_email ORDER BY create_time DESC LIMIT 5");
+            $stmt->bindparam(":user_email",$getUserEmail);
+            $stmt -> execute();
+            $result = $stmt ->fetchAll();
 
             $dbconn = null;
             return $result;
@@ -133,11 +145,14 @@ class UserCollection{
 
     }
 
-    public function showCollections($dbconn){
+    public function showCollections($dbconn)
+    {
+        $getUserEmail = $this->getUserEmail();
         try{
-
-            $sql ="SELECT * FROM user_collections WHERE user_email="."'".$this->user_email."' ORDER BY create_time DESC";
-            $result = $dbconn->query($sql);
+            $stmt = $dbconn->prepare("SELECT * FROM user_collections WHERE user_email=:user_email ORDER BY create_time DESC");
+            $stmt->bindparam(":user_email",$getUserEmail);
+            $stmt -> execute();
+            $result = $stmt ->fetchAll();
 
             $dbconn = null;
             return $result;
@@ -147,10 +162,12 @@ class UserCollection{
 
     }
 
-    public function is_collection_name_exist($dbconn,$newname){
+    public function is_collection_name_exist($dbconn,$newname)
+    {
+        $getUserEmail = $this->getUserEmail();
         try{
             $stmt = $dbconn->prepare("SELECT collection_name FROM user_collections WHERE user_email=:uemail AND collection_name=:collection_name");
-            $stmt->bindparam(":uemail",$this->getUserEmail());
+            $stmt->bindparam(":uemail",$getUserEmail);
             $stmt->bindparam(":collection_name",$newname);
             $stmt -> execute();
 
@@ -169,18 +186,38 @@ class UserCollection{
 
     }
 
-    public function deleteCollection($dbconn){
+    public function deleteCollection($dbconn)
+    {
+        $getCollectionId = $this->getCollectionId();
         try{
-            $sql ="DELETE FROM user_collections WHERE collection_id=".$this->getCollectionId();
-            $result = $dbconn->query($sql);
-            $dbconn = null;
-            return $result;
+            $stmt = $dbconn->prepare("DELETE FROM user_collections WHERE collection_id=:collection_id");
+            $stmt->bindparam(":collection_id",$getCollectionId);
+            $stmt -> execute();
+
+            return true;
 
         }catch(PDOException $e){
             echo $e->getMessage();
         }
     }
 
+    public function Is_valid_User($dbconn, $collection_id, $user_email)
+    {
+        try{
 
+            //Get the user email of the collection id
+            $stmt = $dbconn -> prepare("SELECT user_email FROM biocaddie.user_collections WHERE collection_id = :collection_id");
+            $stmt->bindparam(":collection_id",$collection_id);
+            $stmt->execute();
+            $result = $stmt ->fetchAll();
+            $email = $result[0][0];
+
+            return $user_email == $email;
+
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+
+    }
 
 }

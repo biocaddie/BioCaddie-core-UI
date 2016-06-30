@@ -11,7 +11,7 @@ class DbGapRepository extends RepositoryBase {
     public $whole_name = 'The&nbsp;database&nbsp;of&nbsp;Genotypes&nbsp;and&nbsp;Phenotypes ';
     public $id = '0001';
     public $source = "http://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=";
-    public $search_fields = ['title', 'category', 'disease', 'MESHterm'];
+    public $search_fields = ['IDName','title', 'category', 'disease', 'MESHterm'];
     public $facets_fields = ['ConsentType', 'IRB'];
     public $facets_show_name = ['ConsentType' => 'Consent Type', 'IRB' => 'IRB'];
     public $index = 'phenodisco';

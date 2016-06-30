@@ -4,8 +4,9 @@ require_once dirname(__FILE__) . '/../config/datasources.php';
 require_once dirname(__FILE__) . '/Repositories.php';
 require_once dirname(__FILE__) . '/ElasticSearch.php';
 require_once dirname(__FILE__) . '/ExpansionSearch.php';
+require_once dirname(__FILE__) . '/NLPSearch.php';
 require_once dirname(__FILE__) . '/../write_mysql_log.php';
-require_once dirname(__FILE__) .'/../dbcontroller.php';
+require_once dirname(__FILE__) . '/../dbcontroller.php';
 date_default_timezone_set('America/Chicago');
 
 class SearchRepositoryBuilder {
@@ -26,8 +27,8 @@ class SearchRepositoryBuilder {
     private $currentRepository;
 
     public function getSearchType() {
-        if(!$this->searchtype){
-            $this->searchtype="data";
+        if (!$this->searchtype) {
+            $this->searchtype = "data";
         }
         return $this->searchtype;
     }
@@ -39,6 +40,7 @@ class SearchRepositoryBuilder {
     public function getCurrentRepositoryname() {
         return $this->currentRepositoryname;
     }
+
     // Page number.
     private $offset;
 
@@ -53,12 +55,14 @@ class SearchRepositoryBuilder {
         return $this->sort;
     }
 
-    // Number of rows per page.
-    public function getRowsLimit() {
-        return 10;
-    }
+    // Rows per page.
+    private $rowsPerPage;
 
     // Number of rows per page.
+    public function getRowsPerPage() {
+        return $this->rowsPerPage;
+    }
+
     private $totalRows;
 
     public function getTotalRows() {
@@ -108,25 +112,32 @@ class SearchRepositoryBuilder {
             exit;
         }
 
-        /* Track user's activity*/
-        $log_date= date("Y-m-d H:i:s");;
-        $message= $this->query .' ('. $this->searchtype.')';
-        $user_email=$_SESSION['email'];
+        /* Track user's activity */
+        $log_date = date("Y-m-d H:i:s");
+        ;
+        $message = $this->query . ' (' . $this->searchtype . ')';
+        $user_email = $_SESSION['email'];
         $objDBController = new DBController();
-        $dbconn=$objDBController->getConn();
-        $referral=$_SERVER["HTTP_REFERER"];
-        write_mysql_log($dbconn,$log_date,$message,$user_email,session_id(),$referral);
+        $dbconn = $objDBController->getConn();
+        $referral = $_SERVER["HTTP_REFERER"];
+        write_mysql_log($dbconn, $log_date, $message, $user_email, session_id(), $referral);
+
+        if (!$this->isBoolSearch($this->query)) {
+            $this->expanflag = 0; // expansion
+        } else {
+            $this->expanflag = 1; // no expansion
+        }
 
         $this->repositoryHolder = new Repositories();
 
         $this->setPageNumber();
+        $this->setRowsPerPageField();
         $this->setSortField();
         $this->setRowRange();
         $this->setSelectedFilters();
 
         $this->setSearchResults();
         $this->setRepositories();
-
     }
 
     private function loadSearchType() {
@@ -138,8 +149,10 @@ class SearchRepositoryBuilder {
     private function loadQuery() {
         $this->query = filter_input(INPUT_GET, "query", FILTER_SANITIZE_STRING);
         if ($this->query === NULL || strlen($this->query) == 0) {
-            return false;
+            $this->query = " ";
         }
+
+
 
         // To track database's search history
         if (!isset($_SESSION["history"])) {
@@ -171,6 +184,13 @@ class SearchRepositoryBuilder {
         }
     }
 
+    private function setRowsPerPageField() {
+        $this->rowsPerPage = filter_input(INPUT_GET, "rowsPerPage", FILTER_SANITIZE_STRING);
+        if (!isset($this->rowsPerPage)) {
+            $this->rowsPerPage = 20;
+        }
+    }
+
     // Loads selected field to sort the result.
     private function setSortField() {
         $this->sort = filter_input(INPUT_GET, "sort", FILTER_SANITIZE_STRING);
@@ -195,12 +215,15 @@ class SearchRepositoryBuilder {
 
     // Count the total number of relavant results from the query.
     private function setSearchResults() {
+
         foreach ($this->repositoryHolder->getRepositories() as $repository) {
+
             if ($repository->id == $this->getCurrentRepository()) {
-                if ($this->expanflag == 0) {
-                    $search = new ExpansionSearch();
-                } else {
+                if ($this->expanflag == 1 || $this->query==" ") { // if query term is null, don't use query expansion
                     $search = new ElasticSearch();
+                } else {
+                    $search = new ExpansionSearch();
+                    //$search = new NLPSearch();
                 }
                 $search->search_fields = $repository->search_fields;
                 $search->facets_fields = $repository->facets_fields;
@@ -208,10 +231,12 @@ class SearchRepositoryBuilder {
                 $search->filter_fields = isset($this->selectedFilters) ? $this->selectedFilters : [];
                 $search->es_index = $repository->index;
                 $search->es_type = $repository->type;
+                $search->rowsPerPage = $this->getRowsPerPage();
                 $search->offset = $this->getOffset();
                 $search->sort = $this->getSort();
 
                 $esResults = $search->getSearchResult();
+
                 $this->setFilters($esResults, $repository);
 
                 $esItems = $esResults['hits']['hits'];
@@ -243,7 +268,7 @@ class SearchRepositoryBuilder {
             $resultSet[$repository->show_name]['id'] = $repository->id;
             $resultSet[$repository->show_name]['selected'] = $repository->id == $this->getCurrentRepository() ? true : false;
             $resultSet[$repository->show_name]['rows'] = ($repositoryHits == NULL ? 0 : $repository->num);
-            $resultSet[$repository->show_name]['whole'] =$repository->whole_name;
+            $resultSet[$repository->show_name]['whole'] = $repository->whole_name;
         }
         $this->repositories = $resultSet;
     }
@@ -283,24 +308,33 @@ class SearchRepositoryBuilder {
     }
 
     public function setRowRange() {
-        $start = ((($this->offset - 1) * $this->getRowsLimit()) + 1);
-        $end = (($this->offset - 1) * $this->getRowsLimit()) + $this->getRowsLimit();
+        $start = ((($this->offset - 1) * $this->getRowsPerPage()) + 1);
+        $end = (($this->offset - 1) * $this->getRowsPerPage()) + $this->getRowsPerPage();
         $this->rowRange = $start . '-' . $end;
     }
 
     public function getUrlWithQyery() {
-        return 'search-repository.php?query=' . $this->getQuery() . '&repository=' . $this->getCurrentRepository() . '&searchtype=' .$this->searchtype;
+        return 'search-repository.php?query=' . $this->getQuery() . '&repository=' . $this->getCurrentRepository() . '&searchtype=' . $this->searchtype;
     }
 
     public function getUrlByOffset($newOffset) {
         $returnValue = $this->getUrlWithQyery() . '&offset=' . $newOffset;
         $returnValue .= $this->getSortUrl();
+        $returnValue .= $this->getRowsPerPageQueryString();
         $returnValue .= $this->getFiltersUrl();
         return $returnValue;
     }
 
     public function getUrlBySort($sort) {
         $returnValue = $this->getUrlWithQyery() . '&offset=1&sort=' . $sort;
+        $returnValue .= $this->getRowsPerPageQueryString();
+        $returnValue .= $this->getFiltersUrl();
+        return $returnValue;
+    }
+
+    public function getUrlByRowsPerPage($rowsPerPage) {
+        $returnValue = $this->getUrlWithQyery() . '&offset=1&rowsPerPage=' . strval($rowsPerPage);
+        $returnValue .= $this->getSortUrl();
         $returnValue .= $this->getFiltersUrl();
         return $returnValue;
     }
@@ -332,17 +366,24 @@ class SearchRepositoryBuilder {
                 $filtersText .= '$';
             }
             $filtersText = substr($filtersText, 0, -1);
-            return $this->getUrlWithQyery() . '&offset=1' . $this->getSortUrl() . '&filters=' . $filtersText;
+            return $this->getUrlWithQyery() . '&offset=1' . $this->getSortUrl() . $this->getRowsPerPageQueryString() . '&filters=' . $filtersText;
         }
-        return $this->getUrlWithQyery() . '&offset=1' . $this->getSortUrl();
+        return $this->getUrlWithQyery() . '&offset=1' . $this->getSortUrl() . $this->getRowsPerPageQueryString();
     }
 
     public function getUrlByRepository($repository) {
-        return 'search-repository.php?query=' . $this->getQuery() . '&repository=' . $repository . '&searchtype=' .$this->searchtype;
+        return 'search-repository.php?query=' . $this->getQuery() . '&repository=' . $repository . '&searchtype=' . $this->searchtype;
     }
 
     public function getbackUrlByRepository($repository) {
-        return 'search.php?query=' . $this->getQuery() . '&repository=' . $repository . '&searchtype=' .$this->searchtype;
+        return 'search.php?query=' . $this->getQuery() . '&repository=' . $repository . '&searchtype=' . $this->searchtype;
+    }
+
+    private function getRowsPerPageQueryString() {
+        if (isset($this->rowsPerPage) && $this->rowsPerPage != 20) {
+            return '&rowsPerPage=' . $this->rowsPerPage;
+        }
+        return '';
     }
 
     private function getSortUrl() {
@@ -364,60 +405,64 @@ class SearchRepositoryBuilder {
         }
         return '';
     }
-    public function getSearchResultsNoFilter(){
-            $originalFacets = [];
-            foreach ($this->repositoryHolder->getRepositories() as $repository) {
-                if ($repository->id == $this->getCurrentRepository()) {
-                    if ($this->expanflag == 0) {
-                        $search = new ExpansionSearch();
-                    } else {
-                        $search = new ElasticSearch();
-                    }
-                    $search->search_fields = $repository->search_fields;
-                    $search->facets_fields = $repository->facets_fields;
-                    $search->query = $this->getQuery();
-                    $search->filter_fields = [];
-                    $search->es_index = $repository->index;
-                    $search->es_type = $repository->type;
-                    $search->offset = $this->getOffset();
-                    $search->sort = $this->getSort();
-                    $esResults = $search->getSearchResult();
-                    $keys = array_keys($esResults['aggregations']);
 
-                    foreach ($keys as $key) {
-                        $terms = str_replace('"', '', $esResults['aggregations'][$key]['buckets']);
-                        $term_array = [];
-                        foreach ($terms as $term) {
-                            if (isset($term['key_as_string'])) {
-                                $name = $this->encodeFacetsTerm($key, $term['key_as_string']);
-                                $termKey = $term['key_as_string'];
-                            } else {
-                                $name = $this->encodeFacetsTerm($key, $term['key']);
-                                $termKey = $term['key'];
-                            }
-                            $selected = false;
-                            array_push($term_array, ['tag_display_name' => $termKey, 'name' => $name, 'count' => $term['doc_count'], 'selected' => $selected]);
-                        }
-                        $displayName = $repository->facets_show_name[$key];
-                        $originalFacets[$key]=['display_name' => $displayName, 'terms' => $term_array];
-                    }
-                    return $originalFacets;
-
+    public function getSearchResultsNoFilter() {
+        $originalFacets = [];
+        foreach ($this->repositoryHolder->getRepositories() as $repository) {
+            if ($repository->id == $this->getCurrentRepository()) {
+                if ($this->expanflag == 1 || $this->query==" ") { // if query term is null, don't use query expansion
+                    $search = new ElasticSearch();
+                } else {
+                    $search = new ExpansionSearch();
+                    //$search = new NLPSearch();
                 }
+                $search->search_fields = $repository->search_fields;
+                $search->facets_fields = $repository->facets_fields;
+                $search->query = $this->getQuery();
+                $search->filter_fields = [];
+                $search->es_index = $repository->index;
+                $search->es_type = $repository->type;
+                $search->offset = $this->getOffset();
+                $search->sort = $this->getSort();
+                $esResults = $search->getSearchResult();
+                $keys = array_keys($esResults['aggregations']);
+
+                foreach ($keys as $key) {
+                    $terms = str_replace('"', '', $esResults['aggregations'][$key]['buckets']);
+                    $term_array = [];
+                    foreach ($terms as $term) {
+                        if (isset($term['key_as_string'])) {
+                            $name = $this->encodeFacetsTerm($key, $term['key_as_string']);
+                            $termKey = $term['key_as_string'];
+                        } else {
+                            $name = $this->encodeFacetsTerm($key, $term['key']);
+                            $termKey = $term['key'];
+                        }
+                        $selected = false;
+                        array_push($term_array, ['tag_display_name' => $termKey, 'name' => $name, 'count' => $term['doc_count'], 'selected' => $selected]);
+                    }
+                    $displayName = $repository->facets_show_name[$key];
+                    $originalFacets[$key] = ['display_name' => $displayName, 'terms' => $term_array];
+                }
+                return $originalFacets;
             }
         }
-    private function get_search_object_of_all_repositories()
-    {
+    }
+
+    private function get_search_object_of_all_repositories() {
         $elasticSearchIndexes = getElasticSearchIndexes();
 
-        if ($this->expanflag == 0) {
-            $search = new ExpansionSearch();
-        } else {
+        if ($this->expanflag == 1 || $this->query==" ") { // if query term is null, don't use query expansion
             $search = new ElasticSearch();
+        } else {
+            $search = new ExpansionSearch();
+            //$search = new NLPSearch();
         }
+
+
         $search->search_fields = $this->repositoryHolder->getSearchFields();
         $search->facets_fields = ['_index'];
-        $search->facet_size = 20;
+        $search->facet_size = 300;
         $search->query = $this->getQuery();
         $search->filter_fields = [];
         $search->es_index = $elasticSearchIndexes;
@@ -426,22 +471,29 @@ class SearchRepositoryBuilder {
         $search->sort = $this->getSort();
         return $search;
     }
-    public function get_selected_filters_info(){
+
+    public function get_selected_filters_info() {
         $show = '';
-        foreach(array_keys($this->selectedFilters) as $key){
-            foreach($this->selectedFilters[$key] as $value){
-                if(strlen($show)==0){
+        foreach (array_keys($this->selectedFilters) as $key) {
+            foreach ($this->selectedFilters[$key] as $value) {
+                if (strlen($show) == 0) {
                     $show = $value;
-                }
-                else {
+                } else {
                     $show = $show . ', ' . $value;
                 }
             }
         }
-        if(strlen($show)>0){
-            $show = '&nbsp;&nbsp;&nbsp;&nbsp;Filters activated: <strong>'.$show.'</strong>';
+        if (strlen($show) > 0) {
+            $show = '&nbsp;&nbsp;&nbsp;&nbsp;Filters activated: <strong>' . $show . '</strong>';
         }
         return $show;
+    }
 
+    public function isBoolSearch($query) {
+        if (preg_match('/(AND|OR|NOT|\[|\])/', $query)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

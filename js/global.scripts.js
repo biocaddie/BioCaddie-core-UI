@@ -44,17 +44,9 @@ $(document).ready(function () {
             }
         });
         selectedRows = selectedRows.substr(0, selectedRows.length - 1);
-        if (selectedRows === '')
-        {
-            alert('You have to select a record to share first.');
-            event.preventDefault();
-            return false;
-        }
-        else {
-            var input = $("<input name='selected-rows'>").attr("type", "hidden").val(selectedRows);
-            $('#share-form').append($(input));
-            $('#myModal').modal('hide');
-        }
+        var input = $("<input name='selected-rows'>").attr("type", "hidden").val(selectedRows);
+        $('#share-form').append($(input));
+        $('#myModal').modal('hide');
     });
 
     $("input[name='share-check'][type='checkbox']").change(function () {
@@ -88,11 +80,18 @@ function updateSelectedSharedItems() {
         }
     });
     if (count === 0) {
-        $('#share-btn').hide();
+        $('[name="share-qty"]').text("");
+        $('#lbl-share-all').removeClass("hidden");
+        $('#lbl-share-some').addClass("hidden");
+        $('#share-clear').addClass("hidden");
+        $('#collection-share').addClass("hidden");
     }
     else {
-        $('#share-btn').show();
-        $('#share-qty').text(count);
+        $('[name="share-qty"]').text(count);
+        $('#lbl-share-all').addClass("hidden");
+        $('#lbl-share-some').removeClass("hidden");
+        $('#share-clear').removeClass("hidden");
+        $('#collection-share').removeClass("hidden");
     }
 }
 

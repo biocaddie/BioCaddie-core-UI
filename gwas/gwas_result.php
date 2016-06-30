@@ -7,19 +7,19 @@ require_once 'helper_functions.php';
 $offset = 1;
 
 if (isset($_GET['offset'])) {
-    $offset = $_GET['offset'];
+    $offset = htmlentities($_GET['offset']);
 }
 if (isset($_GET['query1'])) {
-    $q = $_GET['query1'];
+    $q = htmlentities($_GET['query1']);
     //echo $offset;
 }
 if (isset($_GET['query2'])) {
-    $r = $_GET['query2'];
+    $r = htmlentities($_GET['query2']);
     //echo $offset;
 }
 #echo print_r($_GET);
 if (strlen($_GET['query3']) > 0) {
-    $s = $_GET['query3'];
+    $s = htmlentities($_GET['query3']);
     #echo $s;
     $query = $es->search([
         'index' => ['gwas3'],
@@ -32,13 +32,13 @@ if (strlen($_GET['query3']) > 0) {
                         0 => ['multi_match' => [
                                 'fields' => ['trait', 'platform', 'source', 'stage', 'ethnicity'],
                                 'query' => $q,
-                                'fuzziness' => 'AUTO',
+                                //'fuzziness' => 'AUTO',
                                 'operator' => 'and',
                                 'zero_terms_query' => 'all']],
                         1 => ['multi_match' => [
                                 'fields' => ['trait', 'platform', 'source', 'stage', 'ethnicity'],
                                 'query' => $r,
-                                'fuzziness' => 'AUTO',
+                                //'fuzziness' => 'AUTO',
                                 'operator' => 'and',
                                 'zero_terms_query' => 'all']],
                         2 => ['range' => ['case_size' => ['gte' => $s]]]
@@ -76,13 +76,13 @@ if (strlen($_GET['query3']) > 0) {
                         0 => ['multi_match' => [
                                 'fields' => ['trait', 'platform', 'source', 'stage', 'ethnicity'],
                                 'query' => $q,
-                                'fuzziness' => 'AUTO',
+                                //'fuzziness' => 'AUTO',
                                 'operator' => 'and',
                                 'zero_terms_query' => 'all']],
                         1 => ['multi_match' => [
                                 'fields' => ['trait', 'platform', 'source', 'stage', 'ethnicity'],
                                 'query' => $r,
-                                'fuzziness' => 'AUTO',
+                                //'fuzziness' => 'AUTO',
                                 'operator' => 'and',
                                 'zero_terms_query' => 'all']],
                     #2=>['range'=>['case_size'=>['gte'=>$s]]]

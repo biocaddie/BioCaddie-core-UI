@@ -2,12 +2,6 @@
 
 class GoogleUser
 {
-    private $member_email;
-    private $member_name;
-    private $oauth_user_id;
-    private $oauth_user_page;
-    private $oauth_user_photo;
-    private $user_user_id;
 
     private $dbconn;
 

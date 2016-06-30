@@ -27,7 +27,6 @@ if(isset($_POST['submit']))
 	// strcmp()
 		$errors .= "\n The captcha code does not match!";
 	}
-	
 	if(empty($errors))
 	{
 		//send the email
@@ -35,7 +34,8 @@ if(isset($_POST['submit']))
 		postToGitHub();
 
 		echo '<script type="text/javascript">';
-		echo 'alert("You request has been received and posted to <a class="hyperlink" href = "https://github.com/biocaddie/prototype_issues/issues">GitHub </a>. We will contact you soon.")';
+		echo 'alert("You request has been received and posted to GitHub We will contact you soon.")';
+		//echo 'alert("You request has been received and posted to <a class="hyperlink" href = "https://github.com/biocaddie/prototype_issues/issues">GitHub </a>. We will contact you soon.")';
 		echo '</script>';
 	}
 }
@@ -85,10 +85,21 @@ function postToGitHub(){
 		<br>
 
 		<!-- <p style="text-align:center;font-size:20px">              About</p>-->
-		<p class="about_style">   We at the bioCADDIE (biomedical and healthcare Data Discovery Index Ecosystem) are developing a prototype of a data discovery index (DDI) to help you search and find datasets you’re interested in. Our prototype aims to provide:</p>
 
-		<p class="about_style">   1.         A free, user-friendly means for you to locate data sets of interest.</p>
-		<p class="about_style">   2.         Standardized, searchable information (metadata) about the contents of a data set.</p>
+		<p class="about_style">DataMed is a prototype biomedical data search engine. Its goal is to discover data sets across data repositories or data aggregators.
+			In the future it will allow searching outside these boundaries. DataMed supports the NIH-endorsed  <a class="hyperlink" href="http://www.nature.com/articles/sdata201618">FAIR</a> principles of Findability, Accessibility, Interoperability
+			and Reusability of datasets with current functionality assisting in finding datasets and providing access information about them.</p>
+
+		<p class="about_style">The data repositories covered in this initial release have been selected by the bioCADDIE team and represent only a small sample of biomedical data. Many highly
+			relevant data sets have not yet been indexed. Please provide <a class='hyperlink' href="submit_repository.php">suggestions</a> on data repositories that DataMed should cover.</p>
+
+		<p class="about_style">The translation of user queries into structured data used in the search is being refined. Advanced search allows users to structure their queries.
+			Some DataMed search features are not yet available for all data. Please provide feedback about the quality of search results.</p>
+
+		<p class="about_style">DataMed indexes the core metadata available for most datasets, but it offers enhanced search functions when repositories provide additional metadata.
+			The Data Tag Suite <a class='hyperlink' href ="https://biocaddie.org/group/working-group/working-group-3-descriptive-metadata-datasets"> (DATS)</a> metadata specification
+			has evolved with input from the community and will include a schema.org annotated serialization.</p>
+
 
 		<p class="about_style">   You can use the web interface and provide us  feedback <a class="hyperlink" href="./feedback.php">here </a> about your search experience. This is a prototype in development and your valuable suggestions and comments will help us to make the system better.</p>
 
@@ -128,12 +139,14 @@ function postToGitHub(){
 			</p>
 					<div class="row" >
 					<div class ="col-md-1">
-			    <input type="submit" value="Submit" name='submit'  class="btn btn-warning" onclick="process()" id="submitBtn" style="margin-bottom: 20px">
+			    <!--<input type="submit" value="Submit" name='submit'  class="btn btn-warning" onclick="process()" id="submitBtn" style="margin-bottom: 20px">-->
+				<input type="submit" value="Submit" name='submit'  class="btn btn-warning"  id="submitBtn" style="margin-bottom: 20px">
 						</div>
 </div>
 			</div>
 		</form>
     </div>
+
 </div>
 
 
@@ -148,10 +161,12 @@ function refreshCaptcha()
 
 
 /*show loading sign on button click*/
-function process(){
+/*function process(){
 	$('#submitBtn').prop("disabled",true);
-	alert("Your request has been received.");
-}
+	//alert("Your request has been received.");
+
+}*/
+
 </script>
 </body>
 </html>

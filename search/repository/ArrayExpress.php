@@ -9,7 +9,7 @@ class ArrayExpressRepository extends RepositoryBase {
     public $id = '0006';
     public $source = "https://www.ebi.ac.uk/arrayexpress/experiments/";
 
-    public $search_fields = [ 'dataset.description', 'dataset.title','dataset.dataType','treatment.title'];
+    public $search_fields = [ 'dataset.ID','dataset.description', 'dataset.title','dataset.dataType','treatment.title'];
     public $facets_fields = ['dataset.dataType','dataset.keywords'];
     public $facets_show_name = [
         'dataset.dataType'=>'Data Type',

@@ -11,26 +11,26 @@
   <meta name="author" content="">
   <link rel="icon" href="../../favicon.ico">
   <!--<script src="./js/bootstrap-dropdown.js"></script>  -->
-  <title>bioCADDIE main page</title>
+  <title>bioCADDIE GWAS pilot project</title>
 
 
-  <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
-  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css" />
-
-
-
-  <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-theme.min.css" />
 
 
 
-  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+  <script src="https://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+
+
+  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
   <script src="./js/bootstrap-dropdown.js"></script>  
-  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <script src="https://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 <!--
   <script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>>-->
-  <script type="text/javascript" src="http://viralpatel.net/blogs/demo/jquery/jquery.shorten.1.0.js"></script>
+  <script type="text/javascript" src="https://viralpatel.net/blogs/demo/jquery/jquery.shorten.1.0.js"></script>
 
 
   <!-- Bootstrap core CSS -->
@@ -67,16 +67,16 @@
   <div class="container"> 
     <div class="row">
             <div class="col-md-2">
-   <a href="https://biocaddie.org"><img src="../img/biocaddie-logo.png" alt="Mountain View" class="header-logo"></a>
- </div>
-   <div id="title-box" class="col-md-6">
+                     <a href="https://biocaddie.org"><img src="../img/biocaddie-logo.png" alt="Mountain View" class="header-logo"></a>
+            </div>
+          <div id="title-box" class="col-md-6">
             <h3>GWAS Finder</h3>
             <p style="font-size:14px">Search literatures for Genome-Wide Association Studies(GWAS)</p>
           </div>
-        </div>
+    </div>
  </div><!--/.container-->
 
-<div class="header clearfix">
+<!--<div class="header clearfix">
   <nav class="navbar navbar-inverse">
   <div class="container">
       <ul class="nav navbar-nav navbar-right">
@@ -86,7 +86,49 @@
         <li role="presentation" class="active"><a href="https://github.com/biocaddie/prototype_issues" target='_blank'>Feedback</a></li>
       </ul>
   </div><!-- /.container -->
-</nav>
-</div> <!--/.header clearfix-->
+<!--</nav>-->
+ <!--</div> <!--/.header clearfix-->
 
-      
+
+  <div class="header clearfix">
+      <nav class="navbar navbar-inverse">
+          <div class="container">
+              <ul class="nav navbar-nav navbar-right">
+                  <?php if (basename(filter_input(INPUT_SERVER, 'PHP_SELF', FILTER_SANITIZE_STRING), '.php') != 'index'): ?>
+                      <li role="presentation" class="active"><a href="../index.php">Home</a></li>
+                  <?php endif; ?>
+                  <li role="presentation" class="active"><a href="../about.php">About</a></li>
+                  <!--<li role="presentation" class="active"><a href="https://biocaddie.org/contact" target='_blank'>Contact</a></li>-->
+
+                  <li class="active">
+
+                      <a href="../feedback.php" class="dropdown-toggle dropdown"  role="presentation" aria-haspopup="true" aria-expanded="false">
+                          Feedback<span class="caret"></span>
+                      </a>
+
+                      <ul class="dropdown-menu dropdown">
+                          <li class="dropdown dropdown-submenu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Report an issue</a>
+                              <ul class="dropdown-menu">
+                                  <li><a href="https://github.com/biocaddie/prototype_issues/issues" target="_blank">GitHub</a></li>
+                                  <li><a href="../about.php">Contact Us</a></li>
+                              </ul>
+                          </li>
+
+                          <li><a href="../questionnaire.php" >Questionnaire</a></li>
+                      </ul>
+                  </li>
+                  <li class="active"><a href="../submit_repository.php" ><span data-toggle="tooltip" data-placement="bottom" title="Get your repository indexed" >Submit<span></span></a></li>
+                  <?php if(!isset($_SESSION['name'])){?>
+                      <li role="presentation" class="active"><a href="../login.php" id="partial_login_a">Login</a></li>
+                  <?php }else{?>
+                      <li role="presentation" class="active"><a href="../login.php" id="partial_login_a">
+                              <?php
+                              echo "MyDataMed";
+                              ?>
+                          </a></li>
+                      <li role="presentation" class="active"><a href='../login.php?logout'>Logout</a></li>
+                  <?php }?>
+              </ul>
+          </div>
+      </nav>
+  </div>

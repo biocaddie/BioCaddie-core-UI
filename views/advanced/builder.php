@@ -44,7 +44,7 @@
                         <div class="progress-bar"></div>
                     </div>
                     <a href="#" class="bs-wizard-dot"></a>
-                    <div class="bs-wizard-info text-center">Generate query</div>
+                    <div class="bs-wizard-info text-center">Generate/Edit query</div>
                 </div>
 
                 <div class="col-xs-2 bs-wizard-step disabled" id="step5"><!-- active -->
@@ -160,7 +160,7 @@
             <input class="form-control" id="query" name='query'
                    placeholder="">
         </div>
-        <button type="button" class="btn btn-default pull-right disabled" id="btn-show">Generate query</button>
+        <button type="button" class="btn btn-default pull-right disabled" id="btn-show">Generate/Edit query</button>
     </div>
 </div><!--/.panel-body-->
 

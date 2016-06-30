@@ -2,7 +2,7 @@
 
 error_reporting(0);
 ini_set('display_errors', 0);
-
+require_once dirname(__FILE__) . '/../../config/config.php';
 class PDBDataset {
 
     protected $pdbid;
@@ -73,7 +73,10 @@ class PDBSimilarData {
     }
 
     private function get_pdbId($pdbid) {
-        $url = "http://localhost:8085/dataset%23" . $pdbid;
+        global $similarity_url;
+        global $es_end_point;
+        //$url = "http://localhost:8085/dataset%23" . $pdbid;
+        $url = $similarity_url. $pdbid;
         if (substr(php_uname(), 0, 7) == "Windows") {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -93,7 +96,7 @@ class PDBSimilarData {
         if ($num > 0) {
             for ($i = 0; $i < $num; $i++) {
                 $uid = str_replace('#', '/', $data["nodes"][$i]["name"]);
-                $dataUrl = "http://datamed.biocaddie.org:9200/pdb/" . $uid;
+                $dataUrl = "http://".$es_end_point."/pdb/" . $uid;
                 if (substr(php_uname(), 0, 7) == "Windows") {
                     $curlHandle = curl_init();
                     curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);

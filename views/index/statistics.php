@@ -30,7 +30,7 @@
                 <div class="col-xs-6 stat-box">
                     <i class="fa fa-cubes text-success"></i>
                     <a class="hyperlink" href="search.php?query=&searchtype=data">
-                        <p class="stat-value">841,557</p>
+                        <p class="stat-value">649055</p>
                         <p class="stat-title">Datasets</p>
                     </a>
                 </div>

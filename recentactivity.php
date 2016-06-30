@@ -18,6 +18,5 @@ $scripts = ["./js/page.scripts/recentactivity.js"];
 ?>
 
 <?php include dirname(__FILE__) . '/views/header.php'; ?>
-<?php include dirname(__FILE__) . '/views/breadcrumb.php'; ?>
 <?php include dirname(__FILE__) . '/views/recent.php'; ?>
 <?php include dirname(__FILE__) . '/views/footer.php'; ?>

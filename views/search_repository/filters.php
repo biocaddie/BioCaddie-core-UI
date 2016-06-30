@@ -109,7 +109,7 @@ function partialFilters($searchBuilder) {
                                                     <?php endif; ?>
 
                                                     <?php echo ucwords($tag['tag_display_name']); ?>
-                                                    <?php echo '(' . $tag['count'] . ')'; ?>
+                                                    <?php echo '(' . number_format($tag['count']) . ')'; ?>
                                                 </a>
                                             </li>
                                         <?php endforeach; ?>

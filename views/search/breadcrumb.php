@@ -4,9 +4,24 @@ function breadcrumb($searchBuilder) {
     $currentURL = "http://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI]."\"";
     $href  = "search.php?query=".$searchBuilder->getQuery()."&searchtype=".$_GET["searchtype"];
     $breadcrumbArray = array();
+    $x=get_correction($searchBuilder->getQuery());
+    $has_fix =  $x[0];
+    $correction = $x[1];
+    $correctionhref = "search.php?query=".$correction."&searchtype=".$_GET["searchtype"];
     ?>
+    <?php if($has_fix):?>
     <div class="row">
         <div class="col-sm-12">
+            <ol class="breadcrumb dynamic-crumbs">
+            <li>Did you mean <a class="hyperlink" href="<?php echo $correctionhref;?>"><?php echo $correction;?></a> ?</li>
+            </div>
+        </ol>
+    </div>
+     <?php endif;?>
+    <div class="row">
+
+        <div class="col-sm-12">
+
             <ol class="breadcrumb dynamic-crumbs">
                 <li><a href="<?php echo $href;?>" id="crumb0"><?php echo $searchBuilder->getQuery(); ?></a></li>
                 <?php

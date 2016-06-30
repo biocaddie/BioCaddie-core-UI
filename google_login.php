@@ -16,10 +16,20 @@ if(strcmp($url,'localhost')==0){
     $client_id = '149391349365-ur1vjuv96qhdsea7055qklupemfn3rnr.apps.googleusercontent.com';
     $client_secret = '6dZ-7mfMloZ242sqrKZ0YUQw';
     $redirect_uri = 'http://localhost/biocaddie-ui/login.php';
-}else{
+}elseif(strcmp($url,'datamed.biocaddie.org')==0){
     $client_id = '149391349365-8e84s67ep4soejude40ohshhhog5cu37.apps.googleusercontent.com';
     $client_secret = 'P6mozEvL33YVOePIoxh6rsg9';
     $redirect_uri = 'http://datamed.biocaddie.org/login.php';
+}elseif(strcmp($url,'datamed.org')==0){
+    
+    $client_id = '149391349365-ur1vjuv96qhdsea7055qklupemfn3rnr.apps.googleusercontent.com';
+    $client_secret = '6dZ-7mfMloZ242sqrKZ0YUQw';
+    $redirect_uri = 'https://datamed.org/login.php';
+    /*
+     * $client_id = '149391349365-do62bdl2njl8640qqdttp2qb8tb1jirg.apps.googleusercontent.com';
+        $client_secret = 'XCjcEOjxdCZC-wEaY3cmLwkJ';
+        $redirect_uri = 'https://datamed.org/login.php';
+     */
 }
 
 //Create Client Request to access Google API
@@ -41,7 +51,7 @@ $objOAuthService = new Google_Service_Oauth2($client);
 if (isset($_GET['code'])) {
     $client->authenticate($_GET['code']);
     $_SESSION['access_token'] = $client->getAccessToken();
-    header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
+    //header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
 }
 
 //Set Access Token to make Request

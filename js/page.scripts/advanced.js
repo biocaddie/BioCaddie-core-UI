@@ -1,27 +1,5 @@
 var rowCount = 0;
 
-/*function advancedSearch(query) {
-    var data = query;
-
-    $.ajax({
-        type: "GET",
-        dataType: "json",
-        url: "search/AdvancedSearchService.php",
-        data: {"data": data},
-        success: function (data, status) {
-            rowCount++;
-            //var totalNum = data.num;
-            var newRow = jQuery('<tr><td>#' + rowCount + '</td><td>Search <strong>' + query + '</strong></td><td>'+ data.num +'</td><td>'+data.time+'</td></tr>');
-            $('table.history').append(newRow);    // Add query to history table
-        },
-        error: function (xhr, desc, err) {
-            console.log(xhr);
-            console.log("Details: " + desc + "\nError:" + err);
-        }
-    });
-}*/
-
-
 function contructQuery(){
 
     var query = "";
@@ -121,7 +99,7 @@ $(document).ready(function () {
         source: function (req, res) {
             // $('#loading').show();
             $.ajax({
-                url: 'whatsthis.php',
+                url: 'ajax/whatsthis.php',
                 data: {q: req.term},
                 dataType: "json",
                 success: function (data) {

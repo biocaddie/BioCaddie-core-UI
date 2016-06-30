@@ -12,19 +12,21 @@
                 <tr>
                     <td> 
                         <span class="glyphicon glyphicon-stop"> </span>
-                        <span class="title">March 1, 2016</span>
+                        <span class="title">June 30, 2016</span>
                         <ul style="font-size: 13px">
-                            <li>Login to DataMed</li>
-                            <li>Save search results to your account</li>
-                            <li>Send selected search results to file/email</li>
-                            <li>Use Boolean operators in advanced search</li>
-                            <li>Query expansion</li>
-                            <li>Get information on grants associated with the data sets </li>
-                            <li>Display results from selected repositories</li>
-                            <li>19 new repositories integrated</li>
-                            <li>Search for repositories of interest</li>
-                            <li>Search for repository</li>
-                            <li>Autosuggestion as you type in the box</li>
+
+                            <li>Corrects misspell words</li>
+                            <li>Export search results to citation manager</li>
+                            <li>Save search results to collections</li>
+                            <li>Filter results by accessibility and authorization</li>
+                            <li>Suggest a repository for indexing</li>
+                            <li>Synonym expansion using ontologies</li>
+                            <li>Dynamic repository-specific facets</li>
+                            <li>Links to literature and grants</li>
+                            <li>Novel visualization of search results (iSEE-DELVE)</li>
+                            <li>Usability enhancements based on user feedback and user interviews</li>
+
+
                         </ul>
                     </td>
                 </tr>

@@ -24,6 +24,8 @@ class Collection
         return $this->collection_item_id;
     }
 
+
+
     /**
      * @param mixed $collection_item_id
      */
@@ -129,20 +131,27 @@ class Collection
     }
 
 
+
     public function AddCollectionItem($dbconn)
     {
+        $getCollectionId = $this->getCollectionId();
+        $getDatasetUrl = $this->getDatasetUrl();
+        $getDatasetTitle = $this->getDatasetTitle();
+        $getCreateTime = $this->getCreateTime();
+        $getDatasetDescription = $this->getDatasetDescription();
+        $getRepository = $this->getRepository();
+
         try {
             $stmt = $dbconn->prepare("INSERT INTO collections(collection_id,dataset_url,dataset_title, create_time, dataset_description, repository)
                                                     VALUES (:collection_id,:dataset_url,:dataset_title,:create_time,:dataset_description,:repository)");
-            $stmt->bindparam(":collection_id", $this->getCollectionId());
-            $stmt->bindparam(":dataset_url", $this->getDatasetUrl());
-            $stmt->bindparam(":dataset_title", $this->getDatasetTitle());
-            $stmt->bindparam(":create_time", $this->getCreateTime());
-            $stmt->bindparam(":dataset_description", $this->getDatasetDescription());
-            $stmt->bindparam(":repository", $this->getRepository());
+            $stmt->bindparam(":collection_id", $getCollectionId);
+            $stmt->bindparam(":dataset_url", $getDatasetUrl);
+            $stmt->bindparam(":dataset_title", $getDatasetTitle);
+            $stmt->bindparam(":create_time", $getCreateTime);
+            $stmt->bindparam(":dataset_description", $getDatasetDescription);
+            $stmt->bindparam(":repository", $getRepository);
             $stmt->execute();
 
-            $dbconn = null;
             return $stmt;
 
         } catch (PDOException $e) {
@@ -153,9 +162,12 @@ class Collection
 
     public function queryCollectionItem($dbconn)
     {
+        $getCollectionId = $this->getCollectionId();
         try {
-            $sql = "SELECT * FROM collections WHERE collection_id=" . "'" . $this->collection_id . "' ORDER BY create_time DESC";
-            $result = $dbconn->query($sql);
+            $stmt = $dbconn->prepare("SELECT * FROM collections WHERE collection_id = :collection_id ORDER BY create_time DESC");
+            $stmt->bindparam(":collection_id",$getCollectionId);
+            $stmt->execute();
+            $result = $stmt ->fetchAll();
 
             $dbconn = null;
             return $result;
@@ -166,14 +178,55 @@ class Collection
 
     public function deleteCollectionItem($dbconn)
     {
+        $getCollectionItemId = $this->getCollectionItemId();
         try {
-            $sql = "DELETE FROM collections WHERE collection_item_id=" . $this->getCollectionItemId();
-            $result = $dbconn->query($sql);
-            $dbconn = null;
-            return $result;
+            $stmt = $dbconn->prepare("DELETE FROM collections WHERE collection_item_id= :collection_item_id");
+            $stmt->bindparam(":collection_item_id",$getCollectionItemId);
+            $stmt->execute();
+
+            return true;
 
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
+    }
+
+    public function deleteAllCollectionItem($dbconn)
+    {
+        $getCollectionId = $this->getCollectionId();
+        try {
+            $stmt = $dbconn->prepare("DELETE FROM collections WHERE collection_id= :collection_id");
+            $stmt->bindparam(":collection_id",$getCollectionId);
+            $stmt->execute();
+
+            return true;
+
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public function Is_valid_User($dbconn, $collection_item_id, $user_email){
+        try{
+            // Get the collection ID of this collection item ID
+            $stmt = $dbconn -> prepare("SELECT collection_id from collections where collection_item_id = :collection_item_id");
+            $stmt->bindparam(":collection_item_id",$collection_item_id);
+            $stmt->execute();
+            $result = $stmt ->fetchAll();
+
+            $collection_id = $result[0];
+
+            //Get the user email of the collection id
+            $stmt = $dbconn -> prepare("SELECT user_email FROM biocaddie.user_collections WHERE collection_id = :collection_id");
+            $stmt->bindparam(":collection_id",$collection_id[0]);
+            $stmt->execute();
+            $result = $stmt ->fetchAll();
+            $email = $result[0][0];
+
+            return $user_email == $email;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+
     }
 }

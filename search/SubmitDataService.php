@@ -5,46 +5,9 @@
  * Date: 5/10/16
  * Time: 10:48 AM
  */
-class DBController_submit
-{
-    private $host = "129.106.31.121";
-    //private $host = "localhost"; //"129.106.31.121"
-    private $user = "biocaddie";
-    private $password = "biocaddie";
-    private $database = "biocaddie";
-    private $conn = null;
+require_once dirname(__FILE__) . '/../config/config.php';
+require_once dirname(__FILE__) . '/../dbcontroller.php';
 
-    public function getConn()
-    {
-        return $this->conn;
-    }
-
-    function __construct()
-    {
-        $this->conn = $this->connectDB();
-        if (!empty($conn)) {
-            $this->selectDB($conn);
-        }
-    }
-
-    function __destruct()
-    {
-        $this->conn = null;
-    }
-
-    function connectDB()
-    {
-        try {
-            $db = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->database . ';charset=utf8', $this->user, $this->password);
-            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-        }
-        return $db;
-    }
-
-}
 function get_showing_label()
 {
     $showing_label = [
@@ -310,7 +273,8 @@ function show_submitted_repository($objDBController,$selectItems){
 function check_manager_id($objDBController,$id){
     if(strlen($id)>0) {
         $dbconn = $objDBController->getConn();
-        $stmt = $dbconn->prepare("Select * from manager_user WHERE user_id=" . $id);
+        $stmt = $dbconn->prepare("Select * from manager_user WHERE user_id=:id");
+        $stmt->bindparam(":id",$id);
         $stmt->execute();
         $results = $stmt->fetchAll();
         if (sizeof($results) > 0) {
@@ -322,7 +286,8 @@ function check_manager_id($objDBController,$id){
 function check_manager_email($objDBController,$email){
     if(strlen($email)>0) {
         $dbconn = $objDBController->getConn();
-        $stmt = $dbconn->prepare("Select * from manager_user WHERE email='" . $email."'");
+        $stmt = $dbconn->prepare("Select * from manager_user WHERE email=:email");
+        $stmt->bindparam(":email",$email);
         $stmt->execute();
         $results = $stmt->fetchAll();
         if (sizeof($results) > 0) {
@@ -409,48 +374,5 @@ function submit_repository($dbconn, $data)
         echo $e->getMessage();
     }
 }
-/*
-$objDBController = new DBController_submit();
-$dbconn=$objDBController->getConn();
-//$data=["NAME"=>"1",
- //      "EMAIL"=>"dfd@gmail.com"];
-//submit($dbconn,$data);
-show_submitted($objDBController);
-*/
-function index_to_ES($index_label){
-    global $es;
-    $body = [];
-    foreach(array_keys($_POST) as $key){
-        if(strlen($_POST[$key])>0 && array_key_exists($key,$index_label)){
-            $newkey = $index_label[$key];
-            $ids = explode('.',$newkey);
-            $body[$ids[0]][$ids[1]]=$_POST[$key];
-        }
-    }
-    $params = [
-        'index' => 'datamed',
-        'type' => 'dataset',
-        'body' => $body
-    ];
-    $es->index($params);
-}
-/*$index_label=[
-        "title"=>'dataset.title',
-        "description"=>'dataset.description',
-        'id'=>"dataset.ID",
-        "datatype"=>"dataset.datatype",
-        "downloadURL"=>"dataset.downloadURL",
-        "Keywords"=>"dataset.keywords",
-        "releasedate"=>"dataset.dataReleased",
-        "pubtitle"=>"publication.title",
-        "journal"=>"publication.journal",
-        "author"=>"publication.authors",
-        "pmid"=>"publication.pmid",
-        "organism"=>"organism.name",
-        "Strain"=>"organism.strain",
-        "orgname"=>"organization.name",
-        "homepage"=>"organization.homePage",
-        "abbreviation"=>"organization.abbreviation"
-    ];
-*/
+
 ?>

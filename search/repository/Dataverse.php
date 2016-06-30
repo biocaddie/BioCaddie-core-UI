@@ -13,7 +13,7 @@ class DataverseRepository extends RepositoryBase {
     public $whole_name = 'Dataverse&nbsp;Network&nbsp;Project';
     public $id = '0012';
     public $source = "http://thedata.org/";
-    public $search_fields = ['publication.description','dataset.title','dataset.description'];
+    public $search_fields = ['dataset.ID','publication.description','dataset.title','dataset.description'];
     public $facets_fields = ['person.name'];
     public $facets_show_name = [
         'person.name'=>'Publication',

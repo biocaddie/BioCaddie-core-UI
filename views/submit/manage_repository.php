@@ -1,12 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: xchen2
- * Date: 4/25/16
- * Time: 4:35 PM
- */
-//require_once 'submit_data_db.php';
-//var_dump($_GET);
+
 $id=$_SESSION['email'];
 $flag = check_manager_email($objDBController,$id);
 if (!$flag){
@@ -18,12 +11,11 @@ $selectItems = 'all';
 if(isset($_GET['show'])){
     $selectItems=$_GET['show'];
 }
-//var_dump($selectItems);
-$objDBController = new DBController_submit();
+
+$objDBController = new DBController();
 $dbconn=$objDBController->getConn();
 $show_results = show_submitted_repository($objDBController,$selectItems);
-//var_dump($show_results);
-//var_dump($_POST);
+
 if(isset($_POST['submit'])){
     change_review_to_db($dbconn,$_POST);
 }
@@ -66,7 +58,7 @@ if(isset($_POST['submit'])){
                             <?php echo $_POST['review_'.$result['ID']];?>
 
                         <?php else:?>
-                            <select class="btn btn-default" name="review_<?php echo $result['ID'];?>">
+                            <select class="btn btn-default btn-xs" name="review_<?php echo $result['ID'];?>">
                                 <option <?php echo $select1;?> value="None">None</option>
                                 <option <?php echo $select2;?> value="Yes">Yes</option>
 

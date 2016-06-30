@@ -107,6 +107,7 @@ function displayResult(query, item) {
         + query + "&repository=" + item["id"] + "\">" + item['show_name'] + ' (' + item["num"] + ')</a></h6>';
 }
 
+
 (function () {
     var timer = null;
     var lastVal='';
@@ -129,14 +130,16 @@ function displayResult(query, item) {
 	   lastVal=data;
 	}
 
-	console.log("Calling ajax");
 
+
+        /*Autocomplete*/
+
+        /*
         $.ajax({
-            url: 'whatsthis.php',
+            url: 'ajax/whatsthis.php',
             data: {q: data},
             dataType: "json",
             success: function (data) {
-	console.log("ajax done");
                     haystack.length=0;
 		    $.map(data, function (item) {
                     haystack.push(item.completion);
@@ -144,18 +147,20 @@ function displayResult(query, item) {
             },
             complete: function () {
                 $('#loading').hide();
-            
-	console.log("send key");
+
  var e = $.Event("keyup.suggest");
                 e.which = 8;
                 $('#query').trigger(e);
 		}
-        });
+        });*/
     });
-  console.log(haystack); 
+
+    /*
 	$(function(){
      $('#query').suggest(haystack, {});
         });
+*/
+
 })();
 
 
@@ -168,73 +173,10 @@ $('body').bind('click', function (e) {
     }
 });
 
+var categories= ['','BioProject', 'PDB', 'GEO', 'Dryad','ArrayExpress', 'Dataverse', 'SRA','NeuroMorpho'];
 
-/** Bar chart implemented using Google Visualization**/
-/*
-google.load('visualization', '1', {packages: ['corechart', 'bar']});
-google.setOnLoadCallback(drawMultSeries);
+var dollars = [155851,113495,105035,67456,63925,60304,43089,34083];
 
-function drawMultSeries() {
-    var repositoriesData = google.visualization.arrayToDataTable([
-        ['', 'Datasets:', {role: 'annotation'}, {role: 'style'}],
-        ['', 155851, 'BioProject', '#13181e'],
-        ['', 113494, 'PDB', '#2c3e50'],
-        ['', 105034, 'GEO', '#354b60'],
-        ['', 60881, 'ArrayExpress', '#507290'],
-        ['', 43089, 'SRA', '#7898b4'],
-        ['', 11085, 'LINCS', '#88b1c6'],
-        ['', 2285, 'GEMMA', '#b8c9d8'],
-        ['', 429, 'dbGap', '#e9eef3']
-    ]);
-
-
-    var repositoriesWidth = $('#repositories-container').width() - 20;
-    var repositoriesHeigth = $('#repositories-container').height() - 80;
-
-    var repositoriesOptions = {
-        width: repositoriesWidth,
-        height: repositoriesHeigth,
-        chartArea: {top: 0, left: 5, width: '90%', height: '85%'},
-        legend: {position: "none"},
-    };
-
-    var repositoriesChart = new google.visualization.BarChart(document.getElementById('repositories-statistics'));
-    repositoriesChart.draw(repositoriesData, repositoriesOptions);
-
-    var mostAccessedData = google.visualization.arrayToDataTable([
-        ['', 'Datasets:', {role: 'annotation'}, {role: 'style'}],
-        ['', 66, 'GEMMA - ramaswamy-cancer', '#325F33'],
-        ['', 55, 'GEO - Lung Cancer and Smoking', '#5B7F5C'],
-        ['', 44, 'PDB - Positive Breast Cancer', '#849F85'],
-        ['', 33, 'SRA - Association Study', '#ADBFAD']
-    ]);
-
-    var mostAccessedWidth = $('#most-accessed').width() - 20;
-    var mostAccessedHeigth = $('#most-accessed').height() - 70;
-
-    var mostAccessedOptions = {
-        width: mostAccessedWidth,
-        height: mostAccessedHeigth,
-        chartArea: {top: 0, left: 5, width: '90%', height: '80%'},
-        legend: {position: "none"},
-    };
-
-    var mostAccessedChart = new google.visualization.BarChart(document.getElementById('most-accessed-statistics'));
-    mostAccessedChart.draw(mostAccessedData, mostAccessedOptions);
-}
-
-$(window).resize(function () {
-    drawMultSeries();
-});
-*/
-
-
-
-var categories= ['','ClinicalTrials','BioProject', 'PDB', 'GEO', 'Dryad','ArrayExpress', 'Dataverse', 'SRA'];
-
-var dollars = [192500,155851,113494,105034,67455,60304,60881,43089];
-
-//var colors = ['#13181e','#2c3e50','#354b60','#507290','#7898b4','#88b1c6','#b8c9d8','#e9eef3'];
 var colors = ['#3a87ad','#3a87ad','#3a87ad','#3a87ad','#3a87ad','#3a87ad','#3a87ad','#3a87ad'];
 
 var grid = d3.range(25).map(function(i){

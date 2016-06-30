@@ -8,7 +8,7 @@ class GemmaRepository extends RepositoryBase {
     public $whole_name = '';
     public $id = '0005';
     public $source = "http://www.chibi.ubc.ca/Gemma/expressionExperiment/showExpressionExperiment.html?id="; //GSE60304
-    public $search_fields = ['dataItem.dataTypes', 'dataItem.description', 'dataItem.title'];
+    public $search_fields = ['dataItem.ID','dataItem.dataTypes', 'dataItem.description', 'dataItem.title'];
     public $index = 'gemma';
     public $type = 'dataset';
     //search-repository page

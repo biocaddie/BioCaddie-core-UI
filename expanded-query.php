@@ -9,9 +9,11 @@ require_once dirname(__FILE__) . '/search/ExpansionSearch.php';
 if(isset($_GET['q'])){
     $query = $_GET['q'];
 
-    $search = new ExpansionSearch();
+    /*$search = new ExpansionSearch();
     $search->query = $query;
-    $expanquery = $search->getTerminologyquery();
+    $search->update_query_string();
+    $expanquery = $search->getTerminologyquery();*/
+    $expanquery = $_SESSION['synonym'];
 }
 
 ?>

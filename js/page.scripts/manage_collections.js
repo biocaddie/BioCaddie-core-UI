@@ -1,46 +1,45 @@
-
 // For collections
 var numCheckedBox = 0;
-window.EnableDelete = function(val)
-{
+window.EnableDelete = function (val) {
     var sbmt = document.getElementById("btn-delete-collection");
-    if (val.checked == true)
-    {
+    if (val.checked == true) {
         numCheckedBox++;
         sbmt.disabled = false;
     }
-    else
-    {
+    else {
         numCheckedBox--;
-        if(numCheckedBox==0){
+        if (numCheckedBox == 0) {
             sbmt.disabled = true;
         }
 
     }
 }
 
-$(function(){
-    $('#btn-delete-collection').on('click',function(e){
+// delete collections
+$(function () {
+    $('#btn-delete-collection').on('click', function (e) {
         e.preventDefault();
 
         var val = [];
-        $(':checkbox:checked').each(function(i){
+        $(':checkbox:checked').each(function (i) {
             val[i] = $(this).val();
-            alert(val[i]);
         });
 
         $.ajax({
-            url:'ajax/deletecollections.php',
-            type:'post',
-            data:{'query':val},
-            success:function(data, status){
-
-                $('#myModal').modal('toggle')
-                $('#myModal').on('hidden.bs.modal', function () {
-                    window.location.reload();
-                })
+            url: 'ajax/deletecollections.php',
+            type: 'post',
+            data: {'query': val},
+            success: function (data, status) {
+                if (data.trim() == "okok") {
+                    $('#myModal').modal('toggle')
+                    $('#myModal').on('hidden.bs.modal', function () {
+                        window.location.reload();
+                    })
+                } else {
+                   // alert(data);
+                }
             },
-            error:function(xhr, desc, err) {
+            error: function (xhr, desc, err) {
                 console.log(xhr);
                 console.log("Details: " + desc + "\nError:" + err);
             }
@@ -52,43 +51,45 @@ $(function(){
 
     // For collection items
     var numCheckedBox2 = 0;
-    window.EnableDeleteItem = function(val)
-    {
+    window.EnableDeleteItem = function (val) {
         var sbmt = document.getElementById("btn-delete-items");
-        if (val.checked == true)
-        {
+        if (val.checked == true) {
             numCheckedBox2++;
             sbmt.disabled = false;
         }
-        else
-        {
+        else {
             numCheckedBox2--;
-            if(numCheckedBox2==0){
+            if (numCheckedBox2 == 0) {
                 sbmt.disabled = true;
             }
 
         }
     }
 
-    $('#btn-delete-items').on('click',function(e){
+
+    // delete collection items
+    $('#btn-delete-items').on('click', function (e) {
         e.preventDefault();
         var val = [];
-        $(':checkbox:checked').each(function(i){
+        $(':checkbox:checked').each(function (i) {
             val[i] = $(this).val();
         });
 
         $.ajax({
-            url:'ajax/deletecollectionitems.php',
-            type:'post',
-            data:{'query':val},
-            success:function(data, status){
-
-                $('#myModal').modal('toggle')
-                $('#myModal').on('hidden.bs.modal', function () {
-                    window.location.reload();
-                })
+            url: 'ajax/deletecollectionitems.php',
+            type: 'post',
+            data: {'query': val},
+            success: function (data, status) {
+                if (data.trim() == "ok") {
+                    $('#myModal').modal('toggle')
+                    $('#myModal').on('hidden.bs.modal', function () {
+                        window.location.reload();
+                    })
+                } else {
+                    //alert(data);
+                }
             },
-            error:function(xhr, desc, err) {
+            error: function (xhr, desc, err) {
                 console.log(xhr);
                 console.log("Details: " + desc + "\nError:" + err);
             }

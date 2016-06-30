@@ -14,7 +14,7 @@ class MpdRepository extends RepositoryBase {
     public $whole_name = 'Mouse&nbsp;Phenome&nbsp;Database';
     public $id = '0017';
     public $source = "http://phenome.jax.org/";
-    public $search_fields = ['dataset.title','dataset.description','dimension.name'];
+    public $search_fields = ['dataset.ID','dataset.title','dataset.description','dimension.name'];
     public $facets_fields = ['dataset.gender'];
     public $facets_show_name = [
         'dataset.gender'=>'Gender',

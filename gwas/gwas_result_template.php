@@ -107,5 +107,8 @@
     <?php } ?>
 
 </div>
-  </div>
-  <?php include '../views/footer.php';?>
+</div>
+
+  <?php include dirname(__FILE__).'/../views/footer.php';?>
+
+

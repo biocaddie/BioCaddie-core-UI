@@ -49,13 +49,13 @@ function displayResult($service) {
         <div class="panel panel-info">
             <div class="panel-heading" role="tab" id="heading-study">
                 <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-target="#collapse-study" href="#collapse-study" aria-expanded="true" aria-controls="collapse-study">
+                    <a role="button" data-toggle="collapse" data-target="#collapse-Organism" href="#collapse-Organism" aria-expanded="true" aria-controls="collapse-Organism">
                         <i class="fa fa-chevron-up"></i>
                         Organism
                     </a>
                 </h4>
             </div>
-            <div id="collapse-study" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-study">
+            <div id="collapse-Organism" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-Organism">
                 <div class="panel-body">
                     <table class="table table-striped">
                         <tbody>
@@ -83,15 +83,15 @@ function displayResult($service) {
 
 
         <div class="panel panel-info">
-            <div class="panel-heading" role="tab" id="heading-treatment">
+            <div class="panel-heading" role="tab" id="heading-others">
                 <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-target="#collapse-treatment" href="#collapse-treatment" aria-expanded="true" aria-controls="collapse-treatment">
+                    <a role="button" data-toggle="collapse" data-target="#collapse-others" href="#collapse-others" aria-expanded="true" aria-controls="collapse-others">
                         <i class="fa fa-chevron-up"></i>
                         Others
                     </a>
                 </h4>
             </div>
-            <div id="collapse-treatment" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-treatment">
+            <div id="collapse-others" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-others">
                 <div class="panel-body">
                     <table class="table table-striped">
                         <tbody>
@@ -123,15 +123,15 @@ function displayResult($service) {
         </div>
 
         <div class="panel panel-info">
-            <div class="panel-heading" role="tab" id="heading-study">
+            <div class="panel-heading" role="tab" id="heading-repo">
                 <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-target="#collapse-study" href="#collapse-study" aria-expanded="true" aria-controls="collapse-study">
+                    <a role="button" data-toggle="collapse" data-target="#collapse-repo" href="#collapse-repo" aria-expanded="true" aria-controls="collapse-repo">
                         <i class="fa fa-chevron-up"></i>
                         Repository
                     </a>
                 </h4>
             </div>
-            <div id="collapse-study" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-study">
+            <div id="collapse-repo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-repo">
                 <div class="panel-body">
                     <table class="table table-striped">
                         <tbody>
@@ -155,15 +155,15 @@ function displayResult($service) {
         </div>
 
         <div class="panel panel-info">
-            <div class="panel-heading" role="tab" id="heading-treatment">
+            <div class="panel-heading" role="tab" id="heading-organization">
                 <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-target="#collapse-treatment" href="#collapse-treatment" aria-expanded="true" aria-controls="collapse-treatment">
+                    <a role="button" data-toggle="collapse" data-target="#collapse-organization" href="#collapse-organization" aria-expanded="true" aria-controls="collapse-organization">
                         <i class="fa fa-chevron-up"></i>
                         Organization
                     </a>
                 </h4>
             </div>
-            <div id="collapse-treatment" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-treatment">
+            <div id="collapse-organization" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-organization">
                 <div class="panel-body">
                     <table class="table table-striped">
                         <tbody>

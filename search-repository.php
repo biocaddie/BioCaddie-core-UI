@@ -12,7 +12,13 @@ require_once dirname(__FILE__) . '/views/search_repository/results.php';
 require_once dirname(__FILE__) . '/views/search_repository/pilot_projects.php';
 require_once dirname(__FILE__) . '/views/search_repository/switch_view.php';
 require_once dirname(__FILE__) . '/views/search_repository/breadcrumb.php';
+require_once dirname(__FILE__) . '/search/AutoCorrection.php';
 require_once dirname(__FILE__) . '/views/feedback.php';
+
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//error_reporting(E_ALL);
+
 $searchBuilder = new SearchRepositoryBuilder();
 
 if (isset($_POST['radio-share'])) {

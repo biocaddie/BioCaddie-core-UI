@@ -3,6 +3,8 @@
 error_reporting(0);
 ini_set('display_errors', 0);
 
+require_once dirname(__FILE__) . '/../../config/config.php';
+
 class GemmaDataset {
 
     protected $gemmaId;
@@ -81,7 +83,10 @@ class GemmaSimilarData {
     public function getGemmaDataset($gemmaid,$count) {
 
         // Get json file
-        $url = "http://localhost:8085/dataset%23" . $gemmaid;
+        //$url = "http://localhost:8085/dataset%23" . $gemmaid;
+        global $similarity_url;
+        global $es_end_point;
+        $url = $similarity_url . $gemmaid;
         if (substr(php_uname(), 0, 7) == "Windows") {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -101,7 +106,8 @@ class GemmaSimilarData {
         if ($num > 0) {
             for ($i = 0; $i < $num; $i++) {
                 $uid = str_replace('#', '/', $data["nodes"][$i]["name"]);
-                $dataUrl = "http://datamed.biocaddie.org:9200/gemma/" . $uid;
+               // $dataUrl = "http://datamed.biocaddie.org:9200/gemma/" . $uid;
+                $dataUrl = "http://".$es_end_point."/gemma/" . $uid;
                 if (substr(php_uname(), 0, 7) == "Windows") {
                     $curlHandle = curl_init();
                     curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);

@@ -51,15 +51,15 @@ function displayResult($service) {
         </div>
 
         <div class="panel panel-info">
-            <div class="panel-heading" role="tab" id="heading-study">
+            <div class="panel-heading" role="tab" id="heading-repo">
                 <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-target="#collapse-study" href="#collapse-study" aria-expanded="true" aria-controls="collapse-study">
+                    <a role="button" data-toggle="collapse" data-target="#collapse-repo" href="#collapse-repo" aria-expanded="true" aria-controls="collapse-repo">
                         <i class="fa fa-chevron-up"></i>
                         Repository
                     </a>
                 </h4>
             </div>
-            <div id="collapse-study" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-study">
+            <div id="collapse-repo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-repo">
                 <div class="panel-body">
                     <table class="table table-striped">
                         <tbody>
@@ -84,15 +84,15 @@ function displayResult($service) {
 
 
         <div class="panel panel-info">
-            <div class="panel-heading" role="tab" id="heading-treatment">
+            <div class="panel-heading" role="tab" id="heading-organization">
                 <h4 class="panel-title">
-                    <a role="button" data-toggle="collapse" data-target="#collapse-treatment" href="#collapse-treatment" aria-expanded="true" aria-controls="collapse-treatment">
+                    <a role="button" data-toggle="collapse" data-target="#collapse-organization" href="#collapse-organization" aria-expanded="true" aria-controls="collapse-organization">
                         <i class="fa fa-chevron-up"></i>
                         Organization
                     </a>
                 </h4>
             </div>
-            <div id="collapse-treatment" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-treatment">
+            <div id="collapse-organization" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-organization">
                 <div class="panel-body">
                     <table class="table table-striped">
                         <tbody>

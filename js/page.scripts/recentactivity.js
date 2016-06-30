@@ -33,8 +33,11 @@ $(function(){
             type:'post',
             data:{'query':val},
             success:function(data, status){
-                //alert("");
-                $('#myModal').modal('toggle');
+                if(data.trim() == "ok"){
+                    $('#myModal').modal('toggle');
+                }else{
+                    //alert(data);
+                }
             },
             error:function(xhr, desc, err) {
                 console.log(xhr);

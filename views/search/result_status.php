@@ -4,7 +4,7 @@ function partialResultsStatus($searchBuilder) {
     ?>
     <div class="pull-left" style="margin-right: 10px">
         <span>Displaying <?php echo $searchBuilder->getRowsPerPage() > $searchBuilder->getTotalRows() ? $searchBuilder->getTotalRows() : $searchBuilder->getRowsPerPage() ?></span>
-        <span>of <?php echo $searchBuilder->getTotalRows() ?></span>
+        <span>of <?php echo number_format($searchBuilder->getTotalRows()) ?></span>
         <span>results for "<strong><?php echo $searchBuilder->getQuery(); ?>"</strong></span>
     </div>
 

@@ -1,10 +1,14 @@
 <?php
+
+require_once dirname(__FILE__) . '/config/config.php';
+
 class DBController {
-    private $host = "129.106.31.121";
+
+    private $host;// = "129.106.31.121";
     //private $host = "localhost"; //"129.106.31.121"
-    private $user = "biocaddie";
-    private $password = "biocaddie";
-    private $database = "biocaddie";
+    private $user;// = "biocaddie";
+    private $password;// = "biocaddie";
+    private $database;// = "biocaddie";
 
     private $conn =null;
 
@@ -14,6 +18,12 @@ class DBController {
     }
 
     function __construct() {
+        global $dbconf;
+        $this->host = $dbconf['ip'];
+        $this->user = $dbconf['user'];
+        $this->password = $dbconf['password'];
+        $this->database = $dbconf['database'];
+
         $this->conn = $this->connectDB();
         if(!empty($conn)) {
             $this->selectDB($conn);

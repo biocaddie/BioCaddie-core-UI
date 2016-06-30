@@ -4,11 +4,10 @@ require_once dirname(__FILE__) . '/search/SearchBuilder.php';
 
 require_once dirname(__FILE__) . '/views/search/search_panel.php';
 require_once dirname(__FILE__) . '/views/search/breadcrumb.php';
-
+require_once dirname(__FILE__) . '/search/AutoCorrection.php';
 // Left column
 require_once dirname(__FILE__) . '/views/search/repositories.php';
 require_once dirname(__FILE__) . '/views/search/datatypes.php';
-require_once dirname(__FILE__) . '/views/search/accessibility.php';
 require_once dirname(__FILE__) . '/views/feedback.php';
 
 
@@ -18,6 +17,8 @@ require_once dirname(__FILE__) . '/views/search/switch_view.php';
 require_once dirname(__FILE__) . '/views/search/pagination.php';
 require_once dirname(__FILE__) . '/views/search/result_status.php';
 require_once dirname(__FILE__) . '/views/search/sorting.php';
+require_once dirname(__FILE__) . '/views/search/accessibility.php';
+require_once dirname(__FILE__) . '/views/search/authorization.php';
 
 // Right column
 require_once dirname(__FILE__) . '/views/search/partialActivities.php';
@@ -116,7 +117,7 @@ if (isset($_POST['radio-share'])) {
                     <div style="margin-bottom: 60px">
                     <?php echo partialSorting($searchBuilder); ?>
                     <?php echo partialAccessibility($searchBuilder);?>
-
+                    <?php echo partialAuthorization($searchBuilder);?>
                         </div>
                 <?php endif; ?>
 

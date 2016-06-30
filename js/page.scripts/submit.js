@@ -9,3 +9,4 @@ function showinputbox(that){
         document.getElementById("otherDatatype").style.display = "none";
     }
 }
+

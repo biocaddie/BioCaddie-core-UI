@@ -87,7 +87,7 @@
         .bind('keydown.suggest', function(e){
           var code = (e.keyCode ? e.keyCode : e.which);
 
-	  console.log("Keydown " + code);
+	  //console.log("Keydown " + code);
 	
           // the tab key will force the focus to the next input
           // already on keydown, let's prevent that
@@ -123,7 +123,7 @@
         .bind('keyup.suggest', function(e) {
           var code = (e.keyCode ? e.keyCode : e.which);
 
-	  console.log("Keyup " + code);
+	  //console.log("Keyup " + code);
           // Have the arrow keys been pressed?
           if (code == 38 || code == 40) {
             return false;

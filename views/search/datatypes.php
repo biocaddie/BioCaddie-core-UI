@@ -39,7 +39,7 @@ function partialDatatypes($searchBuilder) {
                                     <i class="fa fa-square-o"></i>
                                 <?php endif; ?>
                                 <?php echo $datatypeName; ?>
-                                <?php echo '(' . $details['rows'] . ')'; ?>
+                                <?php echo '(' . number_format($details['rows']) . ')'; ?>
                                 <?php if($datatypeName=="Clinical Trials"):?>
                                     </div>
                                 <?php endif;?>

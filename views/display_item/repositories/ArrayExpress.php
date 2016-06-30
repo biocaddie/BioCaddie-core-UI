@@ -40,15 +40,15 @@ function displayResult($service) {
 
         <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
             <div class="panel panel-info">
-                <div class="panel-heading" role="tab" id="heading-resource">
+                <div class="panel-heading" role="tab" id="heading-dataset">
                     <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-resource" aria-expanded="true" aria-controls="collapse-resource">
+                        <a role="button" data-toggle="collapse" data-target="#collapse-dataset" href="#collapse-dataset" aria-expanded="true" aria-controls="collapse-dataset">
                             <i class="fa fa-chevron-up"></i>
                             Dataset
                         </a>
                     </h4>
                 </div>
-                <div id="collapse-resource" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resource">
+                <div id="collapse-dataset" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-dataset">
                     <div class="panel-body">
                         <table class="table table-striped">
                             <tbody>
@@ -90,15 +90,15 @@ function displayResult($service) {
 
 
             <div class="panel panel-info">
-                <div class="panel-heading" role="tab" id="heading-resource">
+                <div class="panel-heading" role="tab" id="heading-acquisition">
                     <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-resource" aria-expanded="true" aria-controls="collapse-resource">
+                        <a role="button" data-toggle="collapse" data-target="#collapse-acquisition" href="#collapse-acquisition" aria-expanded="true" aria-controls="collapse-acquisition">
                             <i class="fa fa-chevron-up"></i>
                             Data Acquisition
                         </a>
                     </h4>
                 </div>
-                <div id="collapse-resource" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resource">
+                <div id="collapse-acquisition" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-acquisition">
                     <div class="panel-body">
                         <table class="table table-striped">
                             <tbody>
@@ -119,15 +119,15 @@ function displayResult($service) {
 
 
             <div class="panel panel-info">
-                <div class="panel-heading" role="tab" id="heading-resource">
+                <div class="panel-heading" role="tab" id="heading-repo">
                     <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-resource" aria-expanded="true" aria-controls="collapse-resource">
+                        <a role="button" data-toggle="collapse" data-target="#collapse-repo" href="#collapse-repo" aria-expanded="true" aria-controls="collapse-repo">
                             <i class="fa fa-chevron-up"></i>
                             Repository
                         </a>
                     </h4>
                 </div>
-                <div id="collapse-resource" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resource">
+                <div id="collapse-repo" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-repo">
                     <div class="panel-body">
                         <table class="table table-striped">
                             <tbody>
@@ -150,15 +150,15 @@ function displayResult($service) {
             </div>
 
             <div class="panel panel-info">
-                <div class="panel-heading" role="tab" id="heading-resource">
+                <div class="panel-heading" role="tab" id="heading-organization">
                     <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-resource" aria-expanded="true" aria-controls="collapse-resource">
+                        <a role="button" data-toggle="collapse" data-target="#collapse-organization" href="#collapse-organization" aria-expanded="true" aria-controls="collapse-organization">
                             <i class="fa fa-chevron-up"></i>
                             Organization
                         </a>
                     </h4>
                 </div>
-                <div id="collapse-resource" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resource">
+                <div id="collapse-organization" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-organization">
                     <div class="panel-body">
                         <table class="table table-striped">
                             <tbody>
@@ -185,15 +185,15 @@ function displayResult($service) {
             </div>
 
             <div class="panel panel-info">
-                <div class="panel-heading" role="tab" id="heading-resource">
+                <div class="panel-heading" role="tab" id="heading-organism">
                     <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-resource" aria-expanded="true" aria-controls="collapse-resource">
+                        <a role="button" data-toggle="collapse" data-target="#collapse-organism" href="#collapse-organism" aria-expanded="true" aria-controls="collapse-organism">
                             <i class="fa fa-chevron-up"></i>
                             Organism
                         </a>
                     </h4>
                 </div>
-                <div id="collapse-resource" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resource">
+                <div id="collapse-organism" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-organism">
                     <div class="panel-body">
                         <table class="table table-striped">
                             <tbody>
@@ -209,15 +209,15 @@ function displayResult($service) {
 
 
             <div class="panel panel-info">
-                <div class="panel-heading" role="tab" id="heading-resource">
+                <div class="panel-heading" role="tab" id="heading-treatment">
                     <h4 class="panel-title">
-                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-resource" aria-expanded="true" aria-controls="collapse-resource">
+                        <a role="button" data-toggle="collapse" data-target="#collapse-treatment" href="#collapse-treatment" aria-expanded="true" aria-controls="collapse-treatment">
                             <i class="fa fa-chevron-up"></i>
                             Treatment
                         </a>
                     </h4>
                 </div>
-                <div id="collapse-resource" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-resource">
+                <div id="collapse-treatment" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading-treatment">
                     <div class="panel-body">
                         <table class="table table-striped">
                             <tbody>

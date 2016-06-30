@@ -156,7 +156,7 @@ require_once dirname(__FILE__) . '/trackactivity.php';
                 <div id="field">
                     <h1>Search by Field</h1>
                     <hr>
-                    <p>Terms may be qualified using bioCADDIE's search field tags.</p>
+                    <p>Terms may be qualified using bioCADDIE's search field tags. The allowable fields are: title, author and description.</p>
 
                     <p>The search field tag must follow the term -- you cannot prequalify.</p>
 

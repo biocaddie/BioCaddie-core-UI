@@ -18,7 +18,7 @@ if (sizeof($_POST)>1) {
     }
 }
 function submit_to_db(){
-    $objDBController = new DBController_submit();
+    $objDBController = new DBController();
     $dbconn=$objDBController->getConn();
     submit($dbconn,$_POST);
 }

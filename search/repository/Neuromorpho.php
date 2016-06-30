@@ -9,7 +9,7 @@ class NeuromorphoRepository extends RepositoryBase {
     public $id = '0013';
     public $source = "http://neuromorpho.org/neuron_info.jsp?neuron_name=";
 
-    public $search_fields = ['dataset.title', 'dataset.note','organism.name','organism.strain','anatomicalPart.name','treatment.title','cell.name'];
+    public $search_fields = ['dataset.ID','dataset.title', 'dataset.note','organism.name','organism.strain','anatomicalPart.name','treatment.title','cell.name'];
     public $facets_fields = ['studyGroup.name','organism.strain','organism.gender'];
     public $facets_show_name = [
         'studyGroup.name' => 'Study Group',

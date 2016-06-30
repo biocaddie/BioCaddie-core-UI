@@ -12,8 +12,13 @@ function saveconsent($email){
         type:'post',
         data:{'email':$email},
         success:function(data, status){
-            $('#myModal').modal('toggle');
-            $("#thankyouModal").modal('show');
+            if(data=="ok"){
+                $('#myModal').modal('toggle');
+                $("#thankyouModal").modal('show');
+            }else{
+                alert(data);
+            }
+
         },
         error:function(xhr, desc, err) {
             console.log(xhr);

@@ -2,9 +2,13 @@
 
 //for ES end point config, when change ES enpoint, please change here
 require_once '../vendor/autoload.php';
+require_once "../config/config.php";
+
+global $es_end_point;
+
 $es = new Elasticsearch\Client([
-    //'hosts'=>['127.0.0.1:9200']
-    'hosts' => ['129.106.31.121:9200']
+    //'hosts' => ['129.106.31.121:9200']
+     'hosts' => [$es_end_point]
         ]);
 
 //for datatype facets,when add more repository, please change here

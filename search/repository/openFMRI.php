@@ -13,7 +13,7 @@ class openFMRIRepository extends RepositoryBase {
     public $whole_name = 'Open&nbsp;sharing&nbsp;of&nbsp;Functional&nbsp;Magnetic&nbsp;Resonance&nbsp;Imaging';
     public $id = '0019';
     public $source = "https://openfmri.org/dataset/";
-    public $search_fields = ['organism.name','dataset.title','dataset.description'];
+    public $search_fields = ['dataset.id','organism.name','dataset.title','dataset.description'];
     public $facets_fields = ['organism.name'];
     public $facets_show_name = [
         'organism.name'=>'Organism',

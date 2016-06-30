@@ -19,6 +19,8 @@ window.EnableDelete = function(val)
     }
 }
 
+
+// delete saved searches
 $(function(){
     $('#btn-delete').on('click',function(e){
         e.preventDefault();
@@ -33,10 +35,14 @@ $(function(){
             type:'post',
             data:{'query':val},
             success:function(data, status){
-                $('#myModal').modal('toggle')
-                $('#myModal').on('hidden.bs.modal', function () {
-                    window.location.reload();
-                })
+                if (data.trim() == "ok") {
+                    $('#myModal').modal('toggle')
+                    $('#myModal').on('hidden.bs.modal', function () {
+                        window.location.reload();
+                    })
+                }else{
+                    alert(data);
+                }
             },
             error:function(xhr, desc, err) {
                 console.log(xhr);

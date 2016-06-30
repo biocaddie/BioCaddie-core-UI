@@ -94,6 +94,18 @@ class StudyConsent
         }
     }
 
+    public function If_User_Exist($dbconn,$user_email){
+        try{
+            $stmt = $dbconn -> prepare("SELECT * FROM biocaddie.user WHERE email = :email");
+            $stmt->bindparam(":email",$user_email);
+            $stmt->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
+            return $row;
+        }catch(PDOException $e){
+            echo $e->getMessage();
+        }
+
+    }
 
 }

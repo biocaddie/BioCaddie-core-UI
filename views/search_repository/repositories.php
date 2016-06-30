@@ -43,7 +43,7 @@ function partialRepositories($searchBuilder) {
                         </a>
 
                         <span data-toggle="tooltip" data-placement="right" title=<?php echo $details['whole']?> > <?php echo $repositoryName; ?></span>
-                        <?php echo '(' . $details['rows'] . ')'; ?>
+                        <?php echo '(' . number_format($details['rows']) . ')'; ?>
 
                         <?php if ($details['selected'] == true): ?>
                             <!--   <span style="color:blue">| Detail View</span>-->

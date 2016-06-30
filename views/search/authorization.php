@@ -1,18 +1,23 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: rliu1
+ * Date: 6/3/16
+ * Time: 3:17 PM
+ */
 
-function partialAccessibility($searchBuilder) {
+function partialAuthorization($searchBuilder) {
     //sort in number order
     $nums = array();
-    $access = $searchBuilder->getAccess();
+    $auth = $searchBuilder->getAuth();
 
-    $accessLabel = "all";
+    $authLabel = "all";
 
-    if(isset($_GET['access'])){
-        $accessLabel = $_GET['access'];
+    if(isset($_GET['auth'])){
+        $authLabel = $_GET['auth'];
     }
 
-
-    foreach ($access as $key => $row)
+    foreach ($auth as $key => $row)
     {
         $nums[$key] = $row['rows'];
     }
@@ -20,23 +25,23 @@ function partialAccessibility($searchBuilder) {
     if ($searchBuilder->getTotalRows() > 0) {
         ?>
         <div class="pull-left" >
-            <span>Accessibility:</span>
+            <span>Authorization: </span>
             <div class="dropdown">
                 <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdown-sort"
                         data-toggle="dropdown">
-                    <?php echo ucwords($accessLabel); ?>
+                    <?php echo ucwords($authLabel); ?>
                     <span class="caret"></span>
                 </button>
                 <ul class="dropdown-menu">
 
                     <?php
-                    foreach ($access as $accessName => $details):?>
+                    foreach ($auth as $authName => $details):?>
                         <?php if($details['rows']==0){
                             continue;
                         }?>
                         <li>
-                            <a href="<?php echo $searchBuilder->getUrlByAccessibility($accessName);?>">
-                                <?php echo ucwords($accessName); ?>
+                            <a href="<?php echo $searchBuilder->getUrlByAuth($authName);?>">
+                                <?php echo ucwords($authName); ?>
                             </a>
                         </li>
                     <?php endforeach; ?>

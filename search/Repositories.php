@@ -25,8 +25,6 @@ require_once dirname(__FILE__) . '/repository/Physiobank.php';
 require_once dirname(__FILE__) . '/repository/Proteomexchange.php';
 require_once dirname(__FILE__) . '/repository/Yped.php';
 
-
-
 class Repositories {
 
     private $repositories;
@@ -34,6 +32,15 @@ class Repositories {
     // Returns the list of all repository objects.
     public function getRepositories() {
         return $this->repositories;
+    }
+
+    // Returns a repository bu id.
+    public function getRepository($id) {
+        foreach ($this->repositories as $repository) {
+            if ($repository->id == $id) {
+                return $repository;
+            }
+        }
     }
 
     private $searchFields;
@@ -62,17 +69,13 @@ class Repositories {
                 , new PeptideatlasRepository()
                 , new CtnRepository()
                 , new CiaRepository()
-                , new  MpdRepository()
-                , new  NiddkcrRepository()
-                 , new openFMRIRepository()
-                 , new NursaRepository()
-                , new  PhysiobankRepository()
-                , new  ProteomexchangeRepository()
+                , new MpdRepository()
+                , new NiddkcrRepository()
+                , new openFMRIRepository()
+                , new NursaRepository()
+                , new PhysiobankRepository()
+                , new ProteomexchangeRepository()
                 , new YpedRepository());
-
-
-
-
 
         $this->searchFields = [];
         foreach ($this->repositories as $repository) {

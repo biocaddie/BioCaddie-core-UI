@@ -8,7 +8,7 @@ class BioProjectRepository extends RepositoryBase {
     public $whole_name = '';
     public $id = '0008';
     public $source = "http://www.ncbi.nlm.nih.gov/bioproject/?term=";
-    public $search_fields = ['dataItem.title', 'dataItem.keywords','dataItem.description', 'organism.target.species'];
+    public $search_fields = ['dataItem.ID','dataItem.title', 'dataItem.keywords','dataItem.description', 'organism.target.species'];
 
     public $facets_fields = ['organism.target.species', 'dataItem.keywords'];
     public $facets_show_name = ['organism.target.species' => 'Organsim',

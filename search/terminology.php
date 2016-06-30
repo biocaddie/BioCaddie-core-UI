@@ -6,6 +6,7 @@
  * Date: 12/7/15
  * Time: 2:53 PM
  */
+require_once dirname(__FILE__) . '/../config/config.php';
 require_once dirname(__FILE__) . '/../config/datasources.php';
 require_once dirname(__FILE__) . '/ElasticSearch.php';
 
@@ -142,6 +143,10 @@ class ExpansionTerms
      */
     public function setOriginalumlsID($originalTerm)
     {
+        if($originalTerm==""||$originalTerm==" "){
+            $this->originalumlsID = '';
+            return;
+        }
         $search = new ElasticSearch();
         $search->query = $originalTerm;
         $search->search_fields = ['term'];
@@ -155,13 +160,15 @@ class ExpansionTerms
         if($repositoryHits>0){
             //$this->originalumlsID = 'umls:_'.$result['hits']['hits'][0]['_source']['cuis'][0];
             $this->originalumlsID = $result['hits']['hits'][0]['_source']['cuis'];
+            //var_dump($result['hits']['hits'][0]['_source']);
         }
        //var_dump($result['hits']['hits'][0]['_source']['cuis']);
     }
     public function get_umlsId_info1()
     {
-        $url = "http://localhost:9000/scigraph/graph/neighbors/".$this->getOriginalumlsID(); #umls:_C0242379
-
+        //$url = "http://localhost:9000/scigraph/graph/neighbors/".$this->getOriginalumlsID(); #umls:_C0242379
+        global $scigraph_url;
+        $url = $scigraph_url .$this->getOriginalumlsID(); #umls:_C0242379
         if (substr(php_uname(), 0, 7) == "Windows") {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -183,8 +190,9 @@ class ExpansionTerms
     }
     public function get_umlsId_info($cuiID)
     {
-        $url = "http://localhost:9000/scigraph/graph/neighbors/umls:_".$cuiID; #umls:_C0242379
-
+        //$url = "http://localhost:9000/scigraph/graph/neighbors/umls:_".$cuiID; #umls:_C0242379
+        global $scigraph_url;
+        $url = $scigraph_url."umls:_".$cuiID;
         if (substr(php_uname(), 0, 7) == "Windows") {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);

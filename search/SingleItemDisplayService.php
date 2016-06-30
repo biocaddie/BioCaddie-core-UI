@@ -303,7 +303,8 @@ class SingleItemDisplayService {
             $this->searchResults['disease.name'] = $rows['disease'][0]['name'];
             $this->searchResults['organism.name'] = $rows['organism'][0]['name'];
             $this->searchResults['organism.scientificName'] = $rows['organism'][0]['scientificName'];
-        } elseif ($this->getCurrentRepository()->id == "0017") {
+        }
+        elseif ($this->getCurrentRepository()->id == "0017") {
             $this->searchResults[$this->getCurrentRepository()->link_field] = '<a href="'
                     . $rows['dataset']['downloadURL']
                     . '" target="_blank">'

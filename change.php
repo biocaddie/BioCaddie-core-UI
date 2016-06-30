@@ -18,7 +18,9 @@ if (isset($_POST["ForgotPassword"])) {
         $email = $_POST["email"];
 
     }else{
+        include dirname(__FILE__) . '/views/header.php';
         echo "email is not valid";
+        include dirname(__FILE__) . '/views/footer.php';
         exit;
     }
 
@@ -40,15 +42,15 @@ if (isset($_POST["ForgotPassword"])) {
         $password = hash('sha512', $salt.$userExists["email"]);
 
         // Create a url which we will direct them to reset their password
-        $pwrurl = "http://datamed.biocaddie.org/dev/biocaddie-ui/reset_password.php?q=".$password;
+        $pwrurl = "https://datamed.org/dev/biocaddie-ui/reset_password.php?q=".$password;
 
         $from = 'biocaddie.mail@gmail.com';
         $to = $userExists["email"];
         $subject = " Password Reset";
-        $body = 'Dear user,<br>
-                If this e-mail does not apply to you please ignore it. It appears that you have requested a password reset at our website www.yoursitehere.com<br>
-                To reset your password, please click the link below. If you cannot click it, please paste it into your web browser\'s address bar.<br>'
-                . $pwrurl . '<br>Thanks,<br>The Administration';
+        $body = 'Dear user,<br><br>
+                If this e-mail does not apply to you please ignore it. It appears that you have requested a password reset at our website https://datamed.org<br>
+                To reset your password, please click the link below. If you cannot click it, please paste it into your web browser\'s address bar.<br><br>'
+                . $pwrurl . '<br><br>Thanks,<br>The DataMed Team';
 
 
         $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, "ssl")
@@ -65,14 +67,21 @@ if (isset($_POST["ForgotPassword"])) {
 
         $result = $mailer->send($message);
 
-	require_once './views/header.php';
+        include dirname(__FILE__) . '/views/header.php';
 
         echo "<div class='container'>Your password recovery key has been sent to your e-mail address.</div>";
       //  header( "refresh:5;url=../index.php" );
         include dirname(__FILE__) . '/views/footer.php';
 
     }
-    else
-        echo "No user with that e-mail address exists.";
+    else{
+        include dirname(__FILE__) . '/views/header.php';
+        echo "<div class='container'>No user with that e-mail address exists.</div>";
+        include dirname(__FILE__) . '/views/footer.php';
+    }
+
+}else{
+    header('Location: index.php');
+    exit;
 }
 ?>

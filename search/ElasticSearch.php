@@ -11,7 +11,7 @@ class ElasticSearch extends ElasticSearchBase {
     public $facet_size = 10;
     public $querytype = 'most_fields';
 
-    protected function update_query_string(){
+    public function update_query_string(){
         if (substr($this->query, 0, 5) == "&#34;" && substr($this->query, -5, 5) == "&#34;") { //if token is wrapper by double quote, query it as a phrase
             $this->query = trim($this->query, "&#34;");
             $this->querytype = 'phrase';
@@ -29,7 +29,9 @@ class ElasticSearch extends ElasticSearchBase {
     }
 
     public function generateResult($body) {
+        //$time=microtime(true);
         global $es;
+
         if (sizeof($this->es_type) > 0) {
             $result = $es->search([
                 'index' => $this->es_index,
@@ -42,7 +44,7 @@ class ElasticSearch extends ElasticSearchBase {
                 'body' => $body
             ]);
         }
-
+        
         return $result;
     }
 
@@ -168,7 +170,7 @@ class ElasticSearch extends ElasticSearchBase {
                 ]
             ];
         }
-       // print_r($query_part);
+
         return $query_part;
     }
 
@@ -194,6 +196,9 @@ class ElasticSearch extends ElasticSearchBase {
         if (count(array_keys($sort) >= 1)) {
             $body['sort'] = $sort;
         }
+        /*echo '<pre>';
+        print_r($body);
+        echo '</pre>';*/
         return $body;
     }
 

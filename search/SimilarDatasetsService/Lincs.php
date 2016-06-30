@@ -2,7 +2,7 @@
 
 error_reporting(0);
 ini_set('display_errors', 0);
-
+require_once dirname(__FILE__) . '/../../config/config.php';
 class LINCSDataset {
 
     protected $lincsId;
@@ -83,7 +83,10 @@ class LINCSSimilarData {
     public function getLincsDataset($lincsid,$count) {
 
         // Get json file
-        $url = "http://localhost:8085/dataset%23" . $lincsid;
+        global $similarity_url;
+        global $es_end_point;
+        //$url = "http://localhost:8085/dataset%23" . $lincsid;
+        $url = $similarity_url . $lincsid;
         if (substr(php_uname(), 0, 7) == "Windows") {
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -104,7 +107,8 @@ class LINCSSimilarData {
         if ($num > 0) {
             for ($i = 0; $i < $num; $i++) {
                 $uid = str_replace('#', '/', $data["nodes"][$i]["name"]);
-		$dataUrl = "http://datamed.biocaddie.org:9200/lincs/" . $uid;
+		//$dataUrl = "http://datamed.biocaddie.org:9200/lincs/" . $uid;
+        $dataUrl = "http://".$es_end_point."/lincs/" . $uid;
 		if (substr(php_uname(), 0, 7) == "Windows") {
                     $curlHandle = curl_init();
                     curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);

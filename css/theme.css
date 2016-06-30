@@ -39,7 +39,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
 
 /****** logo on the top *****/
 .header-logo{
-    width: 140px;
     margin-right: 20px;
 }
 .header-tag{
@@ -391,7 +390,7 @@ html {
 }
 
 .container .jumbotron.search-block input[type="radio"] {
-    margin-top: -7px;
+    margin-top: -5px;
 }
 
 .container .jumbotron.search-block-2 {
