@@ -15,7 +15,7 @@
                         <span class="title">June 30, 2016</span>
                         <ul style="font-size: 13px">
 
-                            <li>Corrects misspell words</li>
+                            <li>Correct misspelled words</li>
                             <li>Export search results to citation manager</li>
                             <li>Save search results to collections</li>
                             <li>Filter results by accessibility and authorization</li>
