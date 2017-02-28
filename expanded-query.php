@@ -1,18 +1,14 @@
 <?php
 require_once dirname(__FILE__) .'/config/config.php';
-require_once dirname(__FILE__) . '/search/SearchBuilder.php';
-require_once dirname(__FILE__) . '/views/search/search_panel.php';
-require_once dirname(__FILE__) . '/trackactivity.php';
+require_once dirname(__FILE__) . '/Model/SearchBuilder.php';
+require_once dirname(__FILE__) . '/Model/TrackActivity.php';
 
-require_once dirname(__FILE__) . '/search/ExpansionSearch.php';
+
+$query='';
+$expanquery='';
 
 if(isset($_GET['q'])){
     $query = $_GET['q'];
-
-    /*$search = new ExpansionSearch();
-    $search->query = $query;
-    $search->update_query_string();
-    $expanquery = $search->getTerminologyquery();*/
     $expanquery = $_SESSION['synonym'];
 }
 
@@ -21,6 +17,7 @@ if(isset($_GET['q'])){
 <?php include dirname(__FILE__) . '/views/header.php'; ?>
 
 <?php include dirname(__FILE__) . '/views/breadcrumb.php'; ?>
+
     <div class="container">
 
         <div class="row">

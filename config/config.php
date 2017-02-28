@@ -1,12 +1,5 @@
 <?php
-
-//for cookie security issue
-/*ini_set("session.use_cookies", 0);
-ini_set("session.use_only_cookies", 0);
-ini_set("session.use_trans_sid", 1);
-ini_set("session.cache_limiter", "");
-*/
-/*start session*/
+error_reporting(E_ERROR);
 if (session_status() == PHP_SESSION_NONE) {
 	session_start();
 }
@@ -18,8 +11,8 @@ $es_end_point = '129.106.31.121:9200';
 //$es_end_point = '129.106.149.72:9200';
 
 //terminology server
-$scigraph_url = "http://localhost:9000/scigraph/graph/neighbors/";
-$scigraph = "http://localhost:9000/scigraph/";
+$scigraph_url = "http://datamedbeta.biocaddie.org:9000/scigraph/graph/neighbors/";
+$scigraph = "http://datamedbeta.biocaddie.org:9000/scigraph/";
 
 //similarity config
 $similarity_url = "http://localhost:8085/dataset%23";
@@ -40,8 +33,12 @@ $dbconf =array(
 //nlp server
 $nlp_server = 'http://clamp.uth.edu/nlp-process-webapp/cdr';
 
+//nlp server
+$metamap_server = 'http://clamp.uth.edu/nlp-process-webapp-mm/cdr';
+
 //IseeDelve
-$IseeDelve = 'http://datamed.biocaddie.org/iseedelve/pdb_v2/';
+$IseeDelve = 'http://datamedbeta.biocaddie.org/iseedelve/pdb_v2/';
+
 ?>
 
 

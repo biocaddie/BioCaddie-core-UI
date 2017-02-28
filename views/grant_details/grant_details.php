@@ -5,9 +5,14 @@
  * Date: 1/20/16
  * Time: 11:02 AM
  */
-require_once dirname(__FILE__) . '/../../search/PubmedGrantService.php';
+require_once dirname(__FILE__) . '/../../Model/PubmedGrantService.php';
 
-function displayResult($grants_details) { ?>
+function partialGrantDetial($pubgrant_service){
+
+    $grants_details = $pubgrant_service->searchGrantInfo();
+
+    ?>
+
     <div class="dataset-info">
         <div class="heading">
             <div align="center">
@@ -17,12 +22,12 @@ function displayResult($grants_details) { ?>
             <?php $i=0;?>
                <?php   foreach(array_keys($grants_details) as $key){ ?>
                   <?php $i=$i+1; ?>
-                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                <div class="panel-group" id="accordion<?php echo $i;?>" role="tablist" aria-multiselectable="true">
                     <div class="panel panel-info">
-                        <div class="panel-heading" role="tab" id="heading-resource">
+                        <div class="panel-heading" role="tab" id="heading-resource<?php echo $i;?>">
                             <h4 class="panel-title">
                                    <?php if(sizeof($grants_details[$key])>0){ ?>
-                                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-resource<?php echo $i;?>" aria-expanded="true" aria-controls="collapse-resource">
+                                    <a role="button" data-toggle="collapse" data-parent="#accordion<?php echo $i;?>" href="#collapse-resource<?php echo $i;?>"  aria-controls="collapse-resource<?php echo $i;?>">
                                       <i class="fa fa-chevron-up"></i>
                                    <?php }  ?>
                                 <?php echo $key ;?>
@@ -30,7 +35,7 @@ function displayResult($grants_details) { ?>
                             </h4>
                         </div>
                         <?php if(sizeof($grants_details[$key])>0){ ?>
-                          <div id="collapse-resource<?php echo $i;?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-resource">
+                          <div id="collapse-resource<?php echo $i;?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-resource<?php echo $i;?>">
 
                             <?php foreach($grants_details[$key] as $results){?>
                                     <div class="panel-body">
@@ -53,30 +58,19 @@ function displayResult($grants_details) { ?>
                                             </tr>
 
                                             <tr>
-                                                <td><strong>ORG Name:</strong></td>
+                                                <td><strong>Organization Name:</strong></td>
                                                 <td><?php echo $results["ORG_name"]; ?></td>
                                             </tr>
                                             <tr>
-                                                <td><strong>IC Name:</strong></td>
+                                                <td><strong>Institute & Center Name:</strong></td>
                                                 <td><?php echo $results["IC_name"]; ?></td>
                                             </tr>
-                                            <!--<tr>
-                                                <td><strong>Total Cost:</strong></td>
-                                                <?php if(strlen($results["total_cost"])>0){?>
-                                                    <td><?php //echo "$".$results["total_cost"]; ?></td>
-                                                <?php }
-                                                     else { ?>
-                                                    <td><?php //echo $results["total_cost"]; ?></td>
-                                                <?php } ?>
-                                            </tr>-->
+
                                             <tr>
                                                 <td><strong>Fiscal Year:</strong></td>
                                                 <td><?php echo $results["FY"]; ?></td>
                                             </tr>
-                                            <!--<tr>
-                                                <td><strong>ID:</strong></td>
-                                                <td><a href="https://projectreporter.nih.gov/project_info_details.cfm?aid=<?php //echo $results["ID"];?>" target="_blank"><?php //echo $results["ID"]; ?></a></td>
-                                            </tr>-->
+
                                             </tbody>
                                         </table>
                                     </div>
@@ -89,30 +83,4 @@ function displayResult($grants_details) { ?>
             <?php }?>
         </div>
     </div>
-<?php }
-
-function partialGrantDetial($pubgrant_service){
-    /* $result = $service->getSearchResults();
-     if (isset($result['citation.PMID'])) {
-         $pmid= substr($result['citation.PMID'],5);
-     } else {
-         return ;
-     }*/
-    //$pubgrant_serivce = new PubmedGrantService();
-    //$pubgrant_service->getPubmedGrant();
-    $grants_details = $pubgrant_service->search_grant_info();
-    displayResult($grants_details);
-}
-/*function show_link_or_not($ID){
-    //some project are only in database but not in Reporter search result, here to check if show the link or not
-    $url= "https://projectreporter.nih.gov/project_info_details.cfm?aid=".$ID;
-    $resultPage = file_get_contents($url);
-
-    if(strpos($resultPage,"This project doesn't exist in RePORTER yet. Please check your query or check back after the start date. ")!==false){
-        echo false;
-    }
-    else{
-        echo true;
-    }
-}*/
-?>
+<?php } ?>

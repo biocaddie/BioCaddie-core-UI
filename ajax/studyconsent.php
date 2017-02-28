@@ -5,7 +5,7 @@
  * Date: 3/8/16
  * Time: 1:00 PM
  */
-require_once '../dbcontroller.php';
+require_once '../Model/DBController.php';
 require_once '../config/config.php';
 require_once '../database/StudyConsent.php';
 date_default_timezone_set('America/Chicago');

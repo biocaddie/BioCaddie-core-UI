@@ -1,8 +1,8 @@
 <?php
-require_once dirname(__FILE__) . '/trackactivity.php';
+require_once 'Model/TrackActivity.php';
 ?>
 
-<?php include dirname(__FILE__) . '/views/header.php'; ?>
+<?php include 'views/header.php'; ?>
 
 <script>
     $(function () {
@@ -182,4 +182,4 @@ require_once dirname(__FILE__) . '/trackactivity.php';
 </div><!--/.page-container-->
 
 
-<?php include dirname(__FILE__) . '/views/footer.php'; ?>
+<?php include 'views/footer.php'; ?>

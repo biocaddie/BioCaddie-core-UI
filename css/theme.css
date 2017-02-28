@@ -5,8 +5,7 @@
 
 body {
     position: relative;
-    margin-top: 10px;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;/*'Roboto',*/
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;/*'Roboto',*/
     font-size: 14px;   
     padding-bottom: 10rem;
     min-height: 100%;
@@ -29,13 +28,28 @@ a:hover, a:focus {
 }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
-    font-family:"Helvetica Neue", Helvetica, Arial, sans-serif;/*"Roboto",*/
+    font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;/*"Roboto",*/
     font-weight: bold;
 }
 
 /********************************************
 *     Styles for element on home page
 *********************************************/
+
+/****** navigation bar *******/
+
+.feedback_bar {
+    margin-top: 0px;
+    border-radius: 0px;
+    border: none;
+    background-color: #5bc0de;
+    background: linear-gradient(to bottom, #5bc0de 0px, #5bc0de 100%);
+    padding: 0px;
+}
+
+
+
+
 
 /****** logo on the top *****/
 .header-logo{
@@ -45,9 +59,13 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6{
     height: 20px;
 }
 
+.input-group-btn > .btn {
+    height: 34px;
+}
+
 /****** navigation bar *******/
 
-.navbar{
+.navbar {
     margin-top: 10px;
     border-radius: 0px;
     border: none;
@@ -118,55 +136,27 @@ ul li:hover ul.dropdown {
     font-size: 18px;
 }
 
-.search-text-sm{
-    /*color:#767879;*/
-    font-size: 12px;
-    color:black;
-    font-weight: normal;
+.search-text-sm {    
+    font-size: 12px;    
+    margin: 5px 0;
 }
 
-.search-text-md{
+.search-text-md {
     /*color:#767879;*/
     font-size: 14px;
 }
 
-.ui-dialog {
-    z-index: 10000;
-    box-shadow: rgb(136, 136, 136) 1px 1px 5px;
-}
-
-input#btn-search{
-    background-image: url(../img/search.png);
-    background-position:center;
-    background-size: 35px 35px;
-    width:50px;
-    height:35px;
-}
-
 /* popup dialog under the search box*/
 
-.ui-widget-content a{
+.popover-content a {
     color:#009444;
 }
-
-.ui-dialog-title {
-    display: none;
-}
-
-.noTitleStuff .ui-dialog-titlebar {
-    display:none
-}
-
-.ui-widget-header{
-    border:0px;
-}
-
 
 .types{
-    color:#009444;
+    color: #009444;
 }
-.ui-widget-content a.repositoryLabel{
-    color:black;
+.popover-content a.repositoryLabel{
+    color: #000;
 }
 
 /****** box on homepage *******/
@@ -405,11 +395,6 @@ html {
 
 .container .jumbotron.search-block-2 input.form-control {
     border-radius: 0;
-}
-
-
-#query {
-    text-transform: capitalize;
 }
 
 /****result table*****/
@@ -761,7 +746,7 @@ ol.search-result > li .row-number {
     color:#fff;
     background:#666;
     font-weight:bold;
-    font-family:"Helvetica Neue", Arial, sans-serif;
+    font-family:"Roboto", "Helvetica Neue", Arial, sans-serif;
     text-align:center;
 }
 
@@ -830,6 +815,10 @@ ol.search-result .result-source {
 
 .dropdown.open ul.dropdown-menu li a {
     padding: 3px 10px;
+}
+
+.dropdown.open ul.dropdown-menu li a.active {
+    background-color: #e8e6e6;
 }
 
 #latest-datasets .panel-body {

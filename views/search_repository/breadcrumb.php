@@ -55,7 +55,10 @@ function breadcrumb($searchBuilder) {
                             $href.="$".$filterItems[0]."@";
                         }
 
-                        $filterItems = explode(',',$filterItems[1]);
+                        if(count($filterItems)>1){
+                            $filterItems = explode(',',$filterItems[1]);
+                        }
+
 
                         $count =0;
                         foreach($filterItems as $filterItem){ // each selected filter item

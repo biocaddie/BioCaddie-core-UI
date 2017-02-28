@@ -7,7 +7,6 @@ require_once "../config/config.php";
 global $es_end_point;
 
 $es = new Elasticsearch\Client([
-    //'hosts' => ['129.106.31.121:9200']
      'hosts' => [$es_end_point]
         ]);
 
@@ -15,7 +14,6 @@ $es = new Elasticsearch\Client([
 $datatype_index = ['protein' => 'pdb_v2',
     'phenotype' => 'phenodisco',
     'gene_expression' => 'geo',
-    'gene expression' => 'geo',
     'sequence' => 'sra'
 ];
 

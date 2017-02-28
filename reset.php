@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__FILE__) . '/lib/password.php';
 
-require_once './dbcontroller.php';
+require_once dirname(__FILE__) .'/Model/DBController.php';
 
 $objDBController = new DBController();
 $dbconn=$objDBController->getConn();

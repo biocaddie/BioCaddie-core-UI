@@ -1,42 +1,53 @@
 <?php
 
-require_once dirname(__FILE__) .'/config/config.php';
-require_once dirname(__FILE__) . '/trackactivity.php';
+require_once dirname(__FILE__) . '/config/config.php';
+require_once dirname(__FILE__) . '/Model/TrackActivity.php';
 ?>
+<?php include 'views/header.php'; ?>
+    <style type="text/css">
+        .popover {
+            left: 0 !important;
+            width: 100% !important;
+            max-width: none !important;
+        }
 
-<?php include dirname(__FILE__) . '/views/header.php'; ?>
+        .popover.bottom > .arrow {
+            left: 30px !important;
+        }
 
-<div class="container">
+        .input-group-addon {
+            background-color: #58595b;
+            color: #fff;
+        }
+    </style>
 
-    <?php require_once dirname(__FILE__) . '/views/index/search_panel.php';?>
 
-    <div class="row">
-        <div class="col-lg-4 col-md-6">
-            <?php require_once(dirname(__FILE__) . "/views/index/statistics.php"); ?>
-        </div>
-        <div class="col-lg-4 col-md-6">
-            <?php require_once(dirname(__FILE__) . "/views/index/repositories.php"); ?>
-        </div>
-        <div class="col-lg-4 col-md-6">
+    <div class="container">
 
-            <?php require_once(dirname(__FILE__) . "/views/index/new-features.php"); ?>
+        <?php include 'views/index/SearchPanel.php'; ?>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <?php include "views/index/Statistics.php"; ?>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <?php include "views/index/Repositories.php"; ?>
+            </div>
+            <div class="col-lg-4 col-md-6">
+
+                <?php include "views/index/NewFeatures.php"; ?>
+            </div>
         </div>
     </div>
-</div>
 
-<?php require_once(dirname(__FILE__) . "/views/index/pilot-projects.php"); ?>
+<?php include dirname(__FILE__) . "/views/index/PilotProjects.php"; ?>
 
 <?php
-/* Page Custom Scripts. */
-$scripts = ["./js/js.cookie.js",
-    "https://code.jquery.com/ui/1.10.3/jquery-ui.js",
-    "https://d3js.org/d3.v3.min.js",
-    "https://www.google.com/jsapi",
-    "./js/page.scripts/index.js"
-    ];
+/* ==== Page Specific Scripts ==== */
+$scripts = [
+    "./vendor/jquery/jquery.typewatch.js",
+    "./js/page.scripts/index.js",
+];
 ?>
 
-
 <?php include dirname(__FILE__) . '/views/footer.php'; ?>
-
-

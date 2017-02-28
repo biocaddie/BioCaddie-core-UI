@@ -1,81 +1,39 @@
 <?php
+
+
 require_once dirname(__FILE__) .'/config/config.php';
 
-require_once dirname(__FILE__) . '/search/SearchRepositoryBuilder.php';
-require_once dirname(__FILE__) . '/views/search_repository/search_panel.php';
-require_once dirname(__FILE__) . '/views/search_repository/repositories.php';
+require_once dirname(__FILE__) . '/Model/SearchBuilder.php';
+require_once dirname(__FILE__) . '/Model/AutoCorrection.php';
+require_once dirname(__FILE__) . '/Model/ConstructSearchRepoView.php';
 require_once dirname(__FILE__) . '/views/search_repository/filters.php';
-require_once dirname(__FILE__) . '/views/search_repository/result_status.php';
-require_once dirname(__FILE__) . '/views/search_repository/pagination.php';
+require_once dirname(__FILE__) . '/views/feedback.php';
+
+require_once dirname(__FILE__) . '/views/search_panel.php';
+require_once dirname(__FILE__) . '/views/search/repositories.php';
+require_once dirname(__FILE__) . '/views/search/pagination.php';
+require_once dirname(__FILE__) . '/views/search/result_status.php';
+require_once dirname(__FILE__) . '/views/feedback.php';
+require_once dirname(__FILE__) . '/views/share.php';
+require_once dirname(__FILE__) . '/views/search/switch_view.php';
+
+require_once dirname(__FILE__) . '/views/search_repository/breadcrumb.php'; // Should be combined with the on under search folder
+require_once dirname(__FILE__) . '/views/search_repository/filters.php';
 require_once dirname(__FILE__) . '/views/search_repository/sorting.php';
 require_once dirname(__FILE__) . '/views/search_repository/results.php';
 require_once dirname(__FILE__) . '/views/search_repository/pilot_projects.php';
-require_once dirname(__FILE__) . '/views/search_repository/switch_view.php';
-require_once dirname(__FILE__) . '/views/search_repository/breadcrumb.php';
-require_once dirname(__FILE__) . '/search/AutoCorrection.php';
-require_once dirname(__FILE__) . '/views/feedback.php';
 
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
+$searchBuilder = new SearchBuilder();
+$searchBuilder->searchSingleRepo();
+$searchRepoView = new ConstructSearchRepoView($searchBuilder);
 
-$searchBuilder = new SearchRepositoryBuilder();
 
-if (isset($_POST['radio-share'])) {
-    $shareType = $_POST['radio-share'];
-    $sharedData = "";
-    
-    $selectedRows = explode(",", $_POST['selected-rows']);
-    $searchResults = $searchBuilder->getSearchResults();
-    
-    $newLine = $shareType == "file" ? "\n" : "<br />";
-    
-    $headers = $searchBuilder->getSearchHeaders();
-    
-    foreach ($selectedRows as $rowIndex) {
-        $row = $searchResults[intval($rowIndex)];
-        $sharedData .= '=== Row ' . ($rowIndex + 1) . " ===" . $newLine;
-        $i = 0;
-        foreach ($row as $field) {
-            $sharedData .= $headers[$i] . ": " . strip_tags($field) . $newLine;
-            $i++;
-        }
-        $sharedData .= $newLine;
-    }    
-        
-    // File
-    if ($shareType == "file") {        
-        header('Content-Disposition: attachment; filename="biocaddie-share.txt"');
-        header('Content-Type: text/plain');
-        header('Content-Length: ' . strlen($sharedData));
-        header('Connection: close');
-        echo $sharedData;
-    }
-    // Email
-    else {
-        require_once dirname(__FILE__) . '/vendor/swiftmailer/swiftmailer/lib/swift_required.php';
+$searchBuilderAll = new SearchBuilder();
+$searchBuilderAll->searchAllRepo();
+$searchRepoFilterView = new ConstructSearchRepoView($searchBuilderAll);
 
-        $from = 'biocaddie.mail@gmail.com';
-        $to = $_POST['EmailAddress'];
-        $subject = isset($_POST['EmailSubject']) ? ' - ' . $_POST['EmailSubject'] : '';
-        $body = '<p>' . $_POST['EmailBody'] . '</p>' . $sharedData;
-
-        $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, "ssl")
-                ->setUsername('biocaddie.mail@gmail.com')
-                ->setPassword('biocaddie4050@');
-
-        $mailer = Swift_Mailer::newInstance($transport);
-
-        $message = Swift_Message::newInstance('bioCaddie Data Export' . $subject)
-                ->setFrom(array($from => 'bioCaddie'))
-                ->setTo(array($to))
-                ->setBody($body)
-                ->setContentType("text/html");
-
-        $result = $mailer->send($message);
-    }
-}
 ?>
+
 
 <?php include dirname(__FILE__) . '/views/header.php'; ?>
 
@@ -89,26 +47,32 @@ if (isset($_POST['radio-share'])) {
     <div class="row">
         <?php /* ###### Filter Panel ###### */ ?>
         <div class="col-sm-4 col-md-3">
-            <?php partialRepositories($searchBuilder); ?>
-            <?php partialFilters($searchBuilder); ?>
-            <?php partialFeedback(); ?>
+            <?php partialRepositories($searchRepoFilterView); ?>
+           <?php partialFilters($searchRepoView);
+            partialFeedback();
+           ?>
         </div>
 
         <?php /* ###### Search Result Panel ###### */ ?>
         <div class="col-sm-8 col-md-9">
+
             <?php /* ==== Pagination Panel ==== */ ?>
-            <?php if ($searchBuilder->getTotalRows() > 0): ?>
-                <?php partialResultsStatus($searchBuilder); ?>
+            <?php if ($searchBuilder->getSelectedTotalRows() > 0): ?>
+                <?php partialResultsStatus($searchBuilder,$searchRepoView); ?>
                 <?php partialPilotProjects($searchBuilder); ?>
                 <div class="clearfix"></div>
-                <?php partialPagination($searchBuilder); ?>
-                <?php partialSwitch($searchBuilder); ?>
-                <?php partialSorting($searchBuilder); ?>
+                <?php partialPagination($searchBuilder,$searchRepoView); ?>
+                <div class="pull-right" style="margin: 10px 0 0 5px;">
+                    <?php partialShare($_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]); ?>
+                </div>
+                <?php partialSwitch($searchRepoView); ?>
+                <?php partialSorting($searchBuilder, $searchRepoView); ?>
             <?php endif; ?>
 
             <div class="clearfix"></div>
             <?php /* ==== Search Result List ==== */ ?>
-            <?php partialResults($searchBuilder); ?>
+
+            <?php partialResults($searchBuilder,$searchRepoView); ?>
 
 
         </div>
@@ -121,3 +85,4 @@ $scripts = ["./js/page.scripts/searchrepo.js"];
 ?>
 
 <?php include dirname(__FILE__) . '/views/footer.php'; ?>
+

@@ -9,9 +9,6 @@ function show_pagination($total_num, $offset, $url, $N) {
     $min = max($min, 1);
     $max = min(ceil($total_num / $N), $offset + 5);
     $max = max(11, $max);
-    /* echo $min;
-      echo '<br>';
-      echo $max; */
     if ($total_num / $N >= 1) {
         ?> 
 

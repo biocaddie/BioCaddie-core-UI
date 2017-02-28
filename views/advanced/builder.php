@@ -103,8 +103,8 @@
                         </button>
                         <ul class="dropdown-menu inner1 fieldul1">
                             <li><a href="#">All Search Fields</a></li>
-                            <li><a href="#">Title</a></li>
-                            <li><a href="#">Author</a></li>
+                            <li><a href="#">Dataset Title</a></li>
+                            <li><a href="#">Dataset Creators</a></li>
                             <li><a href="#">Description</a></li>
                         </ul>
                     </div>

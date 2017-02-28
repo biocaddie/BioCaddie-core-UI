@@ -2,9 +2,9 @@
 
 require_once dirname(__FILE__) .'/config/config.php';
 require_once dirname(__FILE__) .'/config/datasources.php';
-require_once dirname(__FILE__) . '/search/SearchBuilder.php';
-require_once dirname(__FILE__) . '/trackactivity.php';
-require_once dirname(__FILE__) .'/search/SubmitDataService.php';
+require_once dirname(__FILE__) . '/Model/SearchBuilder.php';
+require_once dirname(__FILE__) . '/Model/TrackActivity.php';
+require_once dirname(__FILE__) .'/Model/SubmitDataService.php';
 include dirname(__FILE__) . '/views/header.php';
 ?>
 

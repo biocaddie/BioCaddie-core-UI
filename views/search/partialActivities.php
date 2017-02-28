@@ -1,5 +1,9 @@
 <?php
 
+/*
+ * Display user's recent activity
+ * @input: $_SESSION['history']
+ * */
 function partialActivities() {
     $history = [];
     if (isset($_SESSION["history"])) {

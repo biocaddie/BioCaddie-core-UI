@@ -1,55 +1,81 @@
 <?php
 
-function partialResult($service) {
-    if ($service->getRepositoryId() == "0001") {
-        require_once dirname(__FILE__) . '/repositories/DbGap.php';
-    } elseif ($service->getRepositoryId() == "0002") {
-        require_once dirname(__FILE__) . '/repositories/Pdb.php';
-    } elseif ($service->getRepositoryId() == "0003") {
-        require_once dirname(__FILE__) . '/repositories/Geo.php';
-    } elseif ($service->getRepositoryId() == "0004") {
-        require_once dirname(__FILE__) . '/repositories/Lincs.php';
-    } elseif ($service->getRepositoryId() == "0005") {
-        require_once dirname(__FILE__) . '/repositories/Gemma.php';
-    } elseif ($service->getRepositoryId() == "0006") {
-        require_once dirname(__FILE__) . '/repositories/ArrayExpress.php';
-    } elseif ($service->getRepositoryId() == "0007") {
-        require_once dirname(__FILE__) . '/repositories/Sra.php';
-    } elseif ($service->getRepositoryId() == "0008") {
-        require_once dirname(__FILE__) . '/repositories/Bioproject.php';
-    }elseif ($service->getRepositoryId() == "0009") {
-        require_once dirname(__FILE__) . '/repositories/ClinicalTrials.php';
-    }elseif ($service->getRepositoryId() == "0010") {
-        require_once dirname(__FILE__) . '/repositories/Dryad.php';
-    }elseif ($service->getRepositoryId() == "0011") {
-        require_once dirname(__FILE__) . '/repositories/Cvrg.php';
-    }elseif ($service->getRepositoryId() == "0012") {
-        require_once dirname(__FILE__) . '/repositories/Dataverse.php';
-    }elseif ($service->getRepositoryId() == "0013") {
-        require_once dirname(__FILE__) . '/repositories/Neuromorpho.php';
-    } elseif ($service->getRepositoryId() == "0014") {
-        require_once dirname(__FILE__) . '/repositories/Peptideatlas.php';
-    }elseif ($service->getRepositoryId() == "0015") {
-        require_once dirname(__FILE__) . '/repositories/Ctn.php';
-    }elseif ($service->getRepositoryId() == "0016") {
-        require_once dirname(__FILE__) . '/repositories/Cia.php';
-    }elseif ($service->getRepositoryId() == "0017") {
-        require_once dirname(__FILE__) . '/repositories/Mpd.php';
-    }elseif ($service->getRepositoryId() == "0018") {
-        require_once dirname(__FILE__) . '/repositories/Niddkcr.php';
-    }elseif ($service->getRepositoryId() == "00019") {
-        require_once dirname(__FILE__) . '/repositories/openFMRI.php';
-    }elseif ($service->getRepositoryId() == "00020") {
-        require_once dirname(__FILE__) . '/repositories/Nursa.php';
-    }elseif ($service->getRepositoryId() == "00023") {
-        require_once dirname(__FILE__) . '/repositories/Yped.php';
+function partialResult($service)
+{
+    $data = $service->getDisplayItemData();
+    if($data['title']==null){
+     $data['title'] = $data["ID"];
     }
-    elseif ($service->getRepositoryId() == "0021") {
-        require_once dirname(__FILE__) . '/repositories/Physiobank.php';
-    }
-    elseif ($service->getRepositoryId() == "0022") {
-        require_once dirname(__FILE__) . '/repositories/Proteomexchange.php';
-    }
-    echo displayResult($service);
-}
-?>
+
+    ?>
+    <div class="dataset-info">
+        <div class="heading">
+            <div>
+                <span  class="title">
+                    <img style="height: 50px" src="./img/repositories/<?php echo $data['repo_id']; ?>.png">
+                </span>
+
+            </div>
+
+            <table class="table table-default">
+                <tbody>
+                <tr>
+                    <td style="width: 20%;"><strong>Title:</strong></td>
+                    <td><strong><?php echo $data['title'][1] ;?></strong>
+                            <?php if(strlen($data['title'][2])>0){?>
+                             <a class="hyperlink" target="_blank" href="<?php echo $data['title'][2]; ?>"><?php echo trim($data['logo']); ?></a>
+                           <?php } ?>
+
+
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <?php foreach ($data['show_order'] as $subtitle): ?>
+            <?php if (is_empty_field($data[$subtitle])){continue;}?>
+        <div class="panel-group" id="accordion-<?php echo  $subtitle; ?>" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-info">
+                <div class="panel-heading" role="tab" id="heading-dataset-<?php echo $subtitle; ?>">
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" data-parent = '#accordion-<?php echo  $subtitle; ?>' data-target="#collapse-dataset-<?php echo $subtitle; ?>"
+                           href="#collapse-dataset-<?php echo $subtitle; ?>"
+                           aria-expanded="true" aria-controls="collapse-dataset-<?php echo $subtitle; ?>">
+                            <i class="fa fa-chevron-up"></i>
+                            <?php echo ucfirst(preg_replace("/([a-z])([A-Z])([a-z])/", "$1 $2$3", $subtitle)); ?>
+                        </a>
+                    </h4>
+                </div>
+
+                <div id="collapse-dataset-<?php echo $subtitle; ?>" class="panel-collapse collapse in" role="tabpanel"
+                     aria-labelledby="heading-dataset-<?php echo $subtitle; ?>">
+                    <div class="panel-body">
+                        <table class="table table-striped">
+                            <tbody>
+                            <?php for ($i = 0; $i < sizeof($data[$subtitle]); $i++):?>
+                                <?php if(strlen($data[$subtitle][$i][1])==0 or trim($data[$subtitle][$i][1])===',' or trim($data[$subtitle][$i][1])==='NULL'){continue;}?>
+                                <tr>
+                                    <td style="width: 20%;"><strong><?php echo $data[$subtitle][$i][0] ?>:</strong></td>
+                                    <?php if(strlen(($data[$subtitle][$i][2]))>0):?>
+                                        <td> <a class='hyperlink' target="_blank" href="<?php echo $data[$subtitle][$i][2]; ?>"><?php echo $data[$subtitle][$i][1]; ?></a></td>
+                                        <!--<td> <?php echo $data[$subtitle][$i][1]; ?></td>-->
+                                    <?php else:?>
+                                        <td><div class="comment more"> <?php echo $data[$subtitle][$i][1]; ?></div></td>
+                                    <?php endif;?>
+                                </tr>
+                            <?php endfor; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </div>
+        <?php endforeach; ?>
+    </div>
+
+
+    <?php } ?>

@@ -1,17 +1,12 @@
 <?php
 require_once dirname(__FILE__) .'/config/config.php';
-
-require_once dirname(__FILE__) . '/search/PubmedGrantService.php';
+require_once dirname(__FILE__) . '/Model/PubmedGrantService.php';
+require_once dirname(__FILE__) . '/Model/TrackActivity.php';
+require_once dirname(__FILE__) . '/Model/SearchBuilder.php';
+require_once dirname(__FILE__) . '/views/search_panel.php';
 require_once dirname(__FILE__) . '/views/grant_details/grant_details.php';
-
-//require_once dirname(__FILE__) . '/search/SingleItemDisplayService.php';
-///require_once dirname(__FILE__) . '/views/display_item/search_panel.php';
-//require_once dirname(__FILE__) . '/views/display_item/breadcrumb.php';
 require_once dirname(__FILE__) . '/views/feedback.php';
-require_once dirname(__FILE__) . '/search/SearchBuilder.php';
-require_once dirname(__FILE__) . '/views/search/search_panel.php';
-require_once dirname(__FILE__) . '/trackactivity.php';
-//$service = new SingleItemDisplayService();
+
 $service_grant = new PubmedGrantService();
 $service = new SearchBuilder();
 ?>
@@ -20,7 +15,6 @@ $service = new SearchBuilder();
     <div class="row">
         <div class="col-lg-12">
             <?php echo partialSearchPanel($service); ?>
-            <?php //echo partialBreadcrumbPanel($service); ?>
         </div>
         
         <div class="col-lg-9">

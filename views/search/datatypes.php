@@ -1,55 +1,50 @@
 <?php
+/*
+ * Display data types filter panel on the search.php page
+ *
+ * input: an object of ConstructSearchView class
+ * @param
+ *      $this->dataTypeFilter: array(array(string))
+ * */
 
-function partialDatatypes($searchBuilder) {
-    //sort in number order
-    $nums = array();
-    $datatypes = $searchBuilder->getDatatypes();
+function partialDatatypes($searchView)
+{
+    $datatypes = $searchView->getDataTypeFilter();
+    ?>
 
-    foreach ($datatypes as $key => $row)
-    {
-        $nums[$key] = $row['rows'];
-        //for put the clinical trials to the last
-        if($key=="Clinical Trials"){
-            $nums[$key] = -1*$row['rows'];
-        }
-    }
-    array_multisort($nums, SORT_DESC, $datatypes);
-    if ($searchBuilder->getTotalRows() > 0) {
-        ?>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <strong> Data Types</strong>
-            </div>
-            <div class="panel-body">
-                <ul class="no-disk">
-                    <?php
-                        foreach ($datatypes as $datatypeName => $details):?>
-                            <?php if($details['rows']==0){
-                                  continue;
-                            }?>
-                        <li>
-                            <a href="<?php echo $searchBuilder->getUrlByDatatype($datatypeName);?>">
-
-                                <?php if($datatypeName=="Clinical Trials"):?>
-                                  <div style="color:gray">
-                                <?php endif;?>
-                               <?php if ($details['selected'] == true): ?>
-                                    <i class="fa fa-check-square"></i>
-                                <?php else: ?>
-                                    <i class="fa fa-square-o"></i>
-                                <?php endif; ?>
-                                <?php echo $datatypeName; ?>
-                                <?php echo '(' . number_format($details['rows']) . ')'; ?>
-                                <?php if($datatypeName=="Clinical Trials"):?>
-                                    </div>
-                                <?php endif;?>
-                            </a> 
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong> Data Types</strong>
         </div>
-        <?php
-    }
+        <div class="panel-body">
+            <ul class="no-disk">
+                <?php
+                if ($searchView->getSearchBuilder()->getTotalRows() > 0) {
+                    foreach($datatypes as $key=>$row){
+                        ?>
+                        <li>
+                            <a target="_parent" href="<?php echo $searchView->getUrlByDatatype($key);?>">
+                            <!--checkbox-->
+                            <?php if ($row['selected'] == true): ?>
+                                <i class="fa fa-check-square"></i>
+                            <?php else: ?>
+                                <i class="fa fa-square-o"></i>
+                            <?php endif; ?>
+
+                            <!--label-->
+                            <?php echo $key; ?>
+
+                            <!--number of results-->
+                            <?php echo '(' . number_format($row['rows']) . ')'; ?>
+                            </a>
+                        </li>
+                        <?php
+                    } // end of foreach
+                }
+                ?>
+            </ul>
+        </div>
+    </div>
+    <?php
 }
 ?>

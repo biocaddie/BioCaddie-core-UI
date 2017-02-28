@@ -1,7 +1,8 @@
 <?php
-require_once dirname(__FILE__) . '/config/config.php';
-require_once dirname(__FILE__) . '/trackactivity.php';
-include dirname(__FILE__) . '/views/header.php'; ?>
+require_once  'config/config.php';
+require_once  'Model/TrackActivity.php';
+include 'views/header.php'; ?>
+
 
 <div class="container" style="margin-top: 100px">
     <div class="col-md-3 col-lg-offset-1">
@@ -36,4 +37,5 @@ include dirname(__FILE__) . '/views/header.php'; ?>
         </div>
     </div>
 </div>
-<?php include dirname(__FILE__) . '/views/footer.php'; ?>
+
+<?php  '/views/footer.php'; ?>

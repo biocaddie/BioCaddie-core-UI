@@ -1,9 +1,9 @@
 <?php
 require_once dirname(__FILE__) .'/config/config.php';
 
-require_once 'dbcontroller.php';
-require_once './database/Search.php';
-require_once dirname(__FILE__) . '/trackactivity.php';
+require_once dirname(__FILE__).'/Model/DBController.php';
+require_once dirname(__FILE__).'/database/Search.php';
+require_once dirname(__FILE__) . '/Model/TrackActivity.php';
 
 $history = [];
 if (isset($_SESSION["history"])) {

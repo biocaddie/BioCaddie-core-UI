@@ -4,7 +4,7 @@ function partialShare($postLink) {
     $query = filter_input(INPUT_GET, "query", FILTER_SANITIZE_STRING);
     ?> 
     <iframe id="download_xls" name="download_xls" width="0" height="0" scrolling="no" frameborder="0" hidden="hidden" ></iframe>
-    <div data-toggle="tooltip" data-placement="left" title="Share Page Result.">
+    <div data-toggle="tooltip" data-placement="left" title="Share Results.">
         <button id="share-btn" type="button" class="btn btn-default btn-sm" style="border-radius: 2px; padding: 3px 5px;" data-toggle="modal" data-target="#myModal">
             <i class="fa fa-share-alt" style="margin-right: 5px;"></i>
             <span name="share-qty" class="badge" style="font-size: 10px;"></span>
@@ -83,7 +83,7 @@ function partialShare($postLink) {
                         </div>                    
                     </div>
                     <div class="modal-footer">
-                        <button id="share-clear" type="button" class="btn btn-default btn-sm" data-dismiss="modal">
+                        <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" id="share-clear">
                             <i class="fa fa-trash"></i>
                             Clear Selected Items
                         </button>

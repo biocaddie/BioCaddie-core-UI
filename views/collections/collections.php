@@ -60,12 +60,13 @@
                 </div>
 
                 <div class="panel-footer">
-                    <div class="container">
+
                         <button type="submit" class="btn btn-primary" style="float: right"
                                 onclick="location.href='../../register.php'">Submit
                         </button>
+                    <div class="clearfix"></div>
                     </div>
-                </div>
+
             </div> <!--/panel-->
 
             </form>

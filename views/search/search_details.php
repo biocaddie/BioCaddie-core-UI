@@ -1,27 +1,14 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rliu1
- * Date: 1/19/16
- * Time: 12:30 PM
- */
+
+/*
+ * Display search details on the search.php page
+ * input: an object of SearchBuilder class
+ *
+ * */
 
 function partialSearchDetails($searchBuilder)
 {
-    $query = $searchBuilder->getQuery();
-    if(preg_match('/(AND|OR|NOT|\[|\])/', $query)){
-        $detail = "(".$searchBuilder->getSearchType().')'.$query;
-        $synonyms=[];
-    }
-    else{
-        $detail = "(".$searchBuilder->getSearchType().')"'.$query.'"';
-        $synonyms=$searchBuilder->getExpansionquery();
-
-    }
-    foreach($synonyms as $synonyms){
-        $detail = $detail .' OR "'.$synonyms.'"';
-    }
-
+    $detail = $searchBuilder->getSearchDetails();
     ?>
 
     <div class="panel panel-primary" id="details">

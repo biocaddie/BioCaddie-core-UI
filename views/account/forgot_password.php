@@ -6,7 +6,7 @@
                     <h3 class="panel-title"> Forgot your password?</h3>
                 </div>
                 <div class="panel-body">
-                    <div class="container">
+                    <div class="col-xs-10 col-md-offset-1">
                         <form action="./change.php" method="post">
 
                             <div class="form-group" style="margin-top: 10px">

@@ -6,7 +6,7 @@
  * Time: 9:16 AM
  */
 require_once '../config/config.php';
-require_once '../dbcontroller.php';
+require_once '../Model/DBController.php';
 require_once '../database/UserCollection.php';
 require_once '../database/Collection.php';
 

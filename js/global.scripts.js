@@ -1,7 +1,7 @@
 var dontPopup = false;
 
 $(document).ready(function () {
-    $('[data-toggle="tooltip"]').tooltip();
+    $('[data-toggle="tooltip"]').tooltip({html: true, placement: "bottom"});
     $(".clickable").click(function () {
         $(this).nextUntil('.clickable').toggle();
     });
@@ -36,16 +36,20 @@ $(document).ready(function () {
         return false;
     });
 
-    $("#share-form").submit(function (event) {
+    $("#share-form").submit(function (e) {
         var selectedRows = '';
-        $.each(Cookies.get(), function (index, row) {
+        $.each(Cookies.get(), function (i, row) {
             if (row.substring(0, 11) === 'share-item-') {
                 selectedRows += row.trim() + ',';
             }
         });
         selectedRows = selectedRows.substr(0, selectedRows.length - 1);
-        var input = $("<input name='selected-rows'>").attr("type", "hidden").val(selectedRows);
-        $('#share-form').append($(input));
+        $('#share-form').children("input[name='selected-rows']").remove();
+
+        if (selectedRows !== '') {
+            var input = $("<input name='selected-rows'>").attr("type", "hidden").val(selectedRows);
+            $('#share-form').append($(input));
+        }
         $('#myModal').modal('hide');
     });
 
@@ -70,6 +74,24 @@ $(document).ready(function () {
         });
         updateSelectedSharedItems();
     });
+    // For search_panel
+
+    $('input[name=searchtype]').change(function () {
+        switch ($('input[name=searchtype]:checked').val()) {
+            case 'data':
+                $('#query').attr('placeholder', 'Search for data through bioCADDIE');
+                $('#search-example').html('<strong>Search Examples:</strong> (Breast Cancer, Genetic Analysis Software, Gene EGFR, Lung[title] AND Cancer, Cancer AND (Lung[Title] OR Skin[Title]))');
+                break;
+            case 'repository':
+                $('#query').attr('placeholder', 'Search for repository through bioCADDIE');
+                $('#search-example').html('<strong>Search Examples:</strong> (Gene expression, Cancer)');
+                break;
+            default:
+                $('#query').attr('placeholder', 'Search for data through bioCADDIE');
+                $('#search-example').html('<strong>Search Examples:</strong> (Breast Cancer, Genetic Analysis Software, Gene EGFR, Lung[title] AND Cancer, Cancer AND (Lung[Title] OR Skin[Title]))');
+        }
+    });
+
 });
 
 function updateSelectedSharedItems() {
@@ -133,4 +155,3 @@ function signOut() {
 
     window.location = "login.php";
 }
-

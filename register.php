@@ -3,9 +3,9 @@
 require_once dirname(__FILE__) .'/config/config.php';
 require_once './lib/password.php';
 date_default_timezone_set('America/Chicago');
-require_once 'dbcontroller.php';
-require_once './database/User.php';
-require_once dirname(__FILE__) . '/trackactivity.php';
+require_once dirname(__FILE__).'/Model/DBController.php';
+require_once dirname(__FILE__).'/database/User.php';
+require_once dirname(__FILE__) . '/Model/TrackActivity.php';
 
 if(isset($_POST['btn-signup'])){
     $uname=trim($_POST['txt_uname']);

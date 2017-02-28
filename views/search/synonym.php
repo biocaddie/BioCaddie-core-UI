@@ -1,23 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rliu1
- * Date: 1/19/16
- * Time: 12:30 PM
- */
+
+/*
+ * Display result status and number of results per page on the search.php page
+ * input: an object of SearchBuilder class
+ *
+ * */
 
 function partialSynonym($searchBuilder)
 {
     $count=0;
-    //$_SESSION['synonym']=$searchBuilder->getExpansionquery();
     $_SESSION['query']=$searchBuilder->getQuery();
-    if(preg_match('/(AND|OR|NOT|\[|\])/', $searchBuilder->getQuery())){
-        $_SESSION['synonym']=[];
-    }
-    else{
-        $_SESSION['synonym']=$searchBuilder->getExpansionquery();
-    }
-
+    $_SESSION['synonym']=$searchBuilder->getExpandedQuery();
     ?>
 
     <div class="panel panel-primary" id="synonym">
@@ -27,7 +20,7 @@ function partialSynonym($searchBuilder)
 
         <div class="panel-body">
                 <ul class="no-disk">
-                    <?php foreach ($searchBuilder->getExpansionquery() as $item):
+                    <?php foreach ($_SESSION['synonym'] as $item):
                         if($count<5){?>
                         <li>
                             <span class="fa fa-tags"></span>

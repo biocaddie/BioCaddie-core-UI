@@ -1,28 +1,34 @@
 <?php
-require_once dirname(__FILE__) . '/../../search/SimilarDatasetsService/Pdb.php';
-require_once dirname(__FILE__) . '/../../search/SimilarDatasetsService/Lincs.php';
-require_once dirname(__FILE__) . '/../../search/SimilarDatasetsService/Gemma.php';
+require_once dirname(__FILE__) . '/../../Model/SimilarDatasetsService/Pdb.php';
+require_once dirname(__FILE__) . '/../../Model/SimilarDatasetsService/Lincs.php';
+require_once dirname(__FILE__) . '/../../Model/SimilarDatasetsService/Gemma.php';
+require_once dirname(__FILE__) . '/../../Model/SimilarDatasetsService.php';
 
 function partialSimilarDatasets($service)
 {
-    $similarDatasets = array();
-    switch ($service->getRepositoryId()) {
+    $repoID = $service->getRepositoryId();
+
+    switch ($repoID) {
 
         case "0002": // PDB
             $pdbSimilarDatasetsService = new PDBSimilarData;
-            $similarDatasets = $pdbSimilarDatasetsService->getPDBDataset($service->getItemUid(), 6);
+            $similarDatasets = $pdbSimilarDatasetsService->getPDBDataset($service->getItemId(), 6);
+
 	    break;
 
         case "0004": // LINCS
             $lincsSimilarDatasetsService = new LINCSSimilarData;
-            $similarDatasets = $lincsSimilarDatasetsService -> getLincsDataset($service->getItemUid(), 6);
+            $similarDatasets = $lincsSimilarDatasetsService -> getLincsDataset($service->getItemId(), 6);
 	    break;
 
         case "0005": // Gemma
             $gemmaSimilarDatasetsService = new GemmaSimilarData;
-            $similarDatasets = $gemmaSimilarDatasetsService -> getGemmaDataset($service->getItemUid(), 6);
+            $similarDatasets = $gemmaSimilarDatasetsService -> getGemmaDataset($service->getItemId(), 6);
 	    break;
-
+        default:
+            $similarDatasetsService = new SimilarData;
+            $similarDatasets = $similarDatasetsService -> getSimilarDataset($service->getItemId(), 6,$repoID);
+            break;
 
     }
 
@@ -35,7 +41,7 @@ function partialSimilarDatasets($service)
                 <div class="table-responsive ">
                     <div class="list-group">
                         <?php foreach ($similarDatasets as $item): 
-			 switch ($service->getRepositoryId()) {
+			 switch ($repoID) {
 				case "0002":?>
                             <a href="<?php echo "http://www.rcsb.org/pdb/explore/explore.do?structureId=" . $item->get_pdbid(); ?>"
                                target="_blank" class="list-group-item">
@@ -62,7 +68,15 @@ function partialSimilarDatasets($service)
 
                          <p class="list-group-item-text text-right"><?php echo $item->getDataItemTypes()[0]; ?></p>
                      </a>
-                     <?php break;}endforeach; ?>
+                     <?php break;
+             default:?>
+                 <a href="<?php echo "http://".$_SERVER['SERVER_NAME']."/biocaddie-ui/display-item.php?repository=".$service->getRepositoryId()."&idName=ID&id=" . $item->getDatasetID(); ?>"
+                    target="_blank" class="list-group-item">
+                     <p class="list-group-item-heading">
+                         <strong><?php echo substr($item->getDatasetTitle(), 0, 75); ?>...</strong></p>
+                 </a>
+                        <?php
+             break;}endforeach; ?>
                     </div>
                 </div>
             </div>

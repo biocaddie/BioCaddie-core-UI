@@ -37,9 +37,8 @@ function contructQuery(){
     return query;
 }
 
-$(document).ready(function () {
-
-    /*** Add/remove criteria ***/
+$(document).ready(function () {     
+    /*** Add/remove criteria. ***/
     var groupNum = [1]; // track id of existing input group
 
     $(".add-more").click(function (e) {
@@ -125,7 +124,6 @@ $(document).ready(function () {
         $('#step1').addClass("complete");
 
     });
-
     // Step 2
     $('#field1').on('keyup', function(){
         $('#step2').removeClass("disabled");

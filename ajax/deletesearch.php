@@ -1,5 +1,5 @@
 <?php
-require_once '../dbcontroller.php';
+require_once '../Model/DBController.php';
 require_once '../database/Search.php';
 
 if (session_status() == PHP_SESSION_NONE) {

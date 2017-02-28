@@ -1,49 +1,42 @@
 <?php
 
-function partialAccessibility($searchBuilder) {
-    //sort in number order
-    $nums = array();
-    $access = $searchBuilder->getAccess();
+function partialAccessibility($searchView) {
+    $access = $searchView->getAccessFilter();
+    ?>
 
-    $accessLabel = "all";
-
-    if(isset($_GET['access'])){
-        $accessLabel = $_GET['access'];
-    }
-
-
-    foreach ($access as $key => $row)
-    {
-        $nums[$key] = $row['rows'];
-    }
-    array_multisort($nums, SORT_DESC, $datatypes);
-    if ($searchBuilder->getTotalRows() > 0) {
-        ?>
-        <div class="pull-left" >
-            <span>Accessibility:</span>
-            <div class="dropdown">
-                <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdown-sort"
-                        data-toggle="dropdown">
-                    <?php echo ucwords($accessLabel); ?>
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-
-                    <?php
-                    foreach ($access as $accessName => $details):?>
-                        <?php if($details['rows']==0){
-                            continue;
-                        }?>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong> Accessibility</strong>
+        </div>
+        <div class="panel-body">
+            <ul class="no-disk">
+                <?php
+                if ($searchView->getSearchBuilder()->getTotalRows() > 0) {
+                    foreach($access as $key=>$row){
+                        ?>
                         <li>
-                            <a href="<?php echo $searchBuilder->getUrlByAccessibility($accessName);?>">
-                                <?php echo ucwords($accessName); ?>
+                            <a target="_parent" href="<?php echo $searchView->getUrlByAccessibility($key);?>">
+                                <!--checkbox-->
+                                <?php if ($row['selected'] == true): ?>
+                                    <i class="fa fa-check-square"></i>
+                                <?php else: ?>
+                                    <i class="fa fa-square-o"></i>
+                                <?php endif; ?>
+
+                                <!--label-->
+                                <?php echo ucfirst($key); ?>
+
+                                <!--number of results-->
+                                <?php echo '(' . number_format($row['rows']) . ')'; ?>
                             </a>
                         </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
+                        <?php
+                    } // end of foreach
+                }
+                ?>
+            </ul>
         </div>
-        <?php
-    }
+    </div>
+    <?php
 }
 ?>

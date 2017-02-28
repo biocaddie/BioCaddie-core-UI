@@ -1,6 +1,10 @@
 <?php
 
-function partialSorting($searchBuilder) { ?>
+function partialSorting($searchBuilder, $searchView) { 
+    $repoId = $searchBuilder->getSelectedRepositories()[0];
+    $sort = $searchBuilder->getSort();
+    $sort_field = $searchBuilder->getSortFieldSingleRepo();
+    ?>
     <div class="pull-right" style="margin-top: 8px">
         <span style="margin-right: 5px">Sorted By:</span>
         <div class="dropdown" style="display: inline-block">
@@ -9,20 +13,30 @@ function partialSorting($searchBuilder) { ?>
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu">
-                <li>
-                    <a href="<?php echo $searchBuilder->getUrlBySort('relevance') ?>" title="Sort based on relevance to the search keyword.">Relevance</a>
+                                <li>
+                    <a href="<?php echo $searchView->getSortUrl('relevance') ?>" <?php echo  $sort == "relevance" ? 'class="active"' : '' ?>
+                       title="Sort based on relevance to the search keyword.">Relevance</a>
                 </li>
-                <li class="hidden">
-                    <a href="<?php echo $searchBuilder->getUrlBySort('date') ?>" title="Order By Article Date.">Date</a>
-                </li>
-                <?php if ($searchBuilder->getCurrentRepository() == '0002' || $searchBuilder->getCurrentRepository() == '0003'): ?>
-                    <li>
-                        <a href="<?php echo $searchBuilder->getUrlBySort('citation') ?>" title="Order By Number of Citations.">Citation</a>
-                    </li>
-                <?php else: ?>
-                    <li class="disabled"><a>Citation</a></li>
-                    <?php endif ?>
 
+                <?php if(strlen($sort_field)>0):?>
+                <li>
+                    <a href="<?php echo $searchView->getSortUrl('date') ?>" <?php echo  $sort == "date" ? 'class="active"' : '' ?>
+                       title="Order By Article Date.">Date</a>
+                </li>
+                <?php endif;?>
+
+                <!-- <li>
+                    <a href="<?php echo $searchView->getSortUrl('title') ?>" <?php echo  $sort == "title" ? 'class="active"' : '' ?>
+                       title="Order By Article Title.">Title</a>
+                </li>-->
+                <!--<li>
+                    <?php if ($repoId == '0002' || $repoId == '0003'): ?>
+                        <a href="<?php echo $searchView->getSortUrl('citations') ?>" <?php echo  $sort == "citations" ? 'class="active"' : '' ?>
+                           title="Order By Citation Count.">Citations</a>
+                    <?php else: ?>
+                        <li class="disabled"><a>Citation</a></li>
+                    <?php endif ?>
+                </li>-->
             </ul>
         </div>
     </div>

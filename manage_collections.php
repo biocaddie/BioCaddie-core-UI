@@ -2,7 +2,7 @@
 
 require_once dirname(__FILE__) .'/config/config.php';
 
-require_once './dbcontroller.php';
+require_once './Model/DBController.php';
 require_once './database/Collection.php';
 require_once './database/UserCollection.php';
 //require_once dirname(__FILE__) . '/trackactivity.php';

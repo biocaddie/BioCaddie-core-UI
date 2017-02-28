@@ -1,6 +1,6 @@
 <?php
 require_once dirname(__FILE__) .'/config/config.php';
-require_once dirname(__FILE__) . '/trackactivity.php';
+require_once dirname(__FILE__) . '/Model/TrackActivity.php';
 
 ?>
 <?php include dirname(__FILE__) . '/views/header.php'; ?>

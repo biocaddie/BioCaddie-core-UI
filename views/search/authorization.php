@@ -6,49 +6,43 @@
  * Time: 3:17 PM
  */
 
-function partialAuthorization($searchBuilder) {
-    //sort in number order
-    $nums = array();
-    $auth = $searchBuilder->getAuth();
+function partialAuthorization($searchView) {
+    $auth = $searchView->getAuthorizationFilter();
+    ?>
 
-    $authLabel = "all";
-
-    if(isset($_GET['auth'])){
-        $authLabel = $_GET['auth'];
-    }
-
-    foreach ($auth as $key => $row)
-    {
-        $nums[$key] = $row['rows'];
-    }
-    array_multisort($nums, SORT_DESC, $datatypes);
-    if ($searchBuilder->getTotalRows() > 0) {
-        ?>
-        <div class="pull-left" >
-            <span>Authorization: </span>
-            <div class="dropdown">
-                <button class="btn btn-default btn-xs dropdown-toggle" type="button" id="dropdown-sort"
-                        data-toggle="dropdown">
-                    <?php echo ucwords($authLabel); ?>
-                    <span class="caret"></span>
-                </button>
-                <ul class="dropdown-menu">
-
-                    <?php
-                    foreach ($auth as $authName => $details):?>
-                        <?php if($details['rows']==0){
-                            continue;
-                        }?>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <strong> Authorization</strong>
+        </div>
+        <div class="panel-body">
+            <ul class="no-disk">
+                <?php
+                if ($searchView->getSearchBuilder()->getTotalRows() > 0) {
+                    foreach($auth as $key=>$row){
+                        ?>
                         <li>
-                            <a href="<?php echo $searchBuilder->getUrlByAuth($authName);?>">
-                                <?php echo ucwords($authName); ?>
+                            <a target="_parent" href="<?php echo $searchView->getUrlByAuth($key);?>">
+                                <!--checkbox-->
+                                <?php if ($row['selected'] == true): ?>
+                                    <i class="fa fa-check-square"></i>
+                                <?php else: ?>
+                                    <i class="fa fa-square-o"></i>
+                                <?php endif; ?>
+
+                                <!--label-->
+                                <?php echo ucfirst($key); ?>
+
+                                <!--number of results-->
+                                <?php echo '(' . number_format($row['rows']) . ')'; ?>
                             </a>
                         </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
+                        <?php
+                    } // end of foreach
+                }
+                ?>
+            </ul>
         </div>
-        <?php
-    }
+    </div>
+    <?php
 }
 ?>

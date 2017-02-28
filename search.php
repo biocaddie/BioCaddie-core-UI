@@ -1,15 +1,12 @@
 <?php
 require_once dirname(__FILE__) . '/config/config.php';
-require_once dirname(__FILE__) . '/search/SearchBuilder.php';
-
-require_once dirname(__FILE__) . '/views/search/search_panel.php';
+require_once dirname(__FILE__) . '/Model/SearchBuilder.php';
+require_once dirname(__FILE__) . '/Model/AutoCorrection.php';
+require_once dirname(__FILE__) . '/Model/ConstructSearchView.php';
+require_once dirname(__FILE__) . '/views/search_panel.php';
 require_once dirname(__FILE__) . '/views/search/breadcrumb.php';
-require_once dirname(__FILE__) . '/search/AutoCorrection.php';
 // Left column
-require_once dirname(__FILE__) . '/views/search/repositories.php';
-require_once dirname(__FILE__) . '/views/search/datatypes.php';
 require_once dirname(__FILE__) . '/views/feedback.php';
-
 
 // Middle column
 require_once dirname(__FILE__) . '/views/search/results.php';
@@ -17,71 +14,22 @@ require_once dirname(__FILE__) . '/views/search/switch_view.php';
 require_once dirname(__FILE__) . '/views/search/pagination.php';
 require_once dirname(__FILE__) . '/views/search/result_status.php';
 require_once dirname(__FILE__) . '/views/search/sorting.php';
-require_once dirname(__FILE__) . '/views/search/accessibility.php';
-require_once dirname(__FILE__) . '/views/search/authorization.php';
+require_once dirname(__FILE__) . '/views/share.php';
 
 // Right column
+require_once dirname(__FILE__) . '/views/search/wordcloud.php';
 require_once dirname(__FILE__) . '/views/search/partialActivities.php';
 require_once dirname(__FILE__) . '/views/search/synonym.php';
 require_once dirname(__FILE__) . '/views/search/search_details.php';
-
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
+require_once dirname(__FILE__) . '/views/search/survey.php';
 
 $searchBuilder = new SearchBuilder();
-
-/*Share search results*/
-if (isset($_POST['radio-share'])) {
-    $shareType = $_POST['radio-share'];
-    $sharedData = "";
-
-    $selectedRows = explode(",", $_POST['selected-rows']);
-    $searchResults = $searchBuilder->getSearchResults();
-
-    $newLine = $shareType == "file" ? "\r\n" : "<br />";
-
-    foreach ($selectedRows as $rowIndex) {
-        $row = $searchResults[intval($rowIndex)];
-        $sharedData .= '=== Row ' . ($rowIndex + 1) . " ===" . $newLine;
-        foreach ($row as $field) {
-            $sharedData .= $field . $newLine;
-        }
-        $sharedData .= $newLine;
-    }
-
-    // File
-    if ($shareType == "file") {
-        header('Content-Disposition: attachment; filename="biocaddie-share.txt"');
-        header('Content-Type: text/plain');
-        header('Content-Length: ' . strlen($sharedData));
-        header('Connection: close');
-        echo $sharedData;
-    } // Email
-    else {
-        require_once dirname(__FILE__) . '/vendor/swiftmailer/swiftmailer/lib/swift_required.php';
-
-        $from = 'biocaddie.mail@gmail.com';
-        $to = $_POST['EmailAddress'];
-        $subject = isset($_POST['EmailSubject']) ? ' - ' . $_POST['EmailSubject'] : '';
-        $body = '<p>' . $_POST['EmailBody'] . '</p>' . $sharedData;
-
-        $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, "ssl")
-            ->setUsername('biocaddie.mail@gmail.com')
-            ->setPassword('biocaddie4050@');
-
-        $mailer = Swift_Mailer::newInstance($transport);
-
-        $message = Swift_Message::newInstance('bioCaddie Data Export' . $subject)
-            ->setFrom(array($from => 'bioCaddie'))
-            ->setTo(array($to))
-            ->setBody($body)
-            ->setContentType("text/html");
-
-        $result = $mailer->send($message);
-    }
-}
+$searchBuilder->searchSelectedRepo();
+$searchView = new ConstructSearchView($searchBuilder);
 ?>
+
+
+
 <?php include dirname(__FILE__) . '/views/header.php'; ?>
 
 <div class="container">
@@ -89,68 +37,70 @@ if (isset($_POST['radio-share'])) {
     <?php echo breadcrumb($searchBuilder); ?>
 
     <div class="row">
-        <?php /* ###### Filter Panel ###### */ ?>
+        <!-- Filter Panel -->
         <div class="col-sm-4 col-md-3">
-            <?php
-            if ($searchBuilder->getSearchType() == 'data') {
-                echo partialRepositories($searchBuilder);
-                echo partialDatatypes($searchBuilder);
+            <?php if ($searchBuilder->getSearchType() == 'data') {
+                ?>
 
-            }
-            ?>
-            <div id="repo-filter"></div>
-            <?php echo partialFeedback(); ?>
+                <iframe scrolling="no"  style="width: 268px;height: 2000px; border: none;margin-bottom: 30px" src="search-filter.php?<?php echo $_SERVER[QUERY_STRING]?>"></iframe>
+            <?php
+
+            }else{
+                partialFeedback();
+            } ?>
         </div>
 
-        <?php /* ###### Search Result Panel ###### */ ?>
+        <!--  Search Result Panel -->
         <div id="detailView"></div>
         <div id="summaryView">
             <div class="col-sm-8 col-md-6">
-
-                <?php /* ==== Pagination Panel ==== */ ?>
-                <?php if ($searchBuilder->getTotalRows() > 0): ?>
-                    <?php echo partialResultsStatus($searchBuilder);?>
-                    <?php echo partialSwitch($searchBuilder); ?>
+               <!-- Pagination Panel -->
+                <?php if ($searchBuilder->getSelectedTotalRows() > 0): ?>
+                    <?php echo partialResultsStatus($searchBuilder,$searchView);?>
+                    <?php echo partialSwitch($searchView); ?>
                     <div class="clearfix"></div>
-                    <?php echo partialPagination($searchBuilder);?>
+                    <?php echo partialPagination($searchBuilder, $searchView);?>
+                    <div class="pull-right" style="margin: 10px 0 0 5px;">
+                        <?php partialShare($_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]); ?>
+                    </div>
                     <div class="clearfix"></div>
                     <div style="margin-bottom: 60px">
-                    <?php echo partialSorting($searchBuilder); ?>
-                    <?php echo partialAccessibility($searchBuilder);?>
-                    <?php echo partialAuthorization($searchBuilder);?>
+                    <?php echo partialSorting($searchBuilder, $searchView); ?>
                         </div>
                 <?php endif; ?>
 
-
                 <div class="clearfix"></div>
 
-
-                <?php /* ==== Search Result List ==== */ ?>
-                <?php echo partialResults($searchBuilder);?>
+                <!-- Search Result List -->
+                <?php echo partialResults($searchView);?>
 
                 <hr>
-                <?php /* ==== Pagination Panel ==== */ ?>
-                <?php if ($searchBuilder->getTotalRows() > 0): ?>
-                    <?php echo partialResultsStatus($searchBuilder); ?>
+                <!-- Pagination Panel ==== */ -->
+                <?php if ($searchBuilder->getSelectedTotalRows() > 0): ?>
+                    <?php echo partialResultsStatus($searchBuilder,$searchView); ?>
                     <div class="clearfix"></div>
-                    <?php echo partialPagination($searchBuilder); ?>
+                    <?php echo partialPagination($searchBuilder,$searchView); ?>
                 <?php endif; ?>
                 <div class="clearfix"></div>
             </div>
 
             <?php /* ###### Info Panel ###### */ ?>
             <div class="col-md-3 hidden-sm">
+
+                <?php if ($searchBuilder->getSearchType() == 'data') {
+                    ?>
+                    <iframe scrolling="no"  style="width: 268px;height: 260px; border: none;margin-bottom: 30px" src="timeline.php?<?php echo $_SERVER[QUERY_STRING]?>"></iframe>
+                    <?php
+                } ?>
+                <?php //echo partialWordCloud(); ?>
                 <?php echo partialActivities(); ?>
                 <?php echo partialSynonym($searchBuilder);?>
                 <?php echo partialSearchDetails($searchBuilder); ?>
+
             </div>
         </div>
     </div>
 </div>
 
-<?php
-/* Page Custom Scripts. */
-$scripts = ["./js/page.scripts/search.js"];
-?>
 
 <?php include dirname(__FILE__) . '/views/footer.php'; ?>

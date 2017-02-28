@@ -18,22 +18,20 @@
                     <div class="panel-heading text-center">
                         <h3 class="panel-title"> Sign Up</h3>
                     </div>
-                    <div class="panel-body">
-                        <div class="container">
-
+                    <div class="panel-body" style="padding: 20px">
 
                             <form  method="post" id="register_form">
 
                                 <div class="form-group" style="margin-top: 10px">
                                     <label>E-mail</label>
                                     <input type="email" class="form-control" id="exampleInputEmail1" name="txt_uemail"
-                                           placeholder="E-mail">
+                                           placeholder="E-mail" value="<?php echo isset($_POST['txt_uemail']) ? $_POST['txt_uemail'] : '' ?>">
                                 </div>
 
                                 <div class="form-group" style="margin-top: 10px">
                                     <label>Screen name</label>
                                     <input type="username" class="form-control" id="exampleInputUsername" name="txt_uname"
-                                           placeholder="Screen name">
+                                           placeholder="Screen name" value="<?php echo isset($_POST['txt_uname']) ? $_POST['txt_uname'] : '' ?>">
                                 </div>
 
                                 <div class="form-group">
@@ -52,9 +50,6 @@
                                     Register
                                 </button>
                             </form>
-
-
-                        </div>
                     </div>
 
                     <div class="panel-footer">
@@ -101,10 +96,7 @@
                     <div class="panel-heading text-center">
                         <h3 class="panel-title"> Sign Up</h3>
                     </div>
-                    <div class="panel-body">
-                        <div class="container">
-
-
+                    <div class="panel-body" style="padding: 20px">
                             <form  method="post" id="register_form">
 
                                 <div class="form-group" style="margin-top: 10px">
@@ -135,9 +127,6 @@
                                     Register
                                 </button>
                             </form>
-
-
-                        </div>
                     </div>
 
                     <div class="panel-footer">

@@ -11,8 +11,8 @@
     </div>
 </div>
 
+
 <?php
-/* ==== Page Specific Scripts ==== */
 if (isset($scripts)) {
     foreach ($scripts as $script) {
         echo '<script type="text/javascript" src="' . $script . '"></script>';

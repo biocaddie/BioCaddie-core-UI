@@ -1,15 +1,14 @@
 <?php
 require_once dirname(__FILE__) . '/config/config.php';
-require_once './database/UserCollection.php';
-require_once './database/Collection.php';
-require_once 'dbcontroller.php';
+require_once dirname(__FILE__) . '/database/UserCollection.php';
+require_once dirname(__FILE__) . '/database/Collection.php';
+require_once dirname(__FILE__) . '/Model/DBController.php';
 require_once dirname(__FILE__) . '/config/datasources.php';
-require_once dirname(__FILE__) . '/search/Repositories.php';
-require_once dirname(__FILE__) . '/search/ElasticSearch.php';
-require_once dirname(__FILE__) . '/search/SearchBuilder.php';
-require_once dirname(__FILE__) . '/search/Repositories.php';
-//require_once dirname(__FILE__) . '/trackactivity.php';
-
+require_once dirname(__FILE__) . '/Model/Repositories.php';
+require_once dirname(__FILE__) . '/Model/ElasticSearch.php';
+require_once dirname(__FILE__) . '/Model/SearchBuilder.php';
+require_once dirname(__FILE__) . '/Model/Repositories.php';
+require_once dirname(__FILE__) . '/Model/TrackActivity.php';
 
 if (!isset($_SESSION['name'])) {
     echo "<script> parent.self.location = \"login.php\";</script>";
@@ -17,7 +16,6 @@ if (!isset($_SESSION['name'])) {
 
     $repositoryHolder = new Repositories();
     $selectedRows = explode(",", $_SESSION['selected-rows']);
-
 
     $repositories = new Repositories();
     $indexTypeHeader = [];
@@ -53,6 +51,7 @@ if (!isset($_SESSION['name'])) {
         $collectionType = $_POST['collectionsradio'];
         $create_time = date("Y-m-d H:i:s");
         $collectionID = 0;
+
 
         // Add to a new collection
         if ($collectionType == "new") {
@@ -108,7 +107,7 @@ if (!isset($_SESSION['name'])) {
                                 }
 
                                 $collection->setDatasetUrl($results['ref']);
-                                $collection->setRepository($repository->show_name);
+                                $collection->setRepository($repository->repoShowName);
                                 $collection->setCollectionId($collectionID);
                                 $collection->setCreateTime($create_time);
 
@@ -133,6 +132,7 @@ if (!isset($_SESSION['name'])) {
             //Add selected items to collection table
             foreach ($selectedRows as $rowString) {
                 $repositoryId = str_replace('share-item-repository=', '', explode("&", $rowString)[0]);
+
                 $itemId = str_replace('id=', '', explode("&", $rowString)[1]);
                 $results = NULL;
 
@@ -163,7 +163,7 @@ if (!isset($_SESSION['name'])) {
                         }
 
                         $collection->setDatasetUrl($results['ref']);
-                        $collection->setRepository($repository->show_name);
+                        $collection->setRepository($repository->repoShowName);
                         $collection->setCollectionId($collectionID);
                         $collection->setCreateTime($create_time);
 
@@ -171,11 +171,12 @@ if (!isset($_SESSION['name'])) {
                     }
                 }
             }
-
-
         }
 
-        echo "<script> parent.self.location = \"manage_collections.php?name=$collection_name\";</script>";
+        if($error==NULL){
+            echo "<script> parent.self.location = \"manage_collections.php?name=$collection_name\";</script>";
+        }
+
     }
 }
 
@@ -184,37 +185,47 @@ function readItem($repository, $itemId, $indexTypeHeader)
 {
     $searchResults = [];
 
-    $search = new ElasticSearch();
-    $search->search_fields = ['_id'];
-    $search->query = $itemId;
-    $search->filter_fields = [];
-    $search->es_index = $repository->index;
-    $search->es_type = $repository->type;
+    $input_array= [];
+    $input_array['esIndex'] = $repository->index;
+    $input_array['esType'] = $repository->type;
+    $input_array['searchFields'] = ['_id'];
+    $input_array['query'] = $itemId;
+    $input_array['filterFields'] = [];
 
+    $search = new ElasticSearch($input_array);
+    $search->setSearchResult();
     $results = $search->getSearchResult();
 
-    $key = explode("_", $results['hits']['hits'][0]['_index'])[0] . '_' . $results['hits']['hits'][0]['_type'];
 
-
+    $repoKey = explode("_", $results['hits']['hits'][0]['_index'])[0] . '_' . $results['hits']['hits'][0]['_type'];
     $rows = $results['hits']['hits'][0]['_source'];
 
-    foreach ($repository->core_fields as $field) {
-        $keys = explode('.', $field);
+    foreach(array_keys($rows) as $key){
+        if((array_keys($rows[$key]))==NULL){
+            $field = $key;
+            $setItem = $rows[$key];
+            $repositoryValue = json_encode($setItem);
 
-        if (count($keys) == 1) {
-            $repositoryValue = array_key_exists($keys[0], $rows) ? $rows[$keys[0]] : '';
-        } else if (count($keys) == 2) {
-            $setItem = array_key_exists($keys[0], $rows) ? $rows[$keys[0]] : [];
-            $repositoryValue = array_key_exists($keys[1], $setItem) ? json_encode($keys[1]) . ': ' . json_encode($setItem[$keys[1]]) : '';
-        } else if (count($keys) == 3) {
-            $repositoryValue = $repository->id == "0008" ? $rows[$keys[0]][$keys[1]][0][$keys[2]] : $rows[$keys[0]][$keys[1]][$keys[2]];
+            $displayValue = is_array($repositoryValue) ? json_encode($repositoryValue) : $repositoryValue;
+            $replaceList = ['{' => '', '}' => '', '[' => '', ']' => '', '\/' => '/', '\n' => '', '<p>' => '', '</p>' => '', '<P>' => '', '</P>' => '', '<i>' => '', '</i>' => '', '<I>' => '', '</I>' => '', '<b>' => '', '</b>' => '', '<B>' => '', '</B>' => ''];
+            $searchResults[$field] = str_replace(array_keys($replaceList), array_values($replaceList), $displayValue);
+
+        }else{
+            foreach(array_keys($rows[$key]) as $subkey) {
+                $field = $key.".".$subkey;
+                $setItem = $rows[$key];
+                $repositoryValue = json_encode($setItem[$subkey]);
+
+                $displayValue = is_array($repositoryValue) ? json_encode($repositoryValue) : $repositoryValue;
+                $replaceList = ['{' => '', '}' => '', '[' => '', ']' => '', '\/' => '/', '\n' => '', '<p>' => '', '</p>' => '', '<P>' => '', '</P>' => '', '<i>' => '', '</i>' => '', '<I>' => '', '</I>' => '', '<b>' => '', '</b>' => '', '<B>' => '', '</B>' => ''];
+                $searchResults[$field] = str_replace(array_keys($replaceList), array_values($replaceList), $displayValue);
+            }
         }
 
-        $displayValue = is_array($repositoryValue) ? json_encode($repositoryValue) : $repositoryValue;
-        $replaceList = ['{' => '', '}' => '', '[' => '', ']' => '', '"' => '', '\/' => '/'];
-        $searchResults[$field] = str_replace(array_keys($replaceList), array_values($replaceList), $displayValue);
+
     }
-    $searchResults['ref'] = 'display-item.php?repository=' . $indexTypeHeader[$key][3] . '&idName=' . $indexTypeHeader[$key][4] . '&id=' . $results['hits']['hits'][0]["_id"];
+
+    $searchResults['ref'] = 'display-item.php?repository=' . $indexTypeHeader[$repoKey][3] . '&id=' . $results['hits']['hits'][0]["_id"];
     return $searchResults;
 }
 

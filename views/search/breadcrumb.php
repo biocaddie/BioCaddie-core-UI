@@ -1,7 +1,7 @@
 <?php
 
 function breadcrumb($searchBuilder) {
-    $currentURL = "http://".$_SERVER[HTTP_HOST].$_SERVER[REQUEST_URI]."\"";
+    $currentURL = "http://".@$_SERVER[HTTP_HOST].@$_SERVER[REQUEST_URI]."\"";
     $href  = "search.php?query=".$searchBuilder->getQuery()."&searchtype=".$_GET["searchtype"];
     $breadcrumbArray = array();
     $x=get_correction($searchBuilder->getQuery());
@@ -27,7 +27,7 @@ function breadcrumb($searchBuilder) {
                 <?php
                 if(isset($_GET['repository'])){
                     $repos = explode(',',$_GET['repository']);
-                    $href  = "search.php?query=".$searchBuilder->getQuery()."&searchtype=".$_GET["searchtype"]."&offset=".$_GET["offset"]."&repository=";
+                    $href  = "search.php?query=".$searchBuilder->getQuery()."&searchtype=".$_GET["searchtype"]."&offset=".@$_GET["offset"]."&repository=";
                     $count = 0;
                     foreach($repos as $repo){
                         $repoName = getRepositoryIDNameMapping()[$repo];

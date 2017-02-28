@@ -1,7 +1,9 @@
 <?php
+
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
 $history = [];
 if (isset($_SESSION["history"])) {
     $history = $_SESSION["history"]['query'];
@@ -36,16 +38,13 @@ $flag = check_manager_email($objDBController,$email);
                 <img class="circle-image" src="<?php echo $userData["picture"]; ?>" width="100px" size="100px" /><br/>
                 <p class="welcome">Welcome <?php echo $userData["name"]; ?></p>
                 <p class="oauthemail"><?php echo $userData["email"]; ?></p>
-                <div class='logout'><a href='?logout'>Logout</a></div>
+                <div class='logout'><a href="?logout">Logout</a></div>
             </div>
 
         </div>
         <?php if ($flag):?>
           <div class="box" style="text-align: left">
               <ul>
-                  <li>
-                     <a class='hyperlink' href="manage_submit_data.php"> <strong>Manage submitted dataset</strong></a>
-                  </li>
                   <li>
                      <a class='hyperlink' href="manage_submit_repository.php"> <strong>Manage submitted repository</strong></a>
                   </li>

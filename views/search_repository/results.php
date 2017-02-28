@@ -1,20 +1,19 @@
 <?php
 
-function partialResults($searchBuilder) {
-    if ($searchBuilder->getTotalRows() > 0) {
-        $maxLen = 160;
+function partialResults($searchBuilder,$searchRepoView) {
+    if ($searchBuilder->getSelectedTotalRows() > 0) {
         ?>
         <table class="table table-striped table-condensed search-repo">
             <thead>
                 <tr>
-                    <?php foreach ($searchBuilder->getSearchHeaders() as $header): ?>
+                    <?php foreach ($searchRepoView->getRepoHeader() as $header): ?>
                         <th><?php echo $header; ?></th>
                     <?php endforeach; ?>
                 </tr>
             </thead>
             <tbody>  
                 <?php
-                foreach ($searchBuilder->getSearchResults() as $row) {
+                foreach ($searchRepoView->getSearchResults() as $row) {
                     $checkBoxShown = false;
                     ?>
                     <tr>
@@ -23,9 +22,9 @@ function partialResults($searchBuilder) {
                                 <?php
                                 if ($checkBoxShown == false) {
                                     $checkBoxShown = true;
-                                    $shareLink = explode("&", substr($field, strpos($field, "?") + 1, strpos($field, ">") - strpos($field, "?") + 1));
+                                    $shareLink = explode("&", substr($field, strpos($field, "?") + 1, strpos($field, ">",20) - strpos($field, "?")-1));
                                     ?>
-                                    <input name="share-check" type="checkbox" value="<?php echo 'share-item-' . $shareLink[0] . '&' . $shareLink[2] ?>" />
+                                    <input name="share-check" type="checkbox" value="<?php echo 'share-item-' . $shareLink[0] . '&' . @$shareLink[1] ?>" />
                                     <?php
                                 }
                                 if (!is_array($field)) {
@@ -48,18 +47,13 @@ function partialResults($searchBuilder) {
                                 ?></td>
                             <?php
                         }
-                        $checkBoxShown = false;
                         ?>
                     </tr>
                 <?php } ?>
             </tbody>
         </table>
-    <?php } else { ?> 
-        <div class="alert alert-warning">
-            <strong>NO ITEMS FOUND!</strong> 
-            <p>The following term was not found in bioCADDIE: <strong class="text-danger"><?php echo $searchBuilder->getQuery(); ?></strong></p>
-        </div>
-        <?php
+    <?php } else {
+        require_once dirname(__FILE__) . '/no_item_found.php';
     }
 }
 ?>

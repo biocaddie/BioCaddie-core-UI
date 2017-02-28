@@ -1,19 +1,17 @@
 <?php
 require_once dirname(__FILE__) .'/config/config.php';
-require_once './lib/password.php';
-require_once 'dbcontroller.php';
-require_once './database/User.php';
-require_once './database/GoogleUser.php';
-require_once './database/Search.php';
-require_once './database/UserCollection.php';
-require_once dirname(__FILE__) .'/search/SubmitDataService.php';
-
-require_once dirname(__FILE__) . '/trackactivity.php';
+require_once dirname(__FILE__).'/lib/password.php';
+require_once dirname(__FILE__).'/Model/DBController.php';
+require_once dirname(__FILE__).'/database/User.php';
+require_once dirname(__FILE__).'/database/GoogleUser.php';
+require_once dirname(__FILE__).'/database/Search.php';
+require_once dirname(__FILE__).'/database/UserCollection.php';
+require_once dirname(__FILE__) .'/Model/SubmitDataService.php';
+require_once dirname(__FILE__) . '/Model/TrackActivity.php';
 
 if(!isset($_SESSION['loggedin'])){
     $_SESSION['loggedin']=false;
 }
-
 $uemail=null;
 
 /******** bioCADDIE Login ********/
@@ -44,10 +42,11 @@ include dirname(__FILE__) . '/google_login.php';
 if (isset($_REQUEST['logout'])) {
     session_destroy();
     $client->revokeToken();
+    $redirect_uri = (( (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://' ) .$_SERVER['HTTP_HOST'].dirname($_SERVER['REQUEST_URI'])."/login.php";
     header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL)); //redirect database back to page
 }
 
-// if isset($authUrl)==false or $loggedIn = true show profile page (viewprofile.php)
+
 if(!isset($authUrl) || $_SESSION['loggedin']){
     if(isset($userData)){
         $_SESSION['name']=$userData["name"];
@@ -59,9 +58,11 @@ if(!isset($authUrl) || $_SESSION['loggedin']){
         $userData['name']=$_SESSION['name'];
         $userData['email']=$uemail;
     }
+
+
     include dirname(__FILE__) . '/views/header.php';
     include dirname(__FILE__) . '/views/account/viewprofile.php';
-}// if isset($authUrl)==true and $loggedIn = false show login page (viewlogin.php)
+}
 elseif(isset($authUrl) &&!$_SESSION['loggedin']){
     include dirname(__FILE__) . '/views/header.php';
     include dirname(__FILE__) . '/views/account/viewlogin.php';

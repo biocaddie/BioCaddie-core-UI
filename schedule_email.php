@@ -6,7 +6,7 @@
  * Time: 2:56 PM
  */
 require_once dirname(__FILE__) . '/config/config.php';
-require_once 'dbcontroller.php';
+require_once dirname(__FILE__).'/Model/DBController.php';
 
 // Check database
 

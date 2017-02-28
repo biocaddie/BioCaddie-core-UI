@@ -4,7 +4,7 @@ ini_set('display_errors', 1);
 date_default_timezone_set('America/chicago');
 require_once dirname(__FILE__) . '/lib/password.php';
 
-require_once './dbcontroller.php';
+require_once dirname(__FILE__).'/Model/DBController.php';
 
 $objDBController = new DBController();
 $dbconn=$objDBController->getConn();
@@ -42,7 +42,7 @@ if (isset($_POST["ForgotPassword"])) {
         $password = hash('sha512', $salt.$userExists["email"]);
 
         // Create a url which we will direct them to reset their password
-        $pwrurl = "https://datamed.org/dev/biocaddie-ui/reset_password.php?q=".$password;
+        $pwrurl = (( (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')) ? 'https://' : 'http://' ) .$_SERVER['HTTP_HOST'].dirname($_SERVER['REQUEST_URI'])."/reset_password.php?q=".$password;
 
         $from = 'biocaddie.mail@gmail.com';
         $to = $userExists["email"];
