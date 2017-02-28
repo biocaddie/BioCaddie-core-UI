@@ -6,7 +6,7 @@
                     <h3 class="panel-title"> Reset your password</h3>
                 </div>
                 <div class="panel-body">
-                    <div class="container">
+
                         <form action="./reset.php" method="POST">
                             <div class="form-group" style="margin-top: 10px">
                                 <label>E-mail Address: </label>
@@ -27,7 +27,7 @@
                                 Submit
                             </button>
                         </form>
-                    </div>
+            
                 </div>
 
                 <div class="panel-footer">

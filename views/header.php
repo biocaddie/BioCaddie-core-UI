@@ -6,9 +6,36 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
-        <title>DataMed | bioCADDIE DDI</title>
-        <meta name="description" content="">
+        <title><?php echo isset($pageTitle)&& $pageTitle!=" " ? $pageTitle . " | " : "DataMed | "; ?> bioCADDIE Data Discovery Index</title>
+        <meta name="description" content="DataMed is a prototype biomedical data search engine. Its goal is to discover data sets across data repositories or data aggregators. In the future it will allow searching outside these boundaries. DataMed supports the NIH-endorsed FAIR principles of Findability, Accessibility, Interoperability and Reusability of datasets with current functionality assisting in finding datasets and providing access information about them.">
         <meta name="author" content="bioCaddie Core Development Team.">
+        <meta name="keywords" content="DataMed,
+                                        biomedical data search engine,
+                                        biomedical data,
+                                        Healthcare data,
+                                        data discovery index,
+                                        bioCADDIE,
+                                        biomedical and healthcare data discovery index ecosystem,
+                                        NIH,
+                                        National Institutes of Health,
+                                        BD2K,
+                                        Big Data to Knowledge,
+                                        data repository,
+                                        data aggregator,
+                                        FAIR,
+                                        Findability,
+                                        Accessibility,
+                                        Interoperability,
+                                        Reusability,
+                                        dataset,
+                                        data set,
+                                        metadata,
+                                        DATS,
+                                        Data Tag Suite,
+                                        citation,
+                                        publication
+                                        ">
+
         <link href="./img/favicon.png" rel="icon" >
 
         <!-- Styles -->
@@ -27,7 +54,7 @@
         <script src="https://d3js.org/d3-format.v1.min.js"></script>
 
         <script src="./vendor/jquery/jquery-1.11.3.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js" " crossorigin="anonymous"></script>
+        <script src="./vendor/bootstrap/js/bootstrap.min.js" " crossorigin="anonymous"></script>
 
 
         <script src="./vendor/d3/d3.v3.min.js"></script>
@@ -69,9 +96,12 @@
                 m.parentNode.insertBefore(a, m)
             })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-            ga('create', 'UA-74660564-1', 'auto');
+            ga('create', 'UA-80500704-1', 'auto');
             ga('send', 'pageview');
         </script>
+
+        <!--Usability Tracking-->
+        <script src="./js/client.min.js"></script>
     </head>
 
 

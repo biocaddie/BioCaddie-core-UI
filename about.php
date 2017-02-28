@@ -1,5 +1,7 @@
 <?php
 
+$pageTitle = "About DataMed";
+
 //require_once 'config/config.php';
 require_once dirname(__FILE__).'/Model/TrackActivity.php';
 require_once dirname(__FILE__).'/Model/AboutService.php';

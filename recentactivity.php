@@ -5,6 +5,8 @@ require_once dirname(__FILE__).'/Model/DBController.php';
 require_once dirname(__FILE__).'/database/Search.php';
 require_once dirname(__FILE__) . '/Model/TrackActivity.php';
 
+$pageTitle = "Recent Activity";
+
 $history = [];
 if (isset($_SESSION["history"])) {
     $history = $_SESSION["history"]['query'];

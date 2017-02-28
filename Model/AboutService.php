@@ -14,7 +14,7 @@ function sendEmails(){
     require_once dirname(__FILE__) . '/../vendor/swiftmailer/swiftmailer/lib/swift_required.php';
 
     $from = $_POST["EMAIL"];
-    $to = array("xiaoling.chen@uth.tmc.edu","ruiling.liu@uth.tmc.edu","Anupama.E.Gururaj@uth.tmc.edu","Saeid.Pournejati@uth.tmc.edu");
+    $to = array("xiaoling.chen@uth.tmc.edu","ruiling.liu@uth.tmc.edu","Anupama.E.Gururaj@uth.tmc.edu","Mandana.Salimi@uth.tmc.edu");
 
     $body = 'bioCADDIE contact request<br>
         ----------------------------------------<br>

@@ -1,4 +1,6 @@
 <?php
+$pageTitle = "Collections";
+
 require_once dirname(__FILE__) . '/config/config.php';
 require_once dirname(__FILE__) . '/database/UserCollection.php';
 require_once dirname(__FILE__) . '/database/Collection.php';

@@ -120,6 +120,9 @@ function check_url($url){
 
 function shorten($value) {
     $maxLen = 100;
+    if(is_array($value)){
+        return 0;
+    }
     return strlen($value) > $maxLen ? substr($value, 0, $maxLen) . '...' : $value;
 }
 
@@ -180,13 +183,16 @@ function get_dom_value($url){
 
     $dom = new DOMDocument();
     @$dom->loadHTML($url);
+    if($dom){
+        return $url;
+    }
     $urls = $dom->getElementsByTagName('a');
+
     //preg_match("/<a[^>]+>([^<]*)</", $url, $result);
     $result = $urls->item(0)->nodeValue;
     if(!$result){
         $result = $url;
     }
-
 
     return $result;
 }

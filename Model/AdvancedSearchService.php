@@ -123,6 +123,7 @@ function generateQuery($queryTokens,$repository){
     return $query_part;
 }
 
+/*
 function fieldsExpansion($queryField,$repository){
     $queryfieldsArray = array();
     switch($queryField){
@@ -146,6 +147,6 @@ function fieldsExpansion($queryField,$repository){
     }
 
     return $queryfieldsArray;
-}
+}*/
 
 

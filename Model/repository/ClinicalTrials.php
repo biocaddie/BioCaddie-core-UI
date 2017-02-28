@@ -17,11 +17,11 @@ class ClinicalTrialsRepository extends RepositoryBase {
     //public $searchFields = ['dataset.ID','dataset.available','dataset.creator','dataset.description','dataset.keywords','dataset.title',
     //                        'disease.name','study.selectioncriteria','study.ID','study.types','study.studygroups',
     //                        'treatment.name','treatmemnt.description','treatment.agent','publication.title','grant.funders'];
-    public $facetsFields = ['treatment.name','study.types','disease.name'];
+    public $facetsFields = ['treatment.name.raw','study.types.raw','disease.name.raw'];
     public $facetsShowName = [
-        'treatment.name'=>'Treatment',
-        'study.types'=>'Study Type',
-        'disease.name'=>'Disease'
+        'treatment.name.raw'=>'Treatment',
+        'study.types.raw'=>'Study Type',
+        'disease.name.raw'=>'Disease'
     ];
     public $index = 'clinicaltrials';
     public $type = 'dataset';

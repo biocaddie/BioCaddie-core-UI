@@ -90,7 +90,7 @@ class StudyConsent
             return $stmt;
 
         }catch(PDOException $e){
-            echo $e->getMessage();
+            echo "You have already agreed to participate in thie study.";
         }
     }
 
@@ -103,7 +103,7 @@ class StudyConsent
 
             return $row;
         }catch(PDOException $e){
-            echo $e->getMessage();
+            echo "You have already agreed to participate in thie study.";
         }
 
     }

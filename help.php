@@ -1,4 +1,6 @@
 <?php
+$pageTitle = "Tutorial";
+
 require_once 'Model/TrackActivity.php';
 ?>
 

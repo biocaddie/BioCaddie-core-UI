@@ -251,7 +251,6 @@ class ElasticSearch { /*
         }
 
 
-
         return $body;
     }
 
@@ -262,7 +261,7 @@ class ElasticSearch { /*
 
     protected function generateResult($body) {
         global $es;
-
+        $result=null;
         try{
             if (sizeof($this->esType) > 0) {
                 $result = $es->search([
@@ -281,7 +280,6 @@ class ElasticSearch { /*
             // Print out the ES error message
             // print_r("No Timeline Chart for this repository");
         }
-
        /* echo "<pre>";
         var_dump($result);
         echo "</pre>";

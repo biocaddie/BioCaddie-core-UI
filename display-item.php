@@ -10,6 +10,8 @@ require_once dirname(__FILE__) . '/views/feedback.php';
 
 $service = new SingleItemDisplayService();
 
+$pageTitle = $service->getDisplayItemData()['title'][1];
+
 /* Track user's activity*/
 require_once dirname(__FILE__) .'/Model/DBController.php';
 require_once dirname(__FILE__) . '/Model/WriteMysqlLog.php';

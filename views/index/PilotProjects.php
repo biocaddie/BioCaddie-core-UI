@@ -33,7 +33,7 @@
                             <div class="col-lg-3">
                                 <div class="project">
                                     <img src="./img/pilot-projects/datarank.png" alt=""/>
-                                    <!--<span><a href="http://biocaddie.ucsd-dbmi.org" target="_blank">DataRank</a></span>--><span><a>DataRank</a></span>
+                                    <!--<span><a href="http://biocaddie.ucsd-dbmi.org" target="_blank">DataRank</a></span>--><span><a class="hyperlink" target="_blank" href="https://biocaddie.org/group/pilot-project/pilot-project-2-1-data-recommendation-using-machine-learning-and-crowdsourcing">DataRank</a></span>
                                     <p>Find most suitable datasets for you.
                                         <a class="hyperlink" target="_blank" href="https://biocaddie.org/group/pilot-project/pilot-project-2-1-data-recommendation-using-machine-learning-and-crowdsourcing">Read More</a>
                                     </p>
@@ -42,7 +42,7 @@
                             <div class="col-lg-3">
                                 <div class="project">
                                     <img src="./img/pilot-projects/DataDiscoveryIndex.png" alt=""/>
-                                    <span><a>Data Citation Discovery</a></span>
+                                    <span><a class="hyperlink" target="_blank" href="https://biocaddie.org/group/pilot-project/pilot-project-3-2-development-citation-and-data-access-metrics-applied-rcsb">Data Citation Discovery</a></span>
                                     <p>
                                         Citation and Data Access Metrics Development applied to RCSB Protein Data Bank.
                                         <a class="hyperlink" target="_blank" href="https://biocaddie.org/group/pilot-project/pilot-project-3-2-development-citation-and-data-access-metrics-applied-rcsb">Read More</a>

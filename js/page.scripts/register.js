@@ -7,16 +7,21 @@ $(document).ready(function(){
 });
 
 function saveconsent($email){
+    $("#myModal").modal('hide');
     $.ajax({
         url:'ajax/studyconsent.php',
         type:'post',
         data:{'email':$email},
         success:function(data, status){
-            if(data=="ok"){
-                $('#myModal').modal('toggle');
+
+            console.log(data.replace(/ /g,''));
+
+            if(data.replace(/\s/g, "") =="ok"){
                 $("#thankyouModal").modal('show');
+                $("#myModal").modal('hide');
             }else{
                 alert(data);
+                $("#myModal").modal('hide');
             }
 
         },

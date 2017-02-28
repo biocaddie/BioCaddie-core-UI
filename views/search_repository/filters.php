@@ -71,7 +71,7 @@ function partialFilters($searchRepoView)
                                             <?php else: ?>
                                             <span style="color:gray">
                                              <?php endif; ?>
-                                                 <?php echo ucwords($filter_item['tag_display_name']); ?>
+                                                 <?php echo ucfirst($filter_item['tag_display_name']); ?>
                                                  <?php echo '(' . number_format($filter_item['count']) . ')'; ?>
                                         </span>
                                     </a>

@@ -1,6 +1,9 @@
 <?php
 require_once  'config/config.php';
 require_once  'Model/TrackActivity.php';
+
+$pageTitle = "Feedback";
+
 include 'views/header.php'; ?>
 
 
@@ -38,4 +41,4 @@ include 'views/header.php'; ?>
     </div>
 </div>
 
-<?php  '/views/footer.php'; ?>
+<?php include 'views/footer.php'; ?>

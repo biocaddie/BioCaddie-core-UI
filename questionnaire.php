@@ -1,4 +1,7 @@
 <?php
+
+$pageTitle = "Questionnaire";
+
 require_once 'config/config.php';
 require_once 'Model/TrackActivity.php';
 include 'views/header.php'; ?>

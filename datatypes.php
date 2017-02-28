@@ -1,10 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: rliu1
- * Date: 4/20/16
- * Time: 2:06 PM
- */
+
+$pageTitle = "Data Types";
 
 require_once 'Model/TrackActivity.php';
 include 'views/header.php';

@@ -7,6 +7,8 @@ require_once dirname(__FILE__) . '/views/search_panel.php';
 require_once dirname(__FILE__) . '/views/grant_details/grant_details.php';
 require_once dirname(__FILE__) . '/views/feedback.php';
 
+$pageTitle = "Grant Support";
+
 $service_grant = new PubmedGrantService();
 $service = new SearchBuilder();
 ?>
@@ -23,17 +25,6 @@ $service = new SearchBuilder();
         </div>
 
         <div class="col-lg-3">
-            <div style="margin-bottom: 30px" class="text-center">
-
-                <span class='st_googleplus_large' displayText='Google +'></span>
-                <span class='st_facebook_large' displayText='Facebook'></span>
-                <span class='st_twitter_large' displayText='Tweet'></span>
-                <span class='st_linkedin_large' displayText='LinkedIn'></span>
-                <span class='st_pinterest_large' displayText='Pinterest'></span>
-                <span class='st_email_large' displayText='Email'></span>
-            </div>
-
-
             <?php echo partialFeedback(); ?>
         </div>
     </div>

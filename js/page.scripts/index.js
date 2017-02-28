@@ -3,6 +3,8 @@
  * */
 
 var $queryInput = $("#query");
+
+
 $queryInput.popover({
     placement: 'bottom',
     trigger: 'manual',
@@ -31,10 +33,14 @@ $queryInput.click(function () {
     if (queryString.length !== 0 && $queryInput.next('div.popover:visible').length !== 0) {
         return;
     }
+
+
     callSuggestions(queryString);
 });
 
 function callSuggestions(queryString) {
+    var searchType = document.querySelector('input[name="searchtype"]:checked').value;
+  
     if ($('input[name="searchtype"]:checked').val() !== 'data')
         return;
 
@@ -49,17 +55,19 @@ function callSuggestions(queryString) {
     $queryInput.parent().find('.input-group-addon').removeClass('hidden');
 
     var serializedData = $queryInput.serialize();
-    loadSuggestions(serializedData, queryString);
+
+    loadSuggestions(serializedData, queryString,searchType);
 }
 
-function loadSuggestions(serializedData, queryString) {
+function loadSuggestions(serializedData, queryString,searchType) {
+
     $.ajax({
         type: "GET",
         dataType: "json",
         url: "ajax/SearchSuggestionService.php",
         data: serializedData,
         success: function (data) {
-            var generatedHtml = generateSuggectionResults(queryString, data);
+            var generatedHtml = generateSuggectionResults(queryString, data,searchType);
             if ($queryInput.next('div.popover:visible').length === 0) {
                 $queryInput.popover('show');
             }
@@ -74,7 +82,7 @@ function loadSuggestions(serializedData, queryString) {
     });
 }
 
-function generateSuggectionResults(queryString, data) {
+function generateSuggectionResults(queryString, data,searchType) {
     var htmlValue = "<div class=\"row\">";
     var href = "search.php?query=" + queryString + "&searchtype=data";
 
@@ -83,13 +91,13 @@ function generateSuggectionResults(queryString, data) {
         var type = data[i];
         htmlValue += "<div class=\"col-lg-2 col-md-3 col-sm-5\">" +
                 "<h5>" +
-                "<a href=\"" + href + "&datatypes=" + type['datatypes'] + "\">" +
+                "<a id=\"datatype_"+i+"\" href=\"" + href + "&datatypes=" + type['datatypes'] + "\">" +
                 type['datatypes'] + " (" + type['typeNum'] + ")" +
                 "</a>" +
                 "</h5>";
         var repoLength = type ['repository'].length;
         for (var j = 0; j < repoLength; j++) {
-            htmlValue += displayResult(queryString, type['repository'][j]);
+            htmlValue += displayResult(queryString, type['repository'][j],j,searchType);
         }
         htmlValue += "</div>";
     }
@@ -97,9 +105,9 @@ function generateSuggectionResults(queryString, data) {
     return htmlValue;
 }
 
-function displayResult(query, item) {
-    return "<h6><a class=\"repositoryLabel\" href=\"search-repository.php?query=" +
-            query + "&repository=" + item["id"] + "\">" + item["repoShowName"] + ' (' + item["num"] + ')</a></h6>';
+function displayResult(query, item,j,searchType) {
+    return "<h6><a id=\"repository_"+j+"\" class=\"repositoryLabel\" href=\"search-repository.php?query=" +
+            query + "&repository=" + item["id"] + "&searchtype="+ searchType+"\">" + item["repoShowName"] + ' (' + item["num"] + ')</a></h6>';
 }
 
 $('body').bind('click', function (e) {
@@ -115,8 +123,8 @@ $('body').bind('click', function (e) {
 /*
  * For the bar chart on landing page
  * */
-var categories = ['', 'UniProt', 'GDC', 'ClinVar', 'ClinicalTrials', 'BioProject', 'PDB','Dryad', 'ArrayExpress'];
-var dollars = [438182, 262293, 204689, 200674, 155850, 122339, 82837, 68189];
+var categories = ['', 'Swiss-Prot ', 'ClinVar',  'BioProject', 'PDB','Dryad','OmicsDI', 'ArrayExpress','Dataverse'];
+var dollars = [438182, 208560,  155850, 122339, 82837,78201, 68189,60303];
 var colors = ['#3a87ad', '#3a87ad', '#3a87ad', '#3a87ad', '#3a87ad', '#3a87ad', '#3a87ad', '#3a87ad'];
 
 var grid = d3.range(25).map(function (i) {

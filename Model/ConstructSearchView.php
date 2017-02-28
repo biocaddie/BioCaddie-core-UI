@@ -63,7 +63,7 @@ class ConstructSearchView {
      * @var array(array(string))
      */
     private $searchResults;
-
+    private $searchResults_without_duplicate;
     public function __construct($searchBuilder) {
         /*
          * Load parameters
@@ -232,14 +232,25 @@ class ConstructSearchView {
     public function getSearchResults() {
         return $this->searchResults;
     }
-
+    public function getSearchResults_without_duplicate(){
+        return $this->searchResults_without_duplicate;
+    }
     /**
      * format the data for the search results column
      */
     public function setSearchResults() {
-
         $es_results = $this->searchBuilder->getElasticSearchResults();
+        $this->searchResults = $this->getSearchResultsinFormat($es_results);
+    }
+
+    public function setSearchResults_without_duplicate() {
+        $es_results = $this->searchBuilder->getElasticSearchResults_without_duplicate();
+        $this->searchResults_without_duplicate=$this->getSearchResultsinFormat($es_results);
+    }
+
+    public function getSearchResultsinFormat($es_results){
         $es_items = $es_results['hits']['hits'];
+        //var_dump($es_items);
         $index_type_header = [];
         foreach ($this->searchBuilder->getRepositories()->getRepositories() as $repo) {
             $index_type_header[$repo->index . '_' . $repo->type] = [$repo->searchPageField, // used on search page, key of the fields
@@ -249,9 +260,8 @@ class ConstructSearchView {
                 $repo->link_field, // may not being used
                 $repo->searchPageHeader];  // map key of the fields to label
         }
-        $this->searchResults = $this->constructResults($es_items, $index_type_header);
+        return $this->constructResults($es_items, $index_type_header);
     }
-
     /**
      * Construct search results for displaying
      * @input: $es_item, an array of search results from elasticsearch
@@ -260,6 +270,9 @@ class ConstructSearchView {
      */
     private function constructResults($es_items, $index_type_header) {
         $results_hyperlink = [];
+        if(is_null($es_items)){
+           return $results_hyperlink;
+        }
         foreach ($es_items as $item) {
             $key = explode("_", $item['_index'])[0] . '_' . $item['_type'];     // change "indexname_date" to "indexname_type"
             $visible_fields = $this->constructResultsFields($item, $index_type_header, $key);
@@ -273,8 +286,10 @@ class ConstructSearchView {
                 }
                 $visible_fields['source'] = $index_type_header[$key][2];
                 $visible_fields['source_ref'] = $index_type_header[$key][3];
+                $visible_fields['es_id'] = $item["_id"];
                 array_push($results_hyperlink, $visible_fields);
             }
+
         }
         return $results_hyperlink;
     }
@@ -360,14 +375,24 @@ class ConstructSearchView {
 
     public function sortByNum($input) {
         $num = array();
-        if ($input != NULL) {
+        if ($input != NULL && sizeof($input)!=0) {
             foreach ($input as $key => $value) {
                 if (isset($value['rows'])) {
                     $num[$key] = $value['rows'];
-                } else {
+                } elseif(isset($value['count'])) {
                     $num[$key] = $value['count'];
                 }
             }
+
+          /*  echo "<pre>";
+            var_dump($num);
+            echo "</pre>";
+
+            echo "<pre>";
+            var_dump($input);
+            echo "</pre>";
+          */
+
             array_multisort($num, SORT_DESC, $input);
         }
         return $input;
@@ -378,7 +403,7 @@ class ConstructSearchView {
      * @return: string, URL
      * */
 
-    public function getUrlWithQuery($page_name) {
+    public function getUrlWithQuery($page_name=null) {
         if (isset($page_name)) {
             return $page_name . '?searchtype=' . $this->searchBuilder->getSearchType() . '&query=' . $this->searchBuilder->getQuery();
         }
@@ -516,9 +541,12 @@ class ConstructSearchView {
     public function getUrlByOffset($newOffset) {
         $returnValue = $this->getUrlWithQuery()
                 . '&offset=' . $newOffset
+                . '&rowsPerPage='.$this->searchBuilder->getRowsPerPage()
                 . $this->getURLWithRepository()
                 . $this->getURLWithDataTypes()
-                . $this->getCurrentSort();
+                . $this->getCurrentSort()
+                ;
+
         return $returnValue;
     }
 
@@ -549,10 +577,10 @@ class ConstructSearchView {
                 '&offset=1&rowsPerPage=' .
                 strval($rowsPerPage) .
                 $this->getURLWithRepository() .
-                $this->getCurrentSort;
+                $this->getCurrentSort();
     }
 
-    public function getSortUrl($sortValue) {
+    public function getSortUrl($sortValue='') {
         return $this->getUrlWithQuery() .
                 $this->getURLWithRepository() .
                 '&sort=' . $sortValue;

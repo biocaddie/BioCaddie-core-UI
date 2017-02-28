@@ -12,24 +12,23 @@
                 <tr>
                     <td> 
                         <span class="glyphicon glyphicon-stop"> </span>
+                        <span class="title">Feb 28, 2017.    <strong>v2.0</strong></span>
+                        <ul style="font-size: 13px">
+                            <li>Increase coverage to more repositories</li>
+                            <li>Duplicate datasets display feature</li>
+                            <li>Usability enhancements based on user feedback and user interviews</li>
+                            <li>User-reported issues resolved</li>
+                        </ul>
+
+                       <br>
+                        <span class="glyphicon glyphicon-stop"> </span>
                         <span class="title">Nov 23, 2016.    <strong>v1.5</strong></span>
                         <ul style="font-size: 13px">
 
                             <li>Increased coverage to twice the number of repositories</li>
                             <li>Total number of datasets doubled</li>
-                            <li>Repositories mapped to DATS 2.1 metadata model</li>
-                            <li>Sorting on publication date of the dataset</li>
-                            <li>Visualization of results via timeline</li>
-                            <li>Usability enhancements based on user feedback and user interviews</li>
-                            <li>User-reported issues resolved</li>
-                        </ul>
+                            <li>Visualization of results via timeline ...</li>
 
-                        <span class="glyphicon glyphicon-stop"> </span>
-                        <span class="title">Jun 30, 2016.    <strong>v1.0</strong></span>
-                        <ul style="font-size: 13px">
-
-                            <li>Filter results by accessibility and authorization</li>
-                            <li>Synonym expansion using ontologies ...</li>
 
                         </ul>
                     </td>

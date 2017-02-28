@@ -12,14 +12,15 @@ if(isset($_GET['q'])){
     $expanquery = $_SESSION['synonym'];
 }
 
+$pageTitle = $query;
 ?>
 
 <?php include dirname(__FILE__) . '/views/header.php'; ?>
 
-<?php include dirname(__FILE__) . '/views/breadcrumb.php'; ?>
+
 
     <div class="container">
-
+        <?php include dirname(__FILE__) . '/views/breadcrumb.php'; ?>
         <div class="row">
             <h3>Synonyms of "<?php echo htmlspecialchars($query); ?>"</h3>
         </div>

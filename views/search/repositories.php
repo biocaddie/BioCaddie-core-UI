@@ -33,6 +33,7 @@ function partialRepositories($searchView)
             <ul class="no-disk" id="repositoryList">
                 <?php
                 if ($searchView->getSearchBuilder()->getTotalRows() > 0) {
+                    $i=0;
                     foreach ($repositories as $key => $row) {
 
                         ?>
@@ -44,7 +45,7 @@ function partialRepositories($searchView)
                         <?php endif; ?>
                         <li>
                             <!--checkbox-->
-                            <a target=_parent href="<?php echo $searchView->getUrlBySelectedRepository($row['id']); ?>">
+                            <a id="<?php echo "repository_".$i?>" target=_parent href="<?php echo $searchView->getUrlBySelectedRepository($row['id']); ?>">
                                 <?php $repoN = $repoN + 1; ?>
                                 <?php if ($key == "ClinicalTrials"): ?> <!--block clinicaltrials-->
                                 <div style="color:gray">
@@ -70,7 +71,7 @@ function partialRepositories($searchView)
                         </ul>
                         </li>
                     <?php endif; ?>
-                <?php } ?>
+                <?php  $i++;} ?>
             </ul>
         </div>
     </div>

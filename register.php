@@ -1,5 +1,8 @@
 
 <?php
+
+$pageTitle = "Create your DataMed Account";
+
 require_once dirname(__FILE__) .'/config/config.php';
 require_once './lib/password.php';
 date_default_timezone_set('America/Chicago');

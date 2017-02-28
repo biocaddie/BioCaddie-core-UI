@@ -1,11 +1,12 @@
 <?php
 
-require_once dirname(__FILE__) .'/config/config.php';
+$pageTitle = "Manage Collections";
 
+require_once dirname(__FILE__) .'/config/config.php';
 require_once './Model/DBController.php';
 require_once './database/Collection.php';
 require_once './database/UserCollection.php';
-//require_once dirname(__FILE__) . '/trackactivity.php';
+require_once dirname(__FILE__) . '/Model/TrackActivity.php';
 
 if (!isset($_SESSION['name'])) {
     echo "<script> parent.self.location = \"login.php\";</script>";

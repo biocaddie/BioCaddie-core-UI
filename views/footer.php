@@ -20,6 +20,10 @@ if (isset($scripts)) {
     }
 }
 ?>
+
+<!--Usability Tracking-->
+<script src="./js/usertesting.js"></script>
+
 </body>
 
 </html>

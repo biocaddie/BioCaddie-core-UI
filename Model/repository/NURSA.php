@@ -15,10 +15,10 @@ class NursaRepository extends RepositoryBase {
     public $source = "https://www.nursa.org/nursa/datasets/dataset.jsf?doi=";
     //public $searchFields = ['dataset.types','dataset.keywords', 'dataset.creators','dataset.ID','dataset.title','dataset.description',
     //                        'person.name','TaxonomicInformation.name','dataAcquisition.name'];
-    public $facetsFields = ['dataAcquisition.name.raw','TaxonomicInformation.name.raw'];
+    public $facetsFields = ['dataAcquisition.name.raw','taxonomicInformation.name.raw'];
     public $facetsShowName = [
         'dataAcquisition.name.raw'=>'Data Acquisition',
-        'TaxonomicInformation.name.raw'=>'Taxonomic Information'
+        'taxonomicInformation.name.raw'=>'Taxonomic Information'
     ];
     public $index = 'nursadatasets';
     public $type = 'dataset';

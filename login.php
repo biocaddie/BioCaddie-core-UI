@@ -9,6 +9,8 @@ require_once dirname(__FILE__).'/database/UserCollection.php';
 require_once dirname(__FILE__) .'/Model/SubmitDataService.php';
 require_once dirname(__FILE__) . '/Model/TrackActivity.php';
 
+$pageTitle = "Sign in - DataMed Accounts";
+
 if(!isset($_SESSION['loggedin'])){
     $_SESSION['loggedin']=false;
 }

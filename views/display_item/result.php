@@ -58,7 +58,6 @@ function partialResult($service)
                                     <td style="width: 20%;"><strong><?php echo $data[$subtitle][$i][0] ?>:</strong></td>
                                     <?php if(strlen(($data[$subtitle][$i][2]))>0):?>
                                         <td> <a class='hyperlink' target="_blank" href="<?php echo $data[$subtitle][$i][2]; ?>"><?php echo $data[$subtitle][$i][1]; ?></a></td>
-                                        <!--<td> <?php echo $data[$subtitle][$i][1]; ?></td>-->
                                     <?php else:?>
                                         <td><div class="comment more"> <?php echo $data[$subtitle][$i][1]; ?></div></td>
                                     <?php endif;?>

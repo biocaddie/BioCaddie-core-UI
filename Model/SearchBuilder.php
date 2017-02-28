@@ -5,6 +5,7 @@ require_once dirname(__FILE__) . '/RepositoriesRep.php';
 require_once dirname(__FILE__) . '/Repositories.php';
 require_once dirname(__FILE__) . '/ElasticSearch.php';
 require_once dirname(__FILE__) . '/ExpansionSearch.php';
+require_once dirname(__FILE__) . '/DuplicateExpansionSearch.php';
 require_once dirname(__FILE__) . '/BooleanSearch.php';
 require_once dirname(__FILE__) . '/Utilities.php';
 require_once dirname(__FILE__) . '/WriteMysqlLog.php';
@@ -125,14 +126,15 @@ class SearchBuilder {
      * @var string
      * */
     private $expandedQuery = [];
-    private $expandeQuerryArray =[];
+    private $expandedQueryArray =[];
 
     /*
      * search results from ElasticSearch, an instance of ElasticSearch class or ExpansionSearch class
      * @var object
      */
     private $elasticSearchResults;
-
+    private $elasticSearchResults_without_duplicate;
+    private $input_array_for_duplicate;
     /*
      * number of search results and selection status of the data types
      * @var array(array(string))
@@ -211,7 +213,8 @@ class SearchBuilder {
     public $timelineFlag;
 
     public $sort_field='';
-
+    public $booleanFlag = false;
+    public $booleanDetail='';
     function __construct() {
         // The functions below are from config/datasources.php file
         // should be moved to config/datasources.php?
@@ -259,11 +262,11 @@ class SearchBuilder {
         /* Track user's activity */
         $log_date = date("Y-m-d H:i:s");
         ;
-        $message = $this->query . ' (' . $this->searchtype . ')';
-        $user_email = $_SESSION['email'];
+        $message = $this->query . ' (' . $this->searchType . ')';
+        $user_email = @$_SESSION['email'];
         $objDBController = new DBController();
         $dbconn = $objDBController->getConn();
-        $referral = $_SERVER["HTTP_REFERER"];
+        $referral = @$_SERVER["HTTP_REFERER"];
 
         write_mysql_log($dbconn, $log_date, $message, $user_email, session_id(), $referral);
     }
@@ -294,6 +297,7 @@ class SearchBuilder {
 
 
         $esResults = $this->setElasticSearchResults($input_array);
+        $this->input_array_for_duplicate=$input_array;
         $this->totalRows = $this->setTotalRows($esResults);
         $this->setRepositoryRows($esResults);   // set number of rows for each repository
 
@@ -341,6 +345,7 @@ class SearchBuilder {
 
         // generate elasticsearch results
         $this->elasticSearchResults = $this->setElasticSearchResults($input_array);
+        $this->input_array_for_duplicate=$input_array;
         $this->selectedTotalRows = $this->setTotalRows($this->getElasticSearchResults());
 
         $this->setAggByDate($this->elasticSearchResults);
@@ -455,7 +460,7 @@ class SearchBuilder {
     /**
      * @param mixed $year
      */
-    public function setYear($year)
+    public function setYear()//$year)
     {
         $this->year = filter_input(INPUT_GET, "year", FILTER_SANITIZE_STRING);
         return true;
@@ -641,9 +646,9 @@ class SearchBuilder {
             } else {                                        // no selected repository, return all repositories
                 foreach ($this->DATATYPES_MAPPING as $index) {
                     //To block the clinicaltrials result
-                    if (in_array("clinicaltrials", $index)) {
-                        unset($index[0]);
-                    }
+                    //if (in_array("clinicaltrials", $index)) {
+                    //    unset($index[0]);
+                    //}
                     $this->elasticSearchIndexes .= implode(',', $index) . ',';
                 }
             }
@@ -666,6 +671,8 @@ class SearchBuilder {
         if ($this->expansionFlag == 1 || $this->query == " ") {
             // If advanced search
             $search = new BooleanSearch($input_array);
+            $this->booleanFlag = True;
+
         } else {
             // If simple search
             $search = new ExpansionSearch($input_array);
@@ -673,10 +680,38 @@ class SearchBuilder {
         }
 
         $result = $search->getSearchResult();
+        if($this->booleanFlag){
+            $this->booleanDetail=$search->search_details;
+        }
 
         return $result;
     }
+    public function getElasticSearchResults_without_duplicate() {
+        $this->setElasticSearchResults_without_duplicate($this->input_array_for_duplicate);
+        return $this->elasticSearchResults_without_duplicate;
+    }
 
+    /**
+     * Call Elasticsearch class to generate search result
+     * @input input array
+     * @return search result from elasticsearch
+     */
+    public function setElasticSearchResults_without_duplicate($input_array) {
+        if ($this->expansionFlag == 1 || $this->query == " ") {
+            // If advanced search
+            $search = new BooleanSearch($input_array);
+            $this->booleanFlag = True;
+            $this->booleanDetail = $search->search_details;
+        } else {
+            // If simple search
+            $search = new DuplicateExpansionSearch($input_array);
+            //$this->setExpandedQuery($search);   // Generate synonyms
+        }
+
+        $result = $search->getSearchResult();
+        $this->elasticSearchResults_without_duplicate = $result;
+        return $result;
+    }
     /**
      * @return mixed
      */
@@ -726,13 +761,13 @@ class SearchBuilder {
     public function setTotalRows($esResults) {
         $totalRow = 0;
         $repositories_counts = [];
-        foreach ($esResults['aggregations']['_index']['buckets'] as $bucket) {
 
-
-
-            $key = explode('_', $bucket['key'])[0];
-            $repositories_counts[$key] = $bucket['doc_count'];
-            $totalRow += $repositories_counts[$key];
+        if($esResults['aggregations']['_index']['buckets']!=NULL){
+            foreach ($esResults['aggregations']['_index']['buckets'] as $bucket) {
+                $key = explode('_', $bucket['key'])[0];
+                $repositories_counts[$key] = $bucket['doc_count'];
+                $totalRow += $repositories_counts[$key];
+            }
         }
 
         return $totalRow;
@@ -750,6 +785,13 @@ class SearchBuilder {
         $this->timelineData = [];
 
         $yearCount = [];
+        if($esResults['aggregations']!=NULL && !array_key_exists('datasets_over_time',$esResults['aggregations'])){
+            return;
+        }
+
+        if($esResults['aggregations']['datasets_over_time']['buckets']!=NULL){
+
+
         foreach ($esResults['aggregations']['datasets_over_time']['buckets'] as $bucket) {
 
             $year = substr($bucket['key_as_string'],0,4);
@@ -767,7 +809,7 @@ class SearchBuilder {
 
             }
         }
-
+        }
         //$yearCount['NULL'] = $esResults['aggregations']['no_date']['doc_count'];
 
         foreach($yearCount as $key=>$value){
@@ -989,7 +1031,13 @@ class SearchBuilder {
         $detail = "(" . $this->getSearchType() . ')"' . $query . '"';
         $synonyms_array = $this->getExpandedQueryArray();
         if (sizeof($synonyms_array)==0){
-            return $detail;
+            if(!$this->booleanFlag){
+                return $detail;
+            }
+            else{
+                return "(" . $this->getSearchType() . ')' .$this->showBooleanExpansionDetails();
+            }
+
         }
         $syn_details = '[';
         foreach(array_keys($synonyms_array) as $key){
@@ -1014,6 +1062,9 @@ class SearchBuilder {
         $syn_details = $syn_details.']';
         $detail = $detail .' OR '.$syn_details;
         return $detail;
+    }
+    public function showBooleanExpansionDetails(){
+        return $this->booleanDetail;
     }
 
 }

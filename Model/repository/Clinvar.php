@@ -14,24 +14,24 @@ class ClinvarRepository extends RepositoryBase {
     public $id = '0029';
     public $source = "https://www.ncbi.nlm.nih.gov/clinvar/";
     //public $searchFields = ['dataset.title','dataset.type','AlternateIdentifiers.ID','TaxonomyInformation.ID','TaxonomyInformation.Species'];
-    public $facetsFields = ['TaxonomyInformation.Species'];
+    public $facetsFields = ['taxonomicInformation.species'];
     public $facetsShowName = [
-        'TaxonomyInformation.Species'=>'Taxonomic Information',
+        'taxonomicInformation.species'=>'Taxonomic Information',
 
     ];
     public $index = 'clinvar';
     public $type = 'dataset';
     //search page
-    public $searchPageField = ['dataset.title', 'dataset.type','TaxonomyInformation.Species' ];
+    public $searchPageField = ['dataset.title', 'dataset.type','taxonomicInformation.species' ];
     public $searchPageHeader = [
         'dataset.title'=>'Title',
         'dataset.type'=>'Type',
-        'TaxonomyInformation.Species'=>'Species'
+        'taxonomicInformation.species'=>'Species'
     ];
 
     //search-repository page
     public $searchRepoHeader = ['Title', 'type', 'Taxonomic Information','Alternate Identifiers'];
-    public $searchRepoField = ['dataset.title', 'dataset.type', 'TaxonomyInformation.Species','AlternateIdentifiers.ID'];
+    public $searchRepoField = ['dataset.title', 'dataset.type', 'taxonomicInformation.species','AlternateIdentifiers.ID'];
 
     public $source_main_page = "http://thedata.org/";
     public $sort_field = '';

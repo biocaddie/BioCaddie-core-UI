@@ -20,10 +20,11 @@ function partialDatatypes($searchView)
             <ul class="no-disk">
                 <?php
                 if ($searchView->getSearchBuilder()->getTotalRows() > 0) {
+                    $i=0;
                     foreach($datatypes as $key=>$row){
                         ?>
                         <li>
-                            <a target="_parent" href="<?php echo $searchView->getUrlByDatatype($key);?>">
+                            <a id="<?php echo "datatype_".$i?>" target="_parent" href="<?php echo $searchView->getUrlByDatatype($key);?>">
                             <!--checkbox-->
                             <?php if ($row['selected'] == true): ?>
                                 <i class="fa fa-check-square"></i>
@@ -39,6 +40,7 @@ function partialDatatypes($searchView)
                             </a>
                         </li>
                         <?php
+                        $i++;
                     } // end of foreach
                 }
                 ?>

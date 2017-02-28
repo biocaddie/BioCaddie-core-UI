@@ -12,10 +12,12 @@ function partialAccessibility($searchView) {
             <ul class="no-disk">
                 <?php
                 if ($searchView->getSearchBuilder()->getTotalRows() > 0) {
+                     $i=0;
                     foreach($access as $key=>$row){
+
                         ?>
                         <li>
-                            <a target="_parent" href="<?php echo $searchView->getUrlByAccessibility($key);?>">
+                            <a id="<?php echo "access_".$i?>" target="_parent" href="<?php echo $searchView->getUrlByAccessibility($key);?>">
                                 <!--checkbox-->
                                 <?php if ($row['selected'] == true): ?>
                                     <i class="fa fa-check-square"></i>
@@ -31,6 +33,7 @@ function partialAccessibility($searchView) {
                             </a>
                         </li>
                         <?php
+                        $i++;
                     } // end of foreach
                 }
                 ?>

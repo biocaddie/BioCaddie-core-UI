@@ -1,5 +1,7 @@
 <?php
 
+$pageTitle = "Manage Saved Searches";
+
 require_once dirname(__FILE__) .'/config/config.php';
 
 require_once dirname(__FILE__).'/Model/DBController.php';

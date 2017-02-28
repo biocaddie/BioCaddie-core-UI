@@ -172,8 +172,7 @@ class ExpansionSearch extends ElasticSearch
     ];
         //$expan_query = $this->getSynonyms();
         //$expan_query=[];
-
-        if(sizeof($this->synonymsArray)==0){
+        if(sizeof($this->synonymsArray)==0 or sizeof($this->synonymsArray[0])==0){
             return $query_part;
         }
         $all_synsquery = ['bool'=>['must'=>[]]];
@@ -183,7 +182,8 @@ class ExpansionSearch extends ElasticSearch
                 array_push($synmquery['bool']['should'], ['multi_match' => [
                     'query' => $query,
                     'fields' => $this->searchFields,
-                    'operator' => 'and']]);
+                    'operator' => 'and'],
+                ]);
             }
             array_push($all_synsquery['bool']['must'],$synmquery);
         }
@@ -192,10 +192,6 @@ class ExpansionSearch extends ElasticSearch
         return $query_part;
     }
 
-    /*
-     * overwrite ES query part according to synonyms and query
-     * @return array(string)
-     */
 
     protected function generateQuery()
     {
@@ -223,7 +219,6 @@ class ExpansionSearch extends ElasticSearch
         echo '</pre>';*/
         return $query_part;
     }
-
     /*
      * get all synonyms of a query
      * @return array(string)

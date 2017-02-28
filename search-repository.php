@@ -32,6 +32,11 @@ $searchBuilderAll = new SearchBuilder();
 $searchBuilderAll->searchAllRepo();
 $searchRepoFilterView = new ConstructSearchRepoView($searchBuilderAll);
 
+$repo = $_GET['repository'];
+$repoName = getRepositoryIDNameMapping()[$repo];
+
+$pageTitle = $searchBuilder->getQuery()." - ".$repoName;
+
 ?>
 
 

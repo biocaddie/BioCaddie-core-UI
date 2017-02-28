@@ -1,16 +1,15 @@
 <?php
+$pageTitle = "Advanced Search";
+
 require_once dirname(__FILE__) .'/config/config.php';
 require_once dirname(__FILE__) . '/Model/SearchBuilder.php';
 require_once dirname(__FILE__) . '/Model/TrackActivity.php';
 ?>
 
 <?php include dirname(__FILE__) . '/views/header.php';?>
-<?php include dirname(__FILE__) . '/views/breadcrumb.php'; ?>
-
-
-
 
 <div class="container">
+    <?php include dirname(__FILE__) . '/views/breadcrumb.php'; ?>
     <div class="row">
         <h3>DataMed Advanced Search Builder</h3>
     </div>

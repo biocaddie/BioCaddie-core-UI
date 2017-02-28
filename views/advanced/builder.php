@@ -91,9 +91,9 @@
                                 class="caret"></span>
                         </button>
                         <ul class="dropdown-menu inner1 opul1">
-                            <li><a href="#">AND</a></li>
-                            <li><a href="#">OR</a></li>
-                            <li><a href="#">NOT</a></li>
+                            <li><a>AND</a></li>
+                            <li><a>OR</a></li>
+                            <li><a>NOT</a></li>
                         </ul>
                     </div>
                     <div class="dropdown">
@@ -102,10 +102,11 @@
                                 aria-haspopup="true" aria-expanded="false">All Search Fields <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu inner1 fieldul1">
-                            <li><a href="#">All Search Fields</a></li>
-                            <li><a href="#">Dataset Title</a></li>
-                            <li><a href="#">Dataset Creators</a></li>
-                            <li><a href="#">Description</a></li>
+                            <li><a>All Search Fields</a></li>
+                            <li><a>Title</a></li>
+                            <li><a>Author</a></li>
+                            <li><a>Description</a></li>
+                            <li><a>Disease</a></li>
                         </ul>
                     </div>
                     <input class="input inner1" id="field1" type="text"

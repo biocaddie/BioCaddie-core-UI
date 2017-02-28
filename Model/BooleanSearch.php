@@ -13,7 +13,7 @@ require_once 'ElasticSearch.php';
 class BooleanSearch extends ElasticSearch {
 
     protected $synonyms;
-
+    public $search_details=null;
     /*
      * expand field names for advanced search
      * @return array(string)
@@ -35,6 +35,9 @@ class BooleanSearch extends ElasticSearch {
             case "description":
                 $query_fields_array = array(" dataItem.description", "desc", "description", "dataset.description", "dataset.note", "Dataset.description");
                 break;
+            case "disease":
+                $query_fields_array = array("disease", "NLP_Fields.Disease", "disease.name");
+                break;
             default:
                 $query_fields_array = array($query_field);
         }
@@ -48,9 +51,12 @@ class BooleanSearch extends ElasticSearch {
      */
 
     protected function recursiveConstructBoolQuery($parsed_query) {
-        $query_part = array('bool' => array('must' => array(),
-                'should' => array(),
-                'must_not' => array()));
+        $query_part = array('bool' =>
+                                array('must' => array(),
+                                      'should' => array(),
+                                      'must_not' => array()
+                                    )
+                            );
 
         $oprArray = [
             "AND" => "must",
@@ -85,18 +91,28 @@ class BooleanSearch extends ElasticSearch {
 
                     /* Add synonyms */
                     $expan_query = $this->getSynonyms($quert_term);
+
+                    if(sizeof($this->search_details)>0){
+                        $this->search_details.=" ".$operator." ";
+                    }
+                    $this->search_details .= "(\"".$quert_term."\"";
                     foreach ($expan_query as $tmp) {
                         $quert_term.=" ".$tmp;
+                        $this->search_details .= " OR \"".$tmp.'"';
+                    }
+                    $this->search_details .=")";
+                    if($query_fields!='_all'and !is_array($query_fields)){
+                        $this->search_details.="[".$query_fields."]";
                     }
 
                     array_push($query_part['bool'][$oprArray[$operator]], array('multi_match' => array('query' => $quert_term, 'fields' => $query_fields, "operator" => "or")));
                 }
+
             }
+
+
         }
 
-       /* echo "<pre>";
-        var_dump($query_part);
-        echo "</pre>";*/
         return $query_part;
     }
 
@@ -159,8 +175,6 @@ class BooleanSearch extends ElasticSearch {
         }
 
 
-
-
         return $query_part;
     }
 
@@ -172,6 +186,7 @@ class BooleanSearch extends ElasticSearch {
     protected function generateSearchBody() {
         $facets = $this->generateFacets();
         $search_query = $this->generateBoolQuery();
+
         $sortSetting = $this->generateSort();
         $body = ['from' => ($this->offset - 1) * $this->rowsPerPage,
             'size' => $this->rowsPerPage,
@@ -183,7 +198,7 @@ class BooleanSearch extends ElasticSearch {
                 'size' => $this->rowsPerPage,
                 'query' => $search_query,
                 'highlight' => $this->highlight,
-                'aggs' => $facets //'facets'=>$facets
+                'aggs' => $facets
             ];
         }
         if (count(array_keys($sortSetting) > 0)) {
@@ -200,6 +215,7 @@ class BooleanSearch extends ElasticSearch {
     public function getSearchResult() {
         $this->updateQueryString();
         $body = $this->generateSearchBody();
+
         return $this->generateResult($body);
     }
 
@@ -216,7 +232,6 @@ class BooleanSearch extends ElasticSearch {
 
     protected function getSynonyms($query)
     {
-
 
         if (substr($query, 0, 5) == "&#34;" && substr($query, -5, 5) == "&#34;") {
             $query = trim($query, "&#34;");
@@ -239,6 +254,19 @@ class BooleanSearch extends ElasticSearch {
             $expansion_query = array_unique($expansion_query);
             $synonyms = $expansion_query;
         }
+
+        if(basename($_SERVER['PHP_SELF']) == "search.php"){
+
+            if($_SESSION['synonym']==null){
+                $_SESSION['synonym'] = $synonyms;
+            }else{
+                $tmp = array_merge($_SESSION['synonym'],$synonyms);
+                $_SESSION['synonym'] = $tmp;
+            }
+
+        }
+
+
         return $synonyms;
     }
 

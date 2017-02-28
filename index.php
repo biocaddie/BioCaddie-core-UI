@@ -1,5 +1,7 @@
 <?php
 
+$pageTitle = "Home - DataMed";
+
 require_once dirname(__FILE__) . '/config/config.php';
 require_once dirname(__FILE__) . '/Model/TrackActivity.php';
 ?>
@@ -41,7 +43,11 @@ require_once dirname(__FILE__) . '/Model/TrackActivity.php';
     </div>
 
 <?php include dirname(__FILE__) . "/views/index/PilotProjects.php"; ?>
-
+    <div class="container" id="privacy">
+        <a class='hyperlink' href="privacy.php">Privacy</a>
+        <br>
+        <br>
+    </div>
 <?php
 /* ==== Page Specific Scripts ==== */
 $scripts = [

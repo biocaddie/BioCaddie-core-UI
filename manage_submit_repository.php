@@ -1,5 +1,8 @@
 <?php
 //error_reporting(E_ERROR);
+
+$pageTitle = "Manage Submitted Repository";
+
 require_once dirname(__FILE__) .'/config/config.php';
 require_once dirname(__FILE__) .'/config/datasources.php';
 require_once dirname(__FILE__) . '/Model/SearchBuilder.php';

@@ -10,7 +10,7 @@ class IcpsrRepository extends RepositoryBase {
     public $type = 'dataset';
     public $repoShowName = 'ICPSR';
 
-    public $wholeName = 'The Interuniversity Consortium for Political and Social Research';
+    public $wholeName = 'Interuniversity Consortium for Political and Social Research';
 
     /**
      * Specifies the fields ElasticSearch uses to run the search.
@@ -22,14 +22,14 @@ class IcpsrRepository extends RepositoryBase {
      *  Specifies the list of fields to be used for facets' filtering.
      * @var array(string)
      */
-    public $facetsFields = ['dataset.types','dataset.keywords'];
+    public $facetsFields = ['dataset.types.raw','dataset.keywords.raw'];
     /**
      *  Indicates the list of display values for facets' filtering.
      * @var array(key(string), value(string))
      */
     public $facetsShowName = [
-        'dataset.types'=>'Data Type',
-        'dataset.keywords'=>'Keywords'
+        'dataset.types.raw'=>'Data Type',
+        'dataset.keywords.raw'=>'Keywords'
        ];
 
 

@@ -70,7 +70,10 @@ class ConstructSearchRepoView extends ConstructSearchView {
      */
     public function setRepositoryFacets($esResultsNoFilter, $esResults, $repository) {
         $result = [];
-        $keys = array_keys($esResults['aggregations']);
+        $keys=[];
+        if(isset($esResults['aggregations'])){
+            $keys = array_keys($esResults['aggregations']);
+        }
         $selected_filters = $this->getSearchBuilder()->getSelectedFilters();
         $displayed_terms = [];
 
@@ -178,6 +181,7 @@ class ConstructSearchRepoView extends ConstructSearchView {
     public function getUrlByOffset($newOffset) {
         return $this->getUrlWithQuery()
                 . '&offset=' . $newOffset
+                 . '&rowsPerPage='.$this->getSearchBuilder()->getRowsPerPage()
                 . $this->getURLWithRepository()
                 . $this->getURLWithFilters()
                 . $this->getCurrentSort();

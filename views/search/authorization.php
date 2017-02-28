@@ -18,10 +18,11 @@ function partialAuthorization($searchView) {
             <ul class="no-disk">
                 <?php
                 if ($searchView->getSearchBuilder()->getTotalRows() > 0) {
+                    $i=0;
                     foreach($auth as $key=>$row){
                         ?>
                         <li>
-                            <a target="_parent" href="<?php echo $searchView->getUrlByAuth($key);?>">
+                            <a id="<?php echo "auth_".$i?>" target="_parent" href="<?php echo $searchView->getUrlByAuth($key);?>">
                                 <!--checkbox-->
                                 <?php if ($row['selected'] == true): ?>
                                     <i class="fa fa-check-square"></i>
@@ -37,6 +38,7 @@ function partialAuthorization($searchView) {
                             </a>
                         </li>
                         <?php
+                        $i++;
                     } // end of foreach
                 }
                 ?>

@@ -2,34 +2,33 @@
 
 require_once dirname(__FILE__) . '/../RepositoryBase.php';
 
-class TcgaRepository extends RepositoryBase
+class GdcRepository extends RepositoryBase
 {
 
     public $repoShowName = 'GDC';
     public $wholeName = 'Genomic&nbsp;Data&nbsp;Commons';
     public $id = '0026';
-    public $index = 'tcga';
+    public $index = 'gdc';
     public $type = 'dataset';
 
     public $source = "https://gdc-api.nci.nih.gov/files";
-   // public $searchFields = ["dataset.ID", 'dataset.types', 'dataType.method', 'dataType.information', 'datasetDistributions.format'];
 
-    public $facetsFields = ['dataType.method.raw', 'dataset.types.raw'];
+    public $facetsFields = ['disease.name.raw', 'anatomicalPart.name.raw'];
     public $facetsShowName = [
-        'dataType.method.raw' => 'Method',
-        'dataset.types.raw' => 'Datasets Type'];
+        'disease.name.raw' => 'Disease',
+        'anatomicalPart.name.raw' => 'Primary Site'];
 
 
-    public $searchPageField = [ 'dataset.ID','dataset.types','dataType.method','dataType.information'];
+    public $searchPageField = [ 'dataset.ID','dataset.creator','disease.name','anatomicalPart.name'];
     public $searchPageHeader = [
-        'dataset.types' => 'Types',
+        'dataset.creator' => 'Creator',
         'dataset.ID' => 'ID',
-        'dataType.method' => 'Method',
-        'dataType.information' => 'Information'
+        'disease.name' => 'Disease',
+        'anatomicalPart.name' => 'Primary Site'
     ];
 
-    public $searchRepoHeader = [ 'ID','Types','Date Created'];//,'Citation count'
-    public $searchRepoField = [ 'dataset.ID','dataset.types', 'dataset.dateCreated'];//'citation.count'
+    public $searchRepoHeader = [ 'ID','Creator','Disease','Primary Site'];
+    public $searchRepoField = [ 'dataset.ID','dataset.creator', 'disease.name','anatomicalPart.name'];
 
 
     public $source_main_page = 'https://gdc.cancer.gov/';

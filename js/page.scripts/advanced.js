@@ -16,9 +16,6 @@ function contructQuery(){
         value = $.trim($("#field" + index).val());
         field = $.trim($("#drop" + index).text());
 
-
-
-
         if (index > 1) {
             if(value.length>0){
                 // Construct query for displaying
@@ -50,10 +47,20 @@ $(document).ready(function () {
         groupNum.push(next);
 
         var newOp = '<button type="button" class="btn btn-default dropdown-toggle inner' + next + ' opul' + next + '" id="op' + next + '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">AND <span class="caret"></span></button> ' +
-                    '<ul class="dropdown-menu inner' + next + ' opul' + next + '"> <li><a href="#">AND</a></li><li><a href="#">OR</a></li><li><a href="#">NOT</a></li> </ul>';
+                    '<ul class="dropdown-menu inner' + next + ' opul' + next + '"> ' +
+                        '<li><a>AND</a></li>' +
+                        '<li><a>OR</a></li>' +
+                        '<li><a>NOT</a></li></ul>';
+
         var newOper = $(newOp);
         var newDrop = '<button type="button" class="btn btn-default dropdown-toggle inner' + next + ' fieldul' + next + '" id="drop' + next + '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Search Fields <span class="caret"></span> </button> ' +
-                    '<ul class="dropdown-menu inner' + next + ' fieldul' + next + '"> <li><a href="#">All Search Fields</a></li> <li><a href="#">Title</a></li> <li><a href="#">Author</a></li> <li><a href="#">Description</a></li></ul>';
+                    '<ul class="dropdown-menu inner' + next + ' fieldul' + next + '"> ' +
+                        '<li><a>All Search Fields</a></li> ' +
+                        '<li><a>Title</a></li> ' +
+                        '<li><a>Author</a></li> ' +
+                        '<li><a>Description</a></li>'+
+                        '<li><a>Disease</a></li></ul>';
+
         var newDropDown = $(newDrop);
         var newIn = '<input autocomplete="off" class="input inner' + next + '" id="field' + next + '" type="text">';
         var newInput = $(newIn);

@@ -401,6 +401,11 @@ html {
 .result-heading{
     color:#0C5F22;
 }
+/* duplicate data*/
+.result-duplicate{
+    color:#0C5F22;
+    margin-left:5%;
+}
 
 /****fix the width of table****/
 table.search-repo {
@@ -731,6 +736,19 @@ ol.search-result > li {
     list-style: none; /* Disable the normal item numbering */
     /* border-top: 1px solid #666; */
 }
+
+ol.duplicate-result {
+    padding: 0;
+}
+
+ol.duplicate-result > li {
+    position:relative; /* Create a positioning context */
+    margin: 0 0 10px 0;
+    /*padding:4px 8px; /* Add some spacing around the content */
+    list-style: none; /* Disable the normal item numbering */
+    /* border-top: 1px solid #666; */
+}
+
 ol.search-result > li .row-number {
     /* Position and style the number */
     position:absolute;

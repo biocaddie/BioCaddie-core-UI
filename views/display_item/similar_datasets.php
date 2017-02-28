@@ -69,14 +69,20 @@ function partialSimilarDatasets($service)
                          <p class="list-group-item-text text-right"><?php echo $item->getDataItemTypes()[0]; ?></p>
                      </a>
                      <?php break;
-             default:?>
+             default:
+		 if($item->getDatasetTitle() == NULL){
+                     break;
+                 }else {
+
+		?>
                  <a href="<?php echo "http://".$_SERVER['SERVER_NAME']."/biocaddie-ui/display-item.php?repository=".$service->getRepositoryId()."&idName=ID&id=" . $item->getDatasetID(); ?>"
                     target="_blank" class="list-group-item">
                      <p class="list-group-item-heading">
                          <strong><?php echo substr($item->getDatasetTitle(), 0, 75); ?>...</strong></p>
                  </a>
                         <?php
-             break;}endforeach; ?>
+                }
+          break;}endforeach; ?>
                     </div>
                 </div>
             </div>

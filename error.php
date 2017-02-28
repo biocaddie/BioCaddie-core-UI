@@ -1,3 +1,4 @@
+<?php $pageTitle = "Error"?>
 <?php include 'views/header.php'; ?>
 
     <div class="container">
