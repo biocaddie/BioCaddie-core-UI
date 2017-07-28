@@ -107,6 +107,7 @@
                             <li><a>Author</a></li>
                             <li><a>Description</a></li>
                             <li><a>Disease</a></li>
+                            <li><a>Dimension</a></li>
                         </ul>
                     </div>
                     <input class="input inner1" id="field1" type="text"

@@ -22,23 +22,23 @@ function getDatatypes() {
 // Returns data types mapping to elastic search indexes.
 function getDatatypesMapping() {
     return ['Protein' => ['pdb','swissprot','datacitesbgrid'],
-        'Phenotype' => ['dbgap','mpd','datacitemorphobank','clinvar'],
-        'Gene Expression' => ['geo',  'arrayexpress', 'gemma','nursadatasets'],
+        'Phenotype' => ['clinvar','dbgap','mpd','datacitemorphobank'],
+        'Gene Expression' => ['geo',  'arrayexpress', 'gemma','nursadatasets','lsdb','genenetwork','gtexldacc'],
         'Nucleotide Sequence' => ['sra','datacitebgi'],
         'Morphology'=>['neuromorpho'],
         'Clinical Trials'=>['clinicaltrials','ctn'],
         'Proteomics Data'=>['peptideatlas','proteomexchange','yped'],
         'Physiological Signals'=>['physiobank'],
         'Epigenetic Data'=>['epigenomics'],
-        'Data from Papers'=>['datacitepeerj'],
+        'Data from Papers'=>['datacitepeerj','ndarpapers'],
 
         'Omics Data'=>['omicsdi'],
         'Survey Data'=> ['datacitefdz'],
         'Cell Signaling'=>['datacitesdscsg'],
         'Imaging Data'=>['cvrg','neuromorpho','cia','openfmri','cil','bmrb','retina','emdb', 'nitrcir','neurovaultatlases','neurovaultcols','neurovaultnidm','datacitecxidb','datacitembf','datacitecandi'],
         'Unspecified' => ['lincs','bioproject','dryad','dataverse','niddkcr','icpsr','gdc','rgd','vectorbase','datacitegnd','datacitezenodo',
-            'datacitecrcns','dataciteimmport','datacitedatabrary','datacitelshtm','datacitejhu',
-            'datacitesimtk',
+            'datacitecrcns','immport','datacitedatabrary','datacitelshtm','datacitejhu',
+            'simtk',
             'datacitebils',
             'dataciteada',
             'dataciteukda',
@@ -46,7 +46,7 @@ function getDatatypesMapping() {
             'datacitemit',
             'datacitectsi',
             'datacitenimh',
-            'nsrr'],
+            'nsrr','naturedata','datacitethieme','datacitefigshare','dataciteccdc','wormbase','metabolomics'],
     ];
 }
 
@@ -97,7 +97,7 @@ function getRepositoryIDMapping() {
         '0043'=>'datacitezenodo',
         '0044'=>'omicsdi',
         '0045'=>'datacitesbgrid',
-        '0046'=>'datacitesimtk',
+        '0046'=>'simtk',
         '0047'=>'datacitecxidb',
         '0048'=>'datacitebils',
         '0049'=>'dataciteada',
@@ -112,10 +112,21 @@ function getRepositoryIDMapping() {
         '0058'=>'datacitecandi',
         '0059'=>'datacitelshtm',
         '0060'=>'datacitedatabrary',
-        '0061'=>'dataciteimmport',
+        '0061'=>'immport',
         '0062'=>'datacitesdscsg',
         '0063'=>'datacitecrcns',
-        '0064'=>'nsrr'
+        '0064'=>'nsrr',
+        '0065'=>'naturedata',
+        '0066'=>'lsdb',
+        '0067'=>'genenetwork',
+        '0068'=>'ndarpapers',
+        '0069'=>'datacitethieme',
+        '0070'=>'datacitefigshare',
+        '0071'=>'dataciteccdc',
+        '0072'=>'wormbase',
+        '0073'=>'gtexldacc',
+        '0074'=> 'metabolomics'
+
     ];
 }
 
@@ -159,7 +170,7 @@ function getRepositoryIDNameMapping() {
         '0035'=>'NeuroVault:Cols',
         '0036'=>'NeuroVault: NIDM',
         '0037'=>'RGD',
-        '0038'=>'BGI',
+        '0038'=>'GigaDB',
         '0039'=>'MorphoBank',
         '0040'=>'VectorBase',
         '0041'=>'GND',
@@ -185,9 +196,98 @@ function getRepositoryIDNameMapping() {
         '0061'=>'ImmPort',
         '0062'=>'NSGM',
         '0063'=>'CRCNS',
-        '0064'=>'NSRR'
+        '0064'=>'NSRR',
+        '0065'=>'NSD',
+        '0066'=>'LSDB',
+        '0067'=>'GeneNetwork',
+        '0068'=>'Ndar Papers',
+        '0069'=>"Thieme",
+        '0070'=>'Figshare',
+        '0071'=>'CCDC',
+        '0072'=>'Wormbase',
+        '0073'=>'GTex',
+        '0074'=>'Metabolomics'
     ];
 }
+
+function getRepositoryNameIDMapping() {
+    return ['dbGaP'=>'0001',
+            'PDB'=>'0002',
+            'GEO'=>'0003' ,
+            'LINCS'=>'0004',
+            'GEMMA'=>'0005',
+            'ArrayExpress'=>'0006',
+            'SRA'=>'0007',
+            'BioProject'=> '0008',
+            'ClinicalTrials'=>'0009',
+            'Dryad'=>'0010',
+            'cvrg'=>'0011',
+            'Dataverse'=>'0012',
+            'NeuroMorpho.Org'=>'0013',
+            'PeptideAtlas'=>'0014',
+            'CTN'=>'0015',
+            'TCIA'=>'0016',
+            'MPD'=>'0017',
+            'NIDDKCR'=>'0018',
+            'openfmri'=>'0019',
+            'NURSA'=>'0020',
+        'PhysioBank'=>'0021',
+        'ProteomeXchange'=>'0022',
+        'YPED'=>'0023',
+        'CIL'=>'0024',
+        'ICPRS'=>'0025',
+        'GDC'=>'0026',
+        'BMRB'=>'0027',
+        'UniProt:Swiss-Prot'=>'0028',
+        'ClinVar'=>'0029',
+        'Retina'=>'0030',
+        'PDBe:EMDB'=>'0031',
+        'Epigenomics'=>'0032',
+        'nitrcir'=>'0033',
+        'NeuroVault:Atlases'=>'0034',
+        'NeuroVault:Cols'=>'0035',
+        'NeuroVault: NIDM'=>'0036',
+        'RGD'=>'0037',
+        'GigaDB'=>'0038',
+        'MorphoBank'=>'0039',
+        'VectorBase'=>'0040',
+        'GND'=>'0041',
+        'PeerJ'=>'0042',
+        'Zenodo'=>'0043',
+        'OmicsDI'=>'0044',
+        'SBGrid'=>'0045',
+        'SimTK'=>'0046',
+        'CXIDB'=>'0047',
+        'BILS'=>'0048',
+        'ADA'=>'0049',
+        'UKDA'=>'0050',
+        'Adaptive Biotechnologies'=>'0051',
+        'MITLCP'=>'0052',
+        'UCSF-CTSI'=>'0053',
+        'FDZ-DZA'=>'0054',
+        'MBF'=>'0055',
+        'NIMH'=>'0056',
+        'JHUDMS'=>'0057',
+        'CANDI'=>'0058',
+        'LSHTM'=>'0059',
+        'Databrary'=>'0060',
+        'ImmPort'=>'0061',
+        'NSGM'=>'0062',
+        'CRCNS'=>'0063',
+        'NSRR'=>'0064',
+        'NSD'=>'0065',
+        'LSDB'=>'0066',
+        'GeneNetwork'=>'0067',
+        'Ndar Papers'=>'0068',
+        "Thieme"=>'0069',
+        "Figshare"=>'0070',
+        "CCDC"=>'0071',
+        'Wormbase'=>'0072',
+        'GTex' => '0073',
+        'Metabolomics' => '0074'
+    ];
+}
+
 
 // Returns data types list.
 function getElasticSearchIndexes() {
@@ -196,9 +296,9 @@ function getElasticSearchIndexes() {
           .'cvrg'.','.'dataverse' .','.'neuromorpho'.','.'peptideatlas'.','.'ctn'.','.'cia'.','.'mpd'.','.'niddkcr'.','.'physiobank'.','.'proteomexchange'.','.'openfmri'.','.'nursadatasets'.','
           .'yped'.','.'cil'.','.'icpsr'.','.'gdc'.','.'bmrb'.','.'swissprot'.','.'clinvar'.','.'retina'.','.'emdb'.','.'epigenomics'.','.'nitrcir'.','.'neurovaultatlases'.','.'neurovaultcols'.','
           .'neurovaultnidm'.','.'rgd'.','.'datacitebgi'.','.'datacitemorphobank'.','.'vectorbase'.','.'datacitegnd'.','.'datacitepeerj'.','.'datacitezenodo'.','.'omicsdi'.','.'datacitesbgrid'
-          .','.'datacitesimtk'.','.'datacitecxidb'.','.'datacitebils'.','.'dataciteada'.','.'dataciteukda'.','.'dataciteadaptive'.','.'datacitemit'.','.'datacitectsi'.','.'datacitefdz'
-          .','.'datacitembf'.','.'datacitenimh'.','.'datacitejhu'.','.'datacitecandi'.','.'datacitelshtm'.','.'datacitedatabrary'.','.'dataciteimmport'.','.'datacitesdscsg'.','.'datacitecrcns'
-          .','.'nsrr';
+          .','.'simtk'.','.'datacitecxidb'.','.'datacitebils'.','.'dataciteada'.','.'dataciteukda'.','.'dataciteadaptive'.','.'datacitemit'.','.'datacitectsi'.','.'datacitefdz'
+          .','.'datacitembf'.','.'datacitenimh'.','.'datacitejhu'.','.'datacitecandi'.','.'datacitelshtm'.','.'datacitedatabrary'.','.'immport'.','.'datacitesdscsg'.','.'datacitecrcns'
+          .','.'nsrr'.','.'lsdb'.','.'naturedata'.','.'genenetwork'.','.'ndarpapers'.','.'datacitethieme'.','.'datacitefigshare'.','.'dataciteccdc'.','.'wormbase'.','.'gtexldacc'.','.'metabolomics';
 
 }
 
@@ -211,21 +311,22 @@ function getAllAccess() {
 function getAccessibilityMapping() {
     return ['download' => ['dbgap','pdb','geo','lincs','gemma',
                             'arrayexpress','sra','bioproject','dryad',
-                            'cvrg','dataverse','neuromorpho','peptideatlas','ctn',
+                            'cvrg','dataverse','neuromorpho','peptideatlas',
                             'cia','mpd', 'niddkcr','openfmri','nursadatasets',
                             'physiobank','proteomexchange','yped','cil','icpsr','gdc',
                             'swissprot','retina','emdb','epigenomics','nitrcir',
                             'neurovaultatlases','neurovaultcols','neurovaultnidm',
                             'rgd','datacitebgi','datacitemorphobank','vectorbase',
-                            'datacitegnd','datacitepeerj','datacitezenodo','omicsdi','datacitesbgrid','datacitesimtk',
+                            'datacitegnd','datacitepeerj','datacitezenodo','omicsdi','datacitesbgrid','simtk',
         'datacitecxidb','datacitebils','dataciteada','dataciteukda','dataciteadaptive','datacitemit','datacitectsi',
         'datacitefdz','datacitembf','datacitenimh','datacitejhu','datacitecandi','datacitelshtm','datacitedatabrary',
-        'dataciteimmport','datacitesdscsg','datacitecrcns','nsrr'
+        'immport','datacitesdscsg','datacitecrcns','nsrr','naturedata','lsdb','genenetwork','ndarpapers','datacitethieme',
+        'datacitefigshare','dataciteccdc','wormbase','gtexldacc','metabolomics'#'ctn','clinicaltrials'
     ],
         'remoteAccess' => [],
         'remoteService' => ['openfmri'],
         'enclave' => [],
-        'notAvailable' => ['clinvar'],
+        'notAvailable' => [],#'clinvar'],
     ];
 }
 
@@ -241,17 +342,33 @@ function getAuthMapping(){
                 'arrayexpress','sra','bioproject','dryad',
                 'cvrg','neuromorpho','peptideatlas','cia','mpd',
                 'openfmri','nursadatasets','physiobank','proteomexchange',
-                'yped','cil','gdc','swissprot','clinvar','retina','emdb','epigenomics',
+                'yped','cil','gdc','swissprot','retina','emdb','epigenomics',
                 'nitrcir','neurovaultatlases','neurovaultcols','neurovaultnidm',
                 'rgd','datacitebgi','datacitemorphobank','vectorbase','datacitegnd',
-                'datacitepeerj','datacitezenodo','omicsdi','datacitesbgrid','datacitesimtk',
+                'datacitepeerj','datacitezenodo','omicsdi','datacitesbgrid','simtk',
             'datacitecxidb','datacitebils','dataciteada','dataciteukda','dataciteadaptive',
             'datacitemit','datacitectsi','datacitefdz','datacitembf','datacitenimh','datacitejhu',
-            'datacitecandi','datacitelshtm','datacitedatabrary','dataciteimmport','datacitesdscsg','datacitecrcns',
-            'nsrr'],
+            'datacitecandi','datacitelshtm','datacitedatabrary','immport','datacitesdscsg','datacitecrcns',
+            'nsrr','lsdb','naturedata','genenetwork','datacitethieme','datacitefigshare','dataciteccdc','wormbase',
+            'gtexldacc','metabolomics'#'clinicaltrials','clinvar'
+        ],
         'clickLicense'=>['dataverse'],
-        'registration'=>['ctn','niddkcr','cil','icpsr','gdc'],
-        'duaIndividual'=>[],
-        'duaInstitution'=>[]
+        'registration'=>['niddkcr','cil','icpsr','gdc'],#'ctn',
+        'duaIndividual'=>['ndarpapers'],
+        'duaInstitution'=>['ndarpapers']
+    ];
+}
+
+function get_keyword_define(){
+    return [
+        'remoteAccess'=>'Users may access the data in a secure remote environment.  Data may not be downloaded. ',
+        'remoteService'=>'A user may request that a service or computation be applied to the data.  The remote site ensures that no protected information is identifiable in the product.  The product may be downloaded. ',
+        'enclave'=>'Access is provided to approved users within a secure facility without remote access.',
+        'clickLicense'=>'Users must agree to an online license agreement.',
+        'registration'=>'Users must register before access is allowed.  Registration information may be verified.',
+        'duaIndividual'=>'A data use agreement signed by the investigator is required.  Data use agreements may require additional information, such as a research plan and an IRB review.',
+        'duaInstitution'=>"A data use agreement signed by the investigator's institution is required.  Data use agreements may require additional information, such as a research plan and an IRB review.",
+        'simpleLogin'=>'Singlefactor login or the use of an authentication key or registered IP address is required.',
+        'multiLogin'=>'Multiple-factor login using a combination of IP address, password protection, authentication key, or other forms of authentication.'
     ];
 }

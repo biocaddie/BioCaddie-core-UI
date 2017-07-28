@@ -39,6 +39,7 @@ $queryInput.click(function () {
 });
 
 function callSuggestions(queryString) {
+	queryString=queryString.replace(/"/g, "&#34;");
     var searchType = document.querySelector('input[name="searchtype"]:checked').value;
   
     if ($('input[name="searchtype"]:checked').val() !== 'data')
@@ -123,8 +124,8 @@ $('body').bind('click', function (e) {
 /*
  * For the bar chart on landing page
  * */
-var categories = ['', 'Swiss-Prot ', 'ClinVar',  'BioProject', 'PDB','Dryad','OmicsDI', 'ArrayExpress','Dataverse'];
-var dollars = [438182, 208560,  155850, 122339, 82837,78201, 68189,60303];
+var categories = ['','CCDC', 'Swiss-Prot ',  'BioProject','Figshare', 'PDB','Dryad','OmicsDI', 'ArrayExpress'];
+var dollars = [656223,438182, 226434, 192552, 131204, 100545,78201, 69996];
 var colors = ['#3a87ad', '#3a87ad', '#3a87ad', '#3a87ad', '#3a87ad', '#3a87ad', '#3a87ad', '#3a87ad'];
 
 var grid = d3.range(25).map(function (i) {
@@ -134,7 +135,7 @@ var grid = d3.range(25).map(function (i) {
 
 var tickVals = grid.map(function (d, i) {
     if (i > 0) {
-        return i*80000;
+        return i*250000;
 
     }
     else if (i === 0) {
@@ -143,7 +144,7 @@ var tickVals = grid.map(function (d, i) {
 });
 
 var xscale = d3.scale.linear()
-        .domain([10, 1100000])
+        .domain([10, 1500000])
         .range([0, 580]);
 
 var yscale = d3.scale.linear()

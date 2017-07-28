@@ -14,9 +14,9 @@ class NeurovaultcolsRepository extends RepositoryBase {
     public $id = '0035';
     public $source = "http://neurovault.org/";
     //public $searchFields = ['dataset.ID','dataset.creators','dataset.title','dataset.description','dataset.types','taxonomicInformation.name','dataType.method'];
-    public $facetsFields = ['dataType.method'];
+    public $facetsFields = ['dataType.method.raw'];
     public $facetsShowName = [
-        'dataType.method'=>'Method',
+        'dataType.method.raw'=>'Method',
 
     ];
     public $index = 'neurovaultcols';

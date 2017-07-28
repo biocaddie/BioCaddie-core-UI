@@ -8,6 +8,15 @@ function breadcrumb($searchBuilder) {
     $has_fix =  $x[0];
     $correction = $x[1];
     $correctionhref = "search.php?query=".$correction."&searchtype=".$_GET["searchtype"];
+
+    global $cdedemo;
+    $cde = Null;
+    if($cdedemo){
+        $cdesearch = new CDESearch(['esIndex'=>'cde','query'=>$searchBuilder->getQuery()]);
+        $cde = $cdesearch->getCDE();
+        $url = $cdesearch->constructUrl();
+    }
+
     ?>
     <?php if($has_fix):?>
     <div class="row">
@@ -18,6 +27,17 @@ function breadcrumb($searchBuilder) {
         </ol>
     </div>
      <?php endif;?>
+
+    <?php if($cde):?>
+        <div class="row">
+            <div class="col-sm-12">
+                <ol class="breadcrumb dynamic-crumbs">
+                    <li>Do you want to search CDE <a class="hyperlink" href="<?php echo $url;?>">"<?php echo $cde;?>"</a> in dimension ?</li>
+            </div>
+            </ol>
+        </div>
+    <?php endif;?>
+
     <div class="row">
 
         <div class="col-sm-12">

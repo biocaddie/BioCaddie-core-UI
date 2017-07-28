@@ -13,45 +13,52 @@ class DuplicateSearch extends ElasticSearch
 
     private $GSEID;
     public $rowsPerPage = 100;
+
     /*
      * generate query part for GSEID search
      * @return array(string)
      */
-    protected function generateQuery(){
+    protected function generateQuery()
+    {
 
         $query_part = [
-            'bool'=>[
+            'bool' => [
                 'must' => [
                     'multi_match' => [
                         'query' => $this->GSEID,
                         'fields' => "datasetDistributions.accessURL",
 
 
+                    ]
                 ]
-            ]
-        ]];
+            ]];
 
         return $query_part;
     }
+
     /*
      * generate sort part of search, grant are sort by time
      * @return array(string)
      */
-    protected function generate_sort() {
+    protected function generate_sort()
+    {
         $sort = ['FY' => ['order' => 'asc', 'missing' => '_last', 'unmapped_type' => 'string']];
         return $sort;
     }
 
-    public function setGSEID($GSEID){
-        $GSEID = str_replace("<strong>","",$GSEID);
-        $GSEID = str_replace("</strong>","",$GSEID);
+    public function setGSEID($GSEID)
+    {
+        $GSEID = str_replace("<strong>", "", $GSEID);
+        $GSEID = str_replace("</strong>", "", $GSEID);
         $this->GSEID = $GSEID;
     }
+
     /*
      * generate search body for ES
      * @return array(string)
      */
-    protected function generateBody() {
+    protected function generateBody()
+    {
         $search_query = $this->generateQuery();
         $body = ['from' => ($this->offset - 1) * $this->rowsPerPage,
             'size' => $this->rowsPerPage,
@@ -61,18 +68,24 @@ class DuplicateSearch extends ElasticSearch
 
         return $body;
     }
-    public function __construct(){
+
+    public function __construct()
+    {
         /*parent::__construct($input_array);
         $this->setGSEID($input_array['GSEID']);
         $this->setSearchResult();*/
 
     }
-    public function setSecondaryDatasets($input_array){
+
+    public function setSecondaryDatasets($input_array)
+    {
         parent::__construct($input_array);
         $this->setGSEID($input_array['GSEID']);
         $this->setSearchResult();
     }
-    public function getPrimaryID($source,$id) {
+
+    public function getPrimaryID($source, $id)
+    {
         $input_array = ['esIndex' => $source, 'searchFields' => ['_id'], 'query' => $id];
         $search = new ElasticSearch($input_array);
         $search->setSearchResult();
@@ -80,21 +93,22 @@ class DuplicateSearch extends ElasticSearch
         $row = $result['hits']['hits'][0]['_source'];
         $searchResults = $row;
         $datasetDistributions = $searchResults['datasetDistributions'];
-        $flag= false;
-        foreach($datasetDistributions as $datasetDist){
-            if(array_key_exists('primary',$datasetDist)){
-                $flag=true;
-                $ID=explode('=',$datasetDist['accessURL'])[1];
-                if($source=='arrayexpress'){
-                    $ID=explode('/',$ID)[0];
+        $flag = false;
+        foreach ($datasetDistributions as $datasetDist) {
+            if (array_key_exists('primary', $datasetDist)) {
+                $flag = true;
+                $ID = explode('=', $datasetDist['accessURL'])[1];
+                if ($source == 'arrayexpress') {
+                    $ID = explode('/', $ID)[0];
                 }
-                return [$flag,$ID];
+                return [$flag, $ID];
             }
         }
-        return [$flag,null];
+        return [$flag, null];
     }
 
-    public function getPrimaryTitle($GSEID){
+    public function getPrimaryTitle($GSEID)
+    {
         $input_array = ['esIndex' => 'geo', 'searchFields' => 'datasetDistributions.accessURL', 'query' => $GSEID];
         $search = new ElasticSearch($input_array);
         $search->setSearchResult();
@@ -103,43 +117,60 @@ class DuplicateSearch extends ElasticSearch
         $title = $row['dataset']['title'];
         return $title;
     }
-    public function getPrimaryLink($GSEID){
+
+    public function getPrimaryResult($source, $es_id)
+    {
+        $a = $this->getPrimaryID($source, $es_id);
+        if ($a[0]) {
+            $input_array = ['esIndex' => 'geo', 'searchFields' => 'datasetDistributions.accessURL', 'query' => $a[1]];
+            $search = new ElasticSearch($input_array);
+            $search->setSearchResult();
+            $result = $search->getSearchResult();
+            return $result;
+        } else {
+            return null;
+        }
+    }
+
+    public function getPrimaryLink($GSEID)
+    {
         $input_array = ['esIndex' => 'geo', 'searchFields' => 'datasetDistributions.accessURL', 'query' => $GSEID];
         $search = new ElasticSearch($input_array);
         $search->setSearchResult();
         $result = $search->getSearchResult();
         $result_size = $result['hits']['total'];
 
-        if($result_size>0){
+        if ($result_size > 0) {
             $id = $result['hits']['hits'][0]['_id'];
-            $link='display-item.php?repository=0003&id='.$id;
+            $link = 'display-item.php?repository=0003&id=' . $id;
             return $link;
-        }
-        else{
+        } else {
             return null;
         }
 
     }
-    public function getPrimaryTitleFromID($source,$es_id){
 
-        $a = $this->getPrimaryID($source,$es_id);
-        if ($a[0]){
+    public function getPrimaryTitleFromID($source, $es_id)
+    {
+
+        $a = $this->getPrimaryID($source, $es_id);
+        if ($a[0]) {
             $title = $this->getPrimaryTitle($a[1]);
             return $title;
-        }
-        else{
+        } else {
             return null;
         }
 
     }
-    public function getPrimaryLinkFromID($source,$es_id){
 
-        $a = $this->getPrimaryID($source,$es_id);
-        if ($a[0]){
+    public function getPrimaryLinkFromID($source, $es_id)
+    {
+
+        $a = $this->getPrimaryID($source, $es_id);
+        if ($a[0]) {
             $link = $this->getPrimaryLink($a[1]);
             return $link;
-        }
-        else{
+        } else {
             return null;
         }
 

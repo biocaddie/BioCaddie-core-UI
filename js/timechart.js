@@ -72,13 +72,14 @@ var timeChart = function(timeChartData, year){
 
 	svg.append("g")
 		.attr("class", "x axis")
-		.attr("transform", "translate(0," + height + ")")
+		.attr("transform", "translate(0," + height  + ")")
+
 
 	svg.append("g")
 		.attr("class", "y axis")
 		.append("text")
 		.attr("transform", "rotate(-90)")
-		.attr("y", 6)
+		.attr("y", 580)
 		.attr("dy", ".71em")
 		.style("text-anchor", "end");
 

@@ -17,6 +17,7 @@ class Parser
     public function __construct($content=null)
     {
         if($content){
+
             $this->set_Content($content);
         }
     }
@@ -30,7 +31,11 @@ class Parser
     public function tokenize(){
 
         $this->_content = str_replace(array("\n","\r","\t"),'',$this->_content);
-        $pattern = '/(AND|OR|NOT|\(|\))/';
+
+        //$pattern = '/(AND|OR|NOT|\(|\))/';
+        $pattern = '/(AND|OR|NOT)/';
+        //$pattern = '/(&#34;[^&#34;]+&#34;|AND|OR|NOT)/';
+        $this->_content = preg_replace('/(&#34;[^&#34;]+&#34;)/e',"strtolower('$1')",$this->_content); #replace the string inside double quote to small case
         $this->_tokens = preg_split( $pattern, $this->_content,-1, PREG_SPLIT_DELIM_CAPTURE | PREG_SPLIT_NO_EMPTY);
         // strip whitespace from an array
         $this->_tokens = array_filter(array_map('trim', $this->_tokens));

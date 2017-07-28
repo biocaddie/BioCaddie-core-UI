@@ -23,7 +23,7 @@ class ElasticSearch { /*
     public $offset = 1;
     public $rowsPerPage = 20;
     public $facetSize = 10;
-    public $highlight = ['fields' => ['*' => ["pre_tags" => ["<strong>"], "post_tags" => ["</strong>"], "number_of_fragments" => 0]]];
+    public $highlight = ['fields' => ['*' => ["pre_tags" => ["<strong1>"], "post_tags" => ["</strong1>"], "number_of_fragments" => 0]]];
     public $queryType = 'most_fields';
     public $sort;
     public $sort_field;
@@ -72,6 +72,10 @@ class ElasticSearch { /*
         if (array_key_exists('year', $input_array)) {
             $this->year = $input_array['year'];
         }
+        if (array_key_exists('highlight', $input_array)) {
+            $this->highlight = $input_array['highlight'];
+        }
+
     }
 
     /*
@@ -249,8 +253,10 @@ class ElasticSearch { /*
         if (count(array_keys($sort)) > 0) {
             $body['sort'] = $sort;
         }
-
-
+       // var_dump($this->rowsPerPage);
+       /* echo '<pre>';
+        print_r($body);
+        echo '</pre>';*/
         return $body;
     }
 
@@ -277,13 +283,17 @@ class ElasticSearch { /*
             }
 
         }catch(\Exception $e){
+
             // Print out the ES error message
-            // print_r("No Timeline Chart for this repository");
+           /* echo "<pre>";
+             print_r($e);
+            echo "</pre>";*/
         }
-       /* echo "<pre>";
-        var_dump($result);
-        echo "</pre>";
-       */
+        /*echo "<pre>";
+        var_dump($this->esIndex);
+        var_dump($result['hits']['total']);
+        echo "</pre>";*/
+
         return $result;
     }
 

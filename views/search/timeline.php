@@ -35,11 +35,11 @@ function partialTimeLine($searchBuilder){
 
     <div class="panel panel-primary" id="time-line">
         <div class="panel-heading">
-            <strong>Timeline</strong>
+            <strong>Results by year</strong>
             <input type="button" value="Apply" id="time-apply" style="display: none" disabled>
         </div>
 
-        <div class="panel-body" style="overflow-x:scroll" id="time-canvas">
+        <div class="panel-body" style="overflow-x:scroll;" id="time-canvas">
             <?php
             if($timeChartData=="[]"){
                 ?>

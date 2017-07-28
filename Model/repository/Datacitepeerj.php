@@ -14,9 +14,9 @@ class DatacitepeerjRepository extends RepositoryBase {
     public $id = '0042';
     public $source = "https://peerj.com/";
     //public $searchFields = ['dataset.ID','dataset.title','dataset.creators','dataset.types','attributes.description'];
-    public $facetsFields = ['dataset.types'];
+    public $facetsFields = ['dataset.types.raw'];
     public $facetsShowName = [
-        'dataset.types'=>'Types',
+        'dataset.types.raw'=>'Types',
 
     ];
     public $index = 'datacitepeerj';

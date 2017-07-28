@@ -14,10 +14,10 @@ class DatacitecandiRepository extends RepositoryBase {
     public $id = '0058';
     public $source = "http://www.umassmed.edu/psychiatry/candi/";
 
-    public $facetsFields = ['dataset.types','dataset.refinement'];
+    public $facetsFields = ['dataset.types.raw','dataset.refinement.raw'];
     public $facetsShowName = [
-        'dataset.types'=>'Types',
-        'dataset.refinement'=>'Refinement'
+        'dataset.types.raw'=>'Types',
+        'dataset.refinement.raw'=>'Refinement'
     ];
     public $index = 'datacitecandi';
     public $type = 'dataset';

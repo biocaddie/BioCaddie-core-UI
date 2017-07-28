@@ -36,7 +36,7 @@
 
     <!---For sign in using google account-->
     <meta name="google-signin-scope" content="profile email">
-    <meta name="google-signin-client_id" content="829717013649-0j7el8re8ka2d5tgqm87c5msek06kgmu.apps.googleusercontent.com">
+    <meta name="google-signin-client_id" content="XXXXXX.apps.googleusercontent.com">
     <script src="./js/platform.js" async defer></script>
     <script type="text/javascript" src="./js/loadingoverlay.min.js"></script>
     <script type="text/javascript" src="./js/global.scripts.js"></script>
@@ -52,7 +52,7 @@
             m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-        ga('create', 'UA-74660564-1', 'auto');
+        ga('create', 'XXXXXXX', 'auto');
         ga('send', 'pageview');
 
     </script>

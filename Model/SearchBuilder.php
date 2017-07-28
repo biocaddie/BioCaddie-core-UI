@@ -211,7 +211,7 @@ class SearchBuilder {
     private $timelineData;
 
     public $timelineFlag;
-
+    public $apiFlag=false;
     public $sort_field='';
     public $booleanFlag = false;
     public $booleanDetail='';
@@ -256,7 +256,6 @@ class SearchBuilder {
         } else {
             $this->expansionFlag = 1;
         }
-
         $this->setElasticSearchIndexes();
 
         /* Track user's activity */
@@ -286,11 +285,11 @@ class SearchBuilder {
          * generate search results from all repositories
          * */
         $input_array['esIndex'] = $this->ALL_ELASTICSEARCH_INDEXES;
-        $input_array['searchFields'] = ["_all"];
+        $input_array['searchFields'] = ["_all^0.3","dataset.title^0.1"];#["_all"];#
         if($this->isLinkout=='linkout'){
             $input_array['searchFields'] = ['primaryPublications.ID','primaryPublication.ID','publication.ID','PrimaryPublication.ID'];
+            $input_array['esIndex'] = "bmrb,openfmri,yped,physiobank,peptideatlas";
         }
-
         if($this->getYear()!=""){
             $input_array['year'] = $this->getYear();
         }
@@ -329,14 +328,20 @@ class SearchBuilder {
             $input_array['facetSize'] = 300;
             $input_array['offset'] = $this->getOffset();
             $input_array['rowsPerPage'] = $this->getRowsPerPage();
+            /*if($size){
+                $input_array['rowsPerPage']=$size;
+            }*/
         }
 
         $input_array['timelineFlag'] = $this->timelineFlag;
-
+        if($this->apiFlag){
+            $input_array['highlight']=[];
+        }
         $input_array['esIndex'] = $this->getElasticSearchIndexes();
-        $input_array['searchFields'] = ["_all"];
+        $input_array['searchFields'] = ["_all^0.3","dataset.title^0.1"];//["_all"];
         if($this->isLinkout=='linkout'){
             $input_array['searchFields'] = ['primaryPublications.ID','primaryPublication.ID','publication.ID','PrimaryPublication.ID'];
+            $input_array['esIndex'] = "bmrb,openfmri,yped,physiobank,peptideatlas";
         }
 
         if($this->getYear()!="" && $this->timelineFlag==false){
@@ -344,6 +349,7 @@ class SearchBuilder {
         }
 
         // generate elasticsearch results
+        //var_dump($input_array);
         $this->elasticSearchResults = $this->setElasticSearchResults($input_array);
         $this->input_array_for_duplicate=$input_array;
         $this->selectedTotalRows = $this->setTotalRows($this->getElasticSearchResults());
@@ -366,7 +372,7 @@ class SearchBuilder {
         $input_array['sort'] = $this->getSort();
 
         $input_array['sort_field']= $repository->sort_field;
-        $input_array['searchFields'] = ['_all'];//array_merge($repository->searchFields,['_all']);
+        $input_array['searchFields'] = ["_all^0.3","dataset.title^0.1"];//['_all'];//array_merge($repository->searchFields,['_all']);
 
         $input_array['aggsFields'] = $repository->facetsFields;
         $input_array['filterFields'] = ($this->getSelectedFilters() != NULL) ? $this->selectedFilters : [];
@@ -501,8 +507,10 @@ class SearchBuilder {
         if (!isset($this->rowsPerPage)) {
             $this->rowsPerPage = 20;
         }
+        if($this->rowsPerPage>300){
+            $this->rowsPerPage=300;
+        }
     }
-
     /**
      * @return string
      */
@@ -602,9 +610,20 @@ class SearchBuilder {
      */
     public function setSelectedRepositories() {
         $repositories = filter_input(INPUT_GET, "repository", FILTER_SANITIZE_STRING);
-        if (isset($repositories)) {
-            $this->selectedRepositories = explode(',', $repositories);
+        $newrepositories = explode(',', $repositories);
+        $newrepo = [];
+        foreach($newrepositories as $repo) {
+            if (array_key_exists($repo, getRepositoryNameIDMapping())) {
+                array_push($newrepo, getRepositoryNameIDMapping()[$repo]);
+            } else {
+                array_push($newrepo, $repo);
+            }
         }
+        if (isset($repositories)) {
+            $this->selectedRepositories = $newrepo;
+
+        }
+
     }
 
     /**
@@ -643,13 +662,18 @@ class SearchBuilder {
                     array_push($index, $this->repositories->getRepository($selectedRepository)->index);
                 }
                 $this->selectedElasticSearchIndexes = $this->elasticSearchIndexes = implode(',', $index);
-            } else {                                        // no selected repository, return all repositories
+            } else {
+                // no selected repository, return all repositories
                 foreach ($this->DATATYPES_MAPPING as $index) {
-                    //To block the clinicaltrials result
-                    //if (in_array("clinicaltrials", $index)) {
-                    //    unset($index[0]);
-                    //}
+                    //To block the clinicaltrials and ctn,clinicaltrials result
+                    if (in_array("clinicaltrials", $index)) {
+                        continue;
+                    }
+                    if (in_array("clinvar", $index)) {
+                        unset($index[0]);
+                    }
                     $this->elasticSearchIndexes .= implode(',', $index) . ',';
+
                 }
             }
         }
@@ -676,12 +700,14 @@ class SearchBuilder {
         } else {
             // If simple search
             $search = new ExpansionSearch($input_array);
-            $this->setExpandedQuery($search);   // Generate synonyms
+            //$this->setExpandedQuery($search);   // Generate synonyms
         }
 
         $result = $search->getSearchResult();
+        $this->setExpandedQuery($search);
         if($this->booleanFlag){
             $this->booleanDetail=$search->search_details;
+            //var_dump($search->search_details);
         }
 
         return $result;
@@ -1030,14 +1056,13 @@ class SearchBuilder {
         $query = $this->getQuery();
         $detail = "(" . $this->getSearchType() . ')"' . $query . '"';
         $synonyms_array = $this->getExpandedQueryArray();
+        if($this->booleanFlag) {
+            return "(" . $this->getSearchType() . ')' . $this->showBooleanExpansionDetails();
+        }
         if (sizeof($synonyms_array)==0){
             if(!$this->booleanFlag){
                 return $detail;
             }
-            else{
-                return "(" . $this->getSearchType() . ')' .$this->showBooleanExpansionDetails();
-            }
-
         }
         $syn_details = '[';
         foreach(array_keys($synonyms_array) as $key){

@@ -14,10 +14,10 @@ class DatacitecxidbRepository extends RepositoryBase {
     public $id = '0047';
     public $source = "http://cxidb.org/";
 
-    public $facetsFields = ['dataset.types','dataset.refinement'];
+    public $facetsFields = ['dataset.types.raw','dataset.refinement.raw'];
     public $facetsShowName = [
-        'dataset.types'=>'Types',
-        'dataset.refinement'=>'Refinement'
+        'dataset.types.raw'=>'Types',
+        'dataset.refinement.raw'=>'Refinement'
     ];
     public $index = 'datacitecxidb';
     public $type = 'dataset';
@@ -36,7 +36,7 @@ class DatacitecxidbRepository extends RepositoryBase {
 
     public $source_main_page = "http://cxidb.org/";
     public $sort_field = 'dataset.dateReleased';
-    public $description = 'Enabling groundbreaking biomedical research via open access to high-quality simulation tools, accurate models, and the people behind them..
+    public $description = 'CXIDB is dedicated to further the goal of making data from Coherent X-ray Imaging (CXI) experiments available to all, as well as archiving it. The website also serves as the reference for the CXI file format, in which most of the experimental data on the database is stored in.
 ';
 
 }

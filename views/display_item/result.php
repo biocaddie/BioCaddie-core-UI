@@ -6,6 +6,7 @@ function partialResult($service)
     if($data['title']==null){
      $data['title'] = $data["ID"];
     }
+    $broken='<img style="height: 25px" src="./img/brokenlink.png">';
 
     ?>
     <div class="dataset-info">
@@ -21,9 +22,13 @@ function partialResult($service)
                 <tbody>
                 <tr>
                     <td style="width: 20%;"><strong>Title:</strong></td>
-                    <td><strong><?php echo $data['title'][1] ;?></strong>
+                    <td><strong><?php echo $data['title'][1];?></strong> &nbsp;
                             <?php if(strlen($data['title'][2])>0){?>
-                             <a class="hyperlink" target="_blank" href="<?php echo $data['title'][2]; ?>"><?php echo trim($data['logo']); ?></a>
+                                <?php if(check_valid_url($data['title'][2])):?>
+                                    <a target="_blank" href="<?php echo $data['title'][2]; ?>"><?php echo trim($data['logo']); ?></a>
+                                <?php else:?>
+                                    <a target="_blank" href="<?php echo $data['title'][2]; ?>"><?php echo trim($data['logo']); ?></a> <?php echo $broken;?>
+                                <?php endif;?>
                            <?php } ?>
 
 
@@ -39,7 +44,6 @@ function partialResult($service)
                 <div class="panel-heading" role="tab" id="heading-dataset-<?php echo $subtitle; ?>">
                     <h4 class="panel-title">
                         <a role="button" data-toggle="collapse" data-parent = '#accordion-<?php echo  $subtitle; ?>' data-target="#collapse-dataset-<?php echo $subtitle; ?>"
-                           href="#collapse-dataset-<?php echo $subtitle; ?>"
                            aria-expanded="true" aria-controls="collapse-dataset-<?php echo $subtitle; ?>">
                             <i class="fa fa-chevron-up"></i>
                             <?php echo ucfirst(preg_replace("/([a-z])([A-Z])([a-z])/", "$1 $2$3", $subtitle)); ?>
@@ -57,9 +61,28 @@ function partialResult($service)
                                 <tr>
                                     <td style="width: 20%;"><strong><?php echo $data[$subtitle][$i][0] ?>:</strong></td>
                                     <?php if(strlen(($data[$subtitle][$i][2]))>0):?>
-                                        <td> <a class='hyperlink' target="_blank" href="<?php echo $data[$subtitle][$i][2]; ?>"><?php echo $data[$subtitle][$i][1]; ?></a></td>
+                                        <?php if(check_valid_url($data[$subtitle][$i][2])):?>
+                                             <td> <a class='hyperlink' target="_blank" href="<?php echo $data[$subtitle][$i][2]; ?>"><?php echo $data[$subtitle][$i][1]; ?></a></td>
+                                        <?php else:?>
+                                            <td> <a class='hyperlink' target="_blank" href="<?php echo $data[$subtitle][$i][2]; ?>"><?php echo $data[$subtitle][$i][1]; ?></a><?php echo $broken;?></td>
+                                        <?php endif;?>
                                     <?php else:?>
-                                        <td><div class="comment more"> <?php echo $data[$subtitle][$i][1]; ?></div></td>
+                                        <?php $result = get_tooltip($data[$subtitle][$i][1]);?>
+                                        <td>
+                                        <?php foreach(array_keys($result) as $keyword){
+                                            if($result[$keyword]==Null):?>
+                                                <div class="comment more">
+                                                <?php echo $keyword;?>
+                                                </div>
+                                            <?php else:?>
+                                                <span  data-original-title="<?php echo $result[$keyword];?>"
+                                             data-toggle="tooltip" data-placement="right">
+                                             <?php echo $keyword;?>
+                                               </span><br>
+
+                                     <?php   endif; }?>
+                                        </td>
+                                       <!-- <td><div class="comment more"> <?php echo $data[$subtitle][$i][1]; ?></div></td>-->
                                     <?php endif;?>
                                 </tr>
                             <?php endfor; ?>

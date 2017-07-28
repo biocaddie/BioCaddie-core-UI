@@ -14,10 +14,10 @@ class DatacitejhuRepository extends RepositoryBase {
     public $id = '0057';
     public $source = "https://dmp.data.jhu.edu/";
 
-    public $facetsFields = ['dataset.types','dataset.refinement'];
+    public $facetsFields = ['dataset.types.raw','dataset.refinement.raw'];
     public $facetsShowName = [
-        'dataset.types'=>'Types',
-        'dataset.refinement'=>'Refinement'
+        'dataset.types.raw'=>'Types',
+        'dataset.refinement.raw'=>'Refinement'
     ];
     public $index = 'datacitejhu';
     public $type = 'dataset';

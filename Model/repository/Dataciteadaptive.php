@@ -14,10 +14,10 @@ class DataciteadaptiveRepository extends RepositoryBase {
     public $id = '0051';
     public $source = "http://www.adaptivebiotech.com/";
 
-    public $facetsFields = ['dataset.types','dataset.refinement'];
+    public $facetsFields = ['dataset.types.raw','dataset.refinement.raw'];
     public $facetsShowName = [
-        'dataset.types'=>'Types',
-        'dataset.refinement'=>'Refinement'
+        'dataset.types.raw'=>'Types',
+        'dataset.refinement.raw'=>'Refinement'
     ];
     public $index = 'dataciteadaptive';
     public $type = 'dataset';

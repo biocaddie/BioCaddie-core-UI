@@ -14,10 +14,10 @@ class DatacitedatabraryRepository extends RepositoryBase {
     public $id = '0060';
     public $source = "http://databrary.org/";
 
-    public $facetsFields = ['dataset.types','dataset.refinement'];
+    public $facetsFields = ['dataset.types.raw','dataset.refinement.raw'];
     public $facetsShowName = [
-        'dataset.types'=>'Types',
-        'dataset.refinement'=>'Refinement'
+        'dataset.types.raw'=>'Types',
+        'dataset.refinement.raw'=>'Refinement'
     ];
     public $index = 'datacitedatabrary';
     public $type = 'dataset';

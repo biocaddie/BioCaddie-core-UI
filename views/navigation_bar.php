@@ -76,6 +76,7 @@
                         <li><a href="./questionnaire.php">Questionnaire</a></li>
                     </ul>
                 </li>
+                <li role="presentation" class="active"><a href="./APIDoc.php">Web API</a></li>
                 <li class="active"><a href="./submit_repository.php"><span data-toggle="tooltip" data-placement="bottom"
                                                                            title="Get your repository indexed">Submit<span></span></a>
                 </li>

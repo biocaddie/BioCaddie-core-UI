@@ -15,9 +15,9 @@ class PhysiobankRepository extends RepositoryBase
     public $id = '0021';
     public $source = "http://physionet.org/physiobank/";
     //public $searchFields = ['dataset.description', 'dataset.title','dataset.types','dataset.creators', 'primaryPublication.formattedCitation'];
-    public $facetsFields = ['dataset.types'];
+    public $facetsFields = ['dataset.types.raw'];
     public $facetsShowName = [
-        'dataset.types' => 'Data Type',
+        'dataset.types.raw' => 'Data Type',
 
     ];
     public $index = 'physiobank';

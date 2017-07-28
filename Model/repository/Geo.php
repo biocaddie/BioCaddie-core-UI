@@ -34,13 +34,13 @@ class GeoRepository extends RepositoryBase {
     public $sort_field = 'dataset.dateReleased';
     public $description='Gene Expression Omnibus is a public functional genomics data repository supporting MIAME-compliant submissions of array- and sequence-based data. Tools are provided to help users query and download experiments and curated gene expression profiles.';
 
-    public function getDisplayItemView($rows)
+    /*public function getDisplayItemView($rows)
     {
         $search_results = parent::getDisplayItemView($rows);
         unset($search_results['datasetDistributions']);
         return $search_results;
     }
-
+*/
 }
 
 ?>

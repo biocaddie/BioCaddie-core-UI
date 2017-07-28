@@ -4,12 +4,12 @@ function partialShare($postLink) {
     $query = filter_input(INPUT_GET, "query", FILTER_SANITIZE_STRING);
     ?> 
     <iframe id="download_xls" name="download_xls" width="0" height="0" scrolling="no" frameborder="0" hidden="hidden" ></iframe>
-    <div data-toggle="tooltip" data-placement="left" title="Share Results.">
+    <div id="tt_share" data-toggle="tooltip" data-placement="left" title="Please select results to share.">
         <button id="share-btn" type="button" class="btn btn-default btn-sm" style="border-radius: 2px; padding: 3px 5px;" data-toggle="modal" data-target="#myModal">
-            <i class="fa fa-share-alt" style="margin-right: 5px;"></i>
+            
             <span name="share-qty" class="badge" style="font-size: 10px;"></span>
-            Send To
-        </button>
+            Send To </button> <span id="tt_share_span" class="badge">i</span>
+        
     </div>
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" style="max-width: 450px;">

@@ -7,11 +7,12 @@ require_once dirname(__FILE__) . '/views/display_item/similar_datasets.php';
 require_once dirname(__FILE__) . '/views/display_item/RelatedPublications.php';
 require_once dirname(__FILE__) . '/views/display_item/PubmedGrant.php';
 require_once dirname(__FILE__) . '/views/feedback.php';
+require_once dirname(__FILE__) . '/config/schema_org.php';
 
 $service = new SingleItemDisplayService();
 
 $pageTitle = $service->getDisplayItemData()['title'][1];
-
+//var_dump($service->getDisplayItemData());
 /* Track user's activity*/
 require_once dirname(__FILE__) .'/Model/DBController.php';
 require_once dirname(__FILE__) . '/Model/WriteMysqlLog.php';

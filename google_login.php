@@ -13,20 +13,20 @@ $url = $_SERVER['SERVER_NAME'];
 
 // Fill CLIENT ID, CLIENT SECRET ID, REDIRECT URI from Google Developer Console
 if(strcmp($url,'localhost')==0){
-    $client_id = '149391349365-ag8mqkkmt8uqcolk44roagnd64o3onj4.apps.googleusercontent.com';
-    $client_secret = '0ZdnrJPdrg89ZnpezP2LvfR3';
+    $client_id = 'XXXXXX.apps.googleusercontent.com';
+    $client_secret = 'XXXXXX';
     $redirect_uri = 'http://localhost/biocaddie-ui/login.php';
 }elseif(strcmp($url,'datamed.biocaddie.org')==0){
-    $client_id = '149391349365-8e84s67ep4soejude40ohshhhog5cu37.apps.googleusercontent.com';
-    $client_secret = 'P6mozEvL33YVOePIoxh6rsg9';
+    $client_id = 'XXXXXX.apps.googleusercontent.com';
+    $client_secret = 'XXXXXX';
     $redirect_uri = 'http://datamed.biocaddie.org/login.php';
 }elseif(strcmp($url,'datamed.org')==0){
-    $client_id = '149391349365-ur1vjuv96qhdsea7055qklupemfn3rnr.apps.googleusercontent.com';
-    $client_secret = '6dZ-7mfMloZ242sqrKZ0YUQw';
+    $client_id = 'XXXXXX.apps.googleusercontent.com';
+    $client_secret = 'XXXXXX';
     $redirect_uri = 'https://datamed.org/login.php';
 }elseif(strcmp($url,'datamedbeta.biocaddie.org')==0){
-    $client_id = '149391349365-jbput7hama7h70in9mlsdfgcfv9ghe3q.apps.googleusercontent.com';
-    $client_secret = 'dnvZXwguYs2g6nTlu6stvjMV';
+    $client_id = 'XXXXXX.apps.googleusercontent.com';
+    $client_secret = 'XXXXXX';
     $redirect_uri = 'http://datamedbeta.biocaddie.org/login.php';
 }
 

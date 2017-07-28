@@ -105,12 +105,14 @@ function updateSelectedSharedItems() {
     });
     if (count === 0) {
         $('[name="share-qty"]').text("");
+        $('#share-btn').prop("disabled",true);
         $('#lbl-share-all').removeClass("hidden");
         $('#lbl-share-some').addClass("hidden");
         $('#share-clear').addClass("hidden");
         $('#collection-share').addClass("hidden");
     }
     else {
+    	$('#share-btn').prop("disabled",false);
         $('[name="share-qty"]').text(count);
         $('#lbl-share-all').addClass("hidden");
         $('#lbl-share-some').removeClass("hidden");

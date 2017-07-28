@@ -23,6 +23,7 @@ class ExpansionSearch extends ElasticSearch
         }
         $this->setSynonyms();
         $this->setSearchResult();
+        //var_dump($this->getSearchResult());
     }
 
     /*
@@ -31,7 +32,7 @@ class ExpansionSearch extends ElasticSearch
      */
 
 
-    private function get_cuis_from_metamap($data)
+    protected function get_cuis_from_metamap($data)
 
     {
         global $metamap_server;
@@ -58,7 +59,7 @@ class ExpansionSearch extends ElasticSearch
             $this->query = '';
             return;
         }
-        $umls_IDs = $this->get_cuis_from_metamap($this->query);
+        $umls_IDs = $this->get_cuis_from_metamap(strtolower($this->query));
         return $umls_IDs;
     }
 
@@ -182,13 +183,17 @@ class ExpansionSearch extends ElasticSearch
                 array_push($synmquery['bool']['should'], ['multi_match' => [
                     'query' => $query,
                     'fields' => $this->searchFields,
-                    'operator' => 'and'],
+                    'operator' => 'and',
+                    'type' => $this->queryType],
                 ]);
             }
             array_push($all_synsquery['bool']['must'],$synmquery);
         }
 
         array_push($query_part,$all_synsquery);
+        /*echo '<pre>';
+        print_r($query_part);
+        echo '</pre>';*/
         return $query_part;
     }
 

@@ -17,10 +17,9 @@ class ClinicalTrialsRepository extends RepositoryBase {
     //public $searchFields = ['dataset.ID','dataset.available','dataset.creator','dataset.description','dataset.keywords','dataset.title',
     //                        'disease.name','study.selectioncriteria','study.ID','study.types','study.studygroups',
     //                        'treatment.name','treatmemnt.description','treatment.agent','publication.title','grant.funders'];
-    public $facetsFields = ['treatment.name.raw','study.types.raw','disease.name.raw'];
+    public $facetsFields = ['treatment.name.raw','disease.name.raw'];
     public $facetsShowName = [
         'treatment.name.raw'=>'Treatment',
-        'study.types.raw'=>'Study Type',
         'disease.name.raw'=>'Disease'
     ];
     public $index = 'clinicaltrials';
@@ -36,8 +35,8 @@ class ClinicalTrialsRepository extends RepositoryBase {
     ];
 
     //search-repository page
-    public $searchRepoHeader = ['Title', 'ID','Creator', 'Disease'];
-    public $searchRepofield = ['dataset.title','dataset.ID', 'dataset.creator', 'disease.name'];
+    public $searchRepoHeader = ['Title', 'ID', 'Disease'];
+    public $searchRepofield = ['dataset.title','dataset.ID' , 'disease.name'];
 
 
     public $source_main_page = 'https://clinicaltrials.gov/';

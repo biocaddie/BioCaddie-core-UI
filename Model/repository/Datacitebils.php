@@ -14,10 +14,10 @@ class DatacitebilsRepository extends RepositoryBase {
     public $id = '0048';
     public $source = "https://bils.se/";
 
-    public $facetsFields = ['dataset.types','dataset.refinement'];
+    public $facetsFields = ['dataset.types.raw','dataset.refinement.raw'];
     public $facetsShowName = [
-        'dataset.types'=>'Types',
-        'dataset.refinement'=>'Refinement'
+        'dataset.types.raw'=>'Types',
+        'dataset.refinement.raw'=>'Refinement'
     ];
     public $index = 'datacitebils';
     public $type = 'dataset';

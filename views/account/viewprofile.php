@@ -9,8 +9,9 @@ if (isset($_SESSION["history"])) {
     $history = $_SESSION["history"]['query'];
     $date = $_SESSION["history"]['date'];
 }
-
-
+echo '<pre>';
+//print_r($_SESSION['history']);
+echo '</pre>';
 $objDBController = new DBController();
 $dbconn=$objDBController->getConn();
 

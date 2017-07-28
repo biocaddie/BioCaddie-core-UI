@@ -14,10 +14,10 @@ class DatacitemitRepository extends RepositoryBase {
     public $id = '0052';
     public $source = "http://lcp.mit.edu/";
 
-    public $facetsFields = ['dataset.types','dataset.refinement'];
+    public $facetsFields = ['dataset.types.raw','dataset.refinement.raw'];
     public $facetsShowName = [
-        'dataset.types'=>'Types',
-        'dataset.refinement'=>'Refinement'
+        'dataset.types.raw'=>'Types',
+        'dataset.refinement.raw'=>'Refinement'
     ];
     public $index = 'datacitemit';
     public $type = 'dataset';

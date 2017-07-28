@@ -1,0 +1,287 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "",
+    "title": "DataMed Web API",
+    "version": "1.0.0"
+  },
+  "host": "datamed.org",
+  "basePath": "/webapi",
+  "tags": [
+    {
+      "name": "query",
+      "description": "Search datasets from DataMed"
+
+    }
+
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/esearch?searchtype=data": {
+      "get": {
+        "tags": [
+          "query"
+        ],
+        "summary": "Search datasets from DataMed by query",
+        "description": "Get datasets by searching query",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Search term",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "offset of page number",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "rowsPerPage",
+            "in": "query",
+            "description": "rows per page, default is 20, maxmimum is 300",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Datasets"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+
+      }
+    },
+    "/esearch?searchtype=data&datatypes={datatypes}": {
+      "get": {
+        "tags": [
+          "query"
+        ],
+        "summary": "Search datasets from DataMed by query for specific datatype",
+        "description": "Get datasets by searching query for specific datatype",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Search term",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "offset of page number",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "rowsPerPage",
+            "in": "query",
+            "description": "rows per page, default is 20, maxmimum is 300",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "datatypes",
+            "in": "query",
+            "description": "datatypes,multiple datatype values can be provided with comma separated strings",
+            "required": false,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "Protein","Phenotype", "Gene Expression",
+                "Nucleotide Sequence", "Morphology", "Clinical Trials",
+                "Proteomics Data", "Physiological Signals", "Epigenetic Data",
+                "Data from Papers", "Omics Data", "Survey Data", "Cell Signaling", "Imaging Data", "Unspecified"
+
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Datasets"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+
+      }
+    },
+    "/esearch?searchtype=data&repository={repository}": {
+      "get": {
+        "tags": [
+          "query"
+        ],
+        "summary": "Search datasets from DataMed by query for specific repository",
+        "description": "Get datasets by searching query for specific repository",
+        "produces": [
+          "application/xml",
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "Search term",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "offset of page number",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "rowsPerPage",
+            "in": "query",
+            "description": "rows per page, default is 20, maxmimum is 300",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "repository",
+            "in": "query",
+            "description": "repository,multiple repository values can be provided with comma separated strings",
+            "required": false,
+            "type": "array",
+            "items":{
+              "type":"string",
+              "enum":["dbGaP", "PDB", "GEO" , "LINCS", "GEMMA", "ArrayExpress", "SRA", "BioProject", "ClinicalTrials", "Dryad", "cvrg",
+                "Dataverse", "NeuroMorpho.Org", "PeptideAtlas", "CTN", "TCIA", "MPD", "NIDDKCR", "openfmri", "NURSA", "PhysioBank", "ProteomeXchange", "YPED", "CIL", "ICPRS",
+                "GDC", "BMRB","UniProt:Swiss-Prot", "ClinVar", "Retina", "PDBe:EMDB", "Epigenomics", "nitrcir", "NeuroVault:Atlases", "NeuroVault:Cols", "NeuroVault: NIDM",
+                "RGD", "GigaDB", "MorphoBank", "VectorBase", "GND", "PeerJ",
+                "Zenodo", "OmicsDI", "SBGrid", "SimTK", "CXIDB", "BILS", "ADA", "UKDA", "Adaptive Biotechnologies", "MITLCP", "UCSF-CTSI", "FDZ-DZA",
+                "MBF", "NIMH", "JHUDMS", "CANDI", "LSHTM", "Databrary", "ImmPort",
+                "NSGM", "CRCNS", "NSRR","NSD", "LSDB", "GeneNetwork", "Ndar Papers", "Thieme","Figshare","CCDC","Wormbase","GTex","Metabolomics"]
+
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Datasets"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+
+      }
+    }
+
+
+
+  },
+
+  "definitions": {
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "Datasets": {
+      "type": "object",
+      "required": [
+        "total",
+        "offset",
+        "rowsPerPage"
+
+      ],
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "offset": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "rowsPerPage": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "hits": {
+          "$ref": "#/definitions/Hits"
+        }
+
+
+      },
+      "xml": {
+        "name": "Datasets"
+      }
+    },
+    "Hits": {
+      "type": "object",
+      "properties": {
+        "_index": {
+          "type": "string"
+        },
+        "_type": {
+          "type": "string"
+        },
+        "_id": {
+          "type": "string"
+        },
+        "_score": {
+          "type": "number"
+        },
+        "_source": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Hits"
+      }
+    }
+  }
+
+}

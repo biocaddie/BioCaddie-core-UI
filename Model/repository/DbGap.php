@@ -18,14 +18,15 @@ class DbGapRepository extends RepositoryBase {
     public $index = 'dbgap';
     public $type = 'dataset';
 
-    public $searchPageField = ['dataset.title', 'dataset.description', 'study.types'];
+    public $searchPageField = ['dataset.title','dataset.Identifier', 'dataset.description', 'study.types'];
     public $searchPageHeader = [
         'dataset.title' => 'Title',
         'dataset.description' => 'Description',
-        'study.types' => 'Study Types'
+        'study.types' => 'Study Types',
+        'dataset.Identifier'=>'ID'
         ];
-    public $searchRepoHeader = ['Title', 'Disease', 'Study Types','Study Group'];
-    public $searchRepoField = ['dataset.title', 'disease.name','study.types', 'studyGroup.name'];
+    public $searchRepoHeader = ['Title', 'ID','Disease', 'Study Types','Study Group'];
+    public $searchRepoField = ['dataset.title', 'dataset.Identifier','disease.name','study.types', 'studyGroup.name'];
 
 
     public $source_main_page = 'http://www.ncbi.nlm.nih.gov/gap';

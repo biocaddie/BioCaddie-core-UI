@@ -101,7 +101,7 @@ require_once 'Model/TrackActivity.php';
                 <div id="and">
                     <h3>AND</h3>
                     <ul>
-                        <li>Used to retrieve a set in which each data set contains all search terms.</li>
+                        <li>Used to retrieve a set in which each dataset contains all search terms.</li>
                     </ul>
                     <pre><p>Example: Skin AND Cancer</p></pre>
 
@@ -111,7 +111,7 @@ require_once 'Model/TrackActivity.php';
                 <div id="or">
                     <h3>OR</h3>
                     <ul>
-                        <li>Used to retrieve a set in which each citation contains at least one of the search terms.
+                        <li>Used to retrieve a set in which each dataset contains at least one of the search terms.
                         </li>
                         <li>Use OR when you want to pull together articles on similar topics.</li>
                     </ul>
@@ -122,7 +122,7 @@ require_once 'Model/TrackActivity.php';
                 <div id="not">
                     <h3>NOT</h3>
                     <ul>
-                        <li>Retrieves a set from which citations to articles containing specified search terms following
+                        <li>Retrieves a set from which dataset containing specified search terms following
                             the NOT operator are eliminated.
                         </li>
                     </ul>
@@ -130,55 +130,67 @@ require_once 'Model/TrackActivity.php';
                     <img src="./img/help/not.jpg" alt="bioCADDIE" style="height: 200px;margin: 10px">
 
                 </div>
-                <div id="nesting">
-                    <h3>Nesting</h3>
-                    <ul>
-                        <li>When using multiple Boolean operators in bioCADDIE, they are processed left to right.</li>
-                    </ul>
-                    <pre><p>Example: Cancer AND Lung OR Breast</p></pre>
+                <!-- <div id="nesting">
+                     <h3>Nesting</h3>
+                     <ul>
+                         <li>When using multiple Boolean operators in bioCADDIE, they are processed left to right.</li>
+                     </ul>
+                     <pre><p>Example: Cancer AND Lung OR Breast</p></pre>
 
-                    <p> This will retrieve records that include both terms Cancer AND Lung as well as all
-                        records with the term Breast, whether or not they contain the other two terms.</p>
+                     <p> This will retrieve records that include both terms Cancer AND Lung as well as all
+                         records with the term Breast, whether or not they contain the other two terms.</p>
 
-                    <ul>
-                        <li>
-                            To change the order in which terms are processed, enclose the terms(s) in parentheses. The
-                            terms inside the set of parentheses will be processed as a unit and then incorporated into
-                            the overall strategy. This is called nesting.
-                        </li>
-                    </ul>
-                    <pre><p>Example: Cancer AND (Lung OR Breast)</p></pre>
-                    <p>
-                        This will retrieve records that contain the term Cancer, as well as one or both of the terms
-                        Lung OR Breast.
-                    </p>
+                     <ul>
+                         <li>
+                             To change the order in which terms are processed, enclose the terms(s) in parentheses. The
+                             terms inside the set of parentheses will be processed as a unit and then incorporated into
+                             the overall strategy. This is called nesting.
+                         </li>
+                     </ul>
+                     <pre><p>Example: Cancer AND (Lung OR Breast)</p></pre>
+                     <p>
+                         This will retrieve records that contain the term Cancer, as well as one or both of the terms
+                         Lung OR Breast.
+                     </p>
 
-                </div>
+                </div>-->
 
                 <div id="field">
-                    <h1>Search by Field</h1>
-                    <hr>
-                    <p>Terms may be qualified using bioCADDIE's search field tags. The allowable fields are: title, author and description.</p>
+                        <h1>Search by Field</h1>
+                        <hr>
+                        <p>Terms may be qualified using bioCADDIE's search field tags. The allowable fields are: title, author and description.</p>
 
-                    <p>The search field tag must follow the term -- you cannot prequalify.</p>
+                        <p>The search field tag must follow the term -- you cannot prequalify.</p>
 
-                    <p> Tags are enclosed in square brackets.</p>
+                        <p> Tags are enclosed in square brackets.</p>
 
-                    <pre><p>Example: Lung[title] AND Cancer</p></pre>
+                        <pre><p>Example: Lung[title] AND Cancer</p></pre>
 
-                    Reminders:
-                     <ul>
 
-                       <li> Boolean operators -- AND, OR, NOT -- must be entered in uppercase letters.</li>
-                         <li> Boolean operators are processed from left to right.</li>
-                         <li> Use parentheses to nest terms together so they will be processed as a unit and then incorporated
-                        into the overall strategy.</li>
-
-                       </ul>
-                    </p>
 
                 </div>
-            </div><!-- /.col-xs-12 main -->
+                <div id="Phrase">
+                    <h1>Search by Phrase</h1>
+                    <hr>
+                    <p>Used to retrieve a set in which each dataset contains exact phrase.</p>
+
+                    <p>The search term must be enclosed in double quotes.  "AND/OR/NOT" inside double quotes are not treated as boolean logic.</p>
+
+                    <pre><p>Example: "Lung cancer"[title] AND Cancer</p></pre>
+
+                    Reminders:
+                    <ul>
+
+                        <li> Boolean operators -- AND, OR, NOT -- must be entered in uppercase letters.</li>
+                        <li> Boolean operators are processed from left to right.</li>
+                        <li> Use double quotes to do phrase search. </li>
+                        <li> Field names must be enclosed in squred brackets. </li>
+                        <li> If you are using our advanced search constructor to construct the query, please use the "add Criteria" button to add boolean logic. </li>
+
+                    </ul>
+                    </p>
+
+                </div><!-- /.col-xs-12 main -->
         </div><!--/.row-->
     </div><!--/.container-->
 </div><!--/.page-container-->

@@ -10,6 +10,23 @@ function partialRepositories($searchView)
 {
     $page_name = (basename($_SERVER['PHP_SELF']));
     $repositories = $searchView->getRepositoryFilter();
+    foreach ($repositories as $key => $row)
+    {
+        $nums[$key] = $row['rows'];
+        //for put the clinical trials and clivar to the last
+        if($key=="ClinicalTrials.gov"){
+            $nums[$key] = -1*$row['rows'];
+        }
+        if($key=="ClinVar"){
+            $nums[$key] = -1*$row['rows'];
+        }
+        if($key=="CTN"){
+            $nums[$key] = -1*$row['rows'];
+        }
+    }
+    array_multisort($nums, SORT_DESC, $repositories);
+
+
     $repoN = 0;
     $threshold = 10;
 
@@ -47,7 +64,7 @@ function partialRepositories($searchView)
                             <!--checkbox-->
                             <a id="<?php echo "repository_".$i?>" target=_parent href="<?php echo $searchView->getUrlBySelectedRepository($row['id']); ?>">
                                 <?php $repoN = $repoN + 1; ?>
-                                <?php if ($key == "ClinicalTrials"): ?> <!--block clinicaltrials-->
+                                <?php if ($key == "ClinicalTrials.gov" || $key == "ClinVar" ||$key=='CTN'): ?> <!--block clinicaltrials-->
                                 <div style="color:gray">
                                     <?php endif; ?>
                                     <?php if ($row['selected'] == true): ?>

@@ -31,7 +31,7 @@ foreach($datatypesMapping as $type=>$repos){
         <div class="col-md-3">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <strong><?php echo $type?> </strong>
+                    <strong><a class='hyperlink' href="search.php?searchtype=data&query=&offset=1&datatypes=<?php echo $type;?>"><?php echo $type?></a> </strong>
                 </div>
                 <div class="panel-body">
                     <table class="table table-striped">

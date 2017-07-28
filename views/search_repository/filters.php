@@ -21,7 +21,9 @@ function partialFilters($searchRepoView)
 {
     $searchBuilder = $searchRepoView->getSearchBuilder();
     $selectedFilters = $searchBuilder->getSelectedFilters();
-
+   /* echo '<pre>';
+     var_dump($_GET);
+    echo '</pre>';*/
     if (sizeof($selectedFilters) > 0) {
         ?>
         <div style="margin: -10px 0 5px 10px;">
@@ -82,6 +84,7 @@ function partialFilters($searchRepoView)
                 </div>
             </div>
             <?php } ?>
+
     </div>
     <?php
 }?>

@@ -16,10 +16,10 @@ class NiddkcrRepository extends RepositoryBase
     public $id = '0018';
     public $source = "https://www.niddkrepository.org/";
    // public $searchFields = ['dataset.ID', 'dataset.title', 'dataset.types','dataset.creators','disease.name', 'treatment.name','taxonomicInformation.name'];
-    public $facetsFields = ['treatment.name','disease.name'];
+    public $facetsFields = ['treatment.name.raw','disease.name.raw'];
     public $facetsShowName = [
-        'treatment.name' => 'Treatment',
-        'disease.name' => 'Disease'
+        'treatment.name.raw' => 'Treatment',
+        'disease.name.raw' => 'Disease'
     ];
     public $index = 'niddkcr';
     public $type = 'dataset';

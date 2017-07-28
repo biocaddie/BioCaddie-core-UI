@@ -11,6 +11,8 @@ body {
     min-height: 100%;
 }
 .container{
+
+    /*overflow-y: scroll;*/
     max-width: 1200px;
 }
 a {
@@ -1095,3 +1097,23 @@ button[class*='field'] { width: 150px;}
 }*/
 
 .step {border: solid 1px; border-color: #eee;padding: 10px;margin: 20px; border-radius:4px}
+
+
+/* Overwrite the default to keep the scrollbar always visible */
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
+
+strong1 {
+    font-weight: 900;
+    color:#c2961b;
+
+}

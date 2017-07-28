@@ -31,7 +31,7 @@ class ClinvarRepository extends RepositoryBase {
 
     //search-repository page
     public $searchRepoHeader = ['Title', 'type', 'Taxonomic Information','Alternate Identifiers'];
-    public $searchRepoField = ['dataset.title', 'dataset.type', 'taxonomicInformation.species','AlternateIdentifiers.ID'];
+    public $searchRepoField = ['dataset.title', 'dataset.type', 'taxonomicInformation.species','alternateIdentifiers.ID'];
 
     public $source_main_page = "http://thedata.org/";
     public $sort_field = '';

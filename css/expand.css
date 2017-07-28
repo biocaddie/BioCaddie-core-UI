@@ -12,8 +12,34 @@
 }
 
 
+.navbar-inverse {
+    background-color: #58595B;
+    background: linear-gradient(to bottom, #58595B 0px, #58595B 100%);
+    border: none;
+    padding: 0px;
+}
+/*text on navbar*/
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus {
+    color: #FFF;
+    background-color: #58595B;
+    border-radius: 0;
+    font-size: 13px;
+    font-weight: bold;
+}
 
+.navbar-inverse .navbar-nav > .active > a span.caret {
+    border-top-color: #FFF;
+}
 
+/*mouse hover*/
+.navbar-inverse .navbar-nav > .active > a:hover {
+    background-color: #f7fdf6;
+    color: #58595B;
+}
+
+.navbar-inverse .navbar-nav > .active > a:hover span.caret {
+    border-top-color: #58595B;
+}
 
  /* use the rule below for testing purposes*/
 .container_hide label:hover:before, label:active:before {

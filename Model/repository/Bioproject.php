@@ -14,10 +14,10 @@ class BioProjectRepository extends RepositoryBase
     public $source = "http://www.ncbi.nlm.nih.gov/bioproject/?term=";
  //   public $searchFields = ["dataset.ID", 'dataset.title', 'dataset.keywords', 'dataset.description', 'taxonomicinformation.name.raw','taxonomicinformation.ncbiID','publication.ID','organism.strain'];
 
-    public $facetsFields = ['taxonomicinformation.name', 'dataset.keywords'];
+    public $facetsFields = ['taxonomicinformation.name.raw', 'dataset.keywords.raw'];
     public $facetsShowName = [
-        'taxonomicinformation.name' => 'Organsim',
-        'dataset.keywords' => 'Keywords'];
+        'taxonomicinformation.name.raw' => 'Organsim',
+        'dataset.keywords.raw' => 'Keywords'];
 
 
     public $searchPageField = ['dataset.title', 'dataset.ID','dataset.keywords', 'access.accesstypes'];

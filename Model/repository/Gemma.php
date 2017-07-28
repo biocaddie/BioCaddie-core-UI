@@ -13,8 +13,8 @@ class GemmaRepository extends RepositoryBase {
     public $index = 'gemma';
     public $type = 'dataset';
 
-    public $facetsFields = ['taxonomicInformation.name'];
-    public $facetsShowName = ['taxonomicInformation.name' => 'Taxonomic Information'];
+    public $facetsFields = ['taxonomicInformation.name.raw'];
+    public $facetsShowName = ['taxonomicInformation.name.raw' => 'Taxonomic Information'];
 
     //search page
     public $searchPageField = ['dataset.title', 'dataset.ID', 'dataset.keywords', 'dataset.description'];

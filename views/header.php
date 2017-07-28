@@ -1,3 +1,12 @@
+<?php ;
+$base= dirname($_SERVER['SCRIPT_NAME']);
+if ($base=='/'){
+    pass;
+}
+else{
+   $base=$base.'/';
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -35,7 +44,8 @@
                                         citation,
                                         publication
                                         ">
-
+        <!--<base href="/biocaddie-ui/" />-->
+        <base href="<?php echo $base;?>" />
         <link href="./img/favicon.png" rel="icon" >
 
         <!-- Styles -->
@@ -73,7 +83,7 @@
 
         <!---For sign in using Google account-->
         <meta name="google-signin-scope" content="profile email">
-        <meta name="google-signin-client_id" content="829717013649-0j7el8re8ka2d5tgqm87c5msek06kgmu.apps.googleusercontent.com">
+        <meta name="google-signin-client_id" content="XXXXXXXXXXXX.apps.googleusercontent.com">
         <script src="./js/platform.js" async defer></script>
         <script type="text/javascript" src="./js/loadingoverlay.min.js"></script>
         <script type="text/javascript" src="./js/global.scripts.js"></script>
@@ -81,6 +91,7 @@
 
         <script src="./vendor/d3/d3.layout.cloud.js"></script>
         <script src="./vendor/d3/d3-tip.js"></script>
+
 
         <!--Google Analytics-->
         <script>
@@ -96,12 +107,13 @@
                 m.parentNode.insertBefore(a, m)
             })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-            ga('create', 'UA-80500704-1', 'auto');
+            ga('create', 'UA-XXXXXXXX', 'auto');
             ga('send', 'pageview');
         </script>
 
         <!--Usability Tracking-->
         <script src="./js/client.min.js"></script>
+        <?php if (strpos($_SERVER['REQUEST_URI'], "display-item.php?repository") !==false) {include "schemaorg.php";} ?>
     </head>
 
 

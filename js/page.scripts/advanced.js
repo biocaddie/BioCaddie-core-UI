@@ -20,21 +20,25 @@ function contructQuery(){
             if(value.length>0){
                 // Construct query for displaying
                 operator = $("#op" + index).text();
-                query = query + " " + operator + " " + "\"" + value + "\"[" + field + "]";
+                //query = query + " " + operator + " " + "\"" + value + "\"[" + field + "]";
+                query = query + " " + operator + " "  + value + "[" + field + "]";
             }else{
                 return query;
             }
 
         } else {
             // Construct query for displaying
-            query = query + "\"" + value + "\"[" + field + "]";
+            //query = query + "\"" + value + "\"[" + field + "]";
+            query = query +  value + "[" + field + "]";
+
         }
     });
-
+    console.log(query);
     return query;
 }
 
-$(document).ready(function () {     
+$(document).ready(function () {
+
     /*** Add/remove criteria. ***/
     var groupNum = [1]; // track id of existing input group
 
@@ -53,14 +57,15 @@ $(document).ready(function () {
                         '<li><a>NOT</a></li></ul>';
 
         var newOper = $(newOp);
-        var newDrop = '<button type="button" class="btn btn-default dropdown-toggle inner' + next + ' fieldul' + next + '" id="drop' + next + '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Search Fields <span class="caret"></span> </button> ' +
+        var newDrop = '<button type="button" class="btn btn-default dropdown-toggle inner' + next + ' fieldul' + next + '" id="drop' + next +
+                      '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">All Search Fields <span class="caret"></span> </button> ' +
                     '<ul class="dropdown-menu inner' + next + ' fieldul' + next + '"> ' +
                         '<li><a>All Search Fields</a></li> ' +
                         '<li><a>Title</a></li> ' +
                         '<li><a>Author</a></li> ' +
                         '<li><a>Description</a></li>'+
-                        '<li><a>Disease</a></li></ul>';
-
+                        '<li><a>Disease</a></li>'+
+                        '<li><a>Dimension</a></li></ul>';
         var newDropDown = $(newDrop);
         var newIn = '<input autocomplete="off" class="input inner' + next + '" id="field' + next + '" type="text">';
         var newInput = $(newIn);
@@ -148,6 +153,7 @@ $(document).ready(function () {
     // Step 4
     $('#btn-show').click(function(){
         var query = contructQuery();
+        console.log(query);
         $('#query').val(query);
 
         $('#step4').removeClass("disabled");

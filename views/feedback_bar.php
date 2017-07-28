@@ -50,7 +50,7 @@
 
 <div class="alert alert-info hidden" id="feedback-alert" style="margin-bottom: 0px; border: none;padding-left: 50px;padding-right: 50px">
     <i class="remove glyphicon glyphicon-remove-sign glyphicon-white pull-right" style="cursor: pointer;" id = "close"></i>
-    <i>Dear <strong>DataMed</strong> user: </i> DataMed prototype(v2.0) is being developed for the NIH BD2K Data Discovery Index (DDI) by the bioCADDIE project team. DataMed, once completed, will be of use to the scientific community to allow users to search for and find data across different repositories in one space.
+    <i>Dear <strong>DataMed</strong> user: </i> DataMed prototype(v3.0) is being developed for the NIH BD2K Data Discovery Index (DDI) by the bioCADDIE project team. DataMed, once completed, will be of use to the scientific community to allow users to search for and find data across different repositories in one space.
     We are soliciting your feedback to help us shape DataMeds' future development. Please take a moment to answer this brief <a target="_blank" href="questionnaire.php"><i><strong>Survey Form</strong></i></a>  and give us your thoughts. We believe your voice will be a critical addition to the development of the bioCADDIE prototype.
     <i>Thank you, from the bioCADDIE team</i>.
 

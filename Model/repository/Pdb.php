@@ -21,15 +21,15 @@ class PdbRepository extends RepositoryBase {
    //                         'primaryPublications.ID','primaryPublications.alternateID','primaryPublications.title', 'primaryPublications.author','primaryPublications.year',
    //                         'identifiers.ID', 'gene.name', 'material.name','material.formula','material.role', 'citationInfo.citations',
     //                        'taxonomicInformation.ID','taxonomicInformation.name','taxonomicInformation.species','taxonomicInformation.strain'];
-    public $facetsFields = ["dataset.keywords",'gene.name'];
+    public $facetsFields = ["dataset.keywords.raw",'gene.name.raw'];
     public $facetsShowName = [
-        "dataset.keywords" => 'Keywords',
-        'gene.name'=>"Gene"
+        "dataset.keywords.raw" => 'Keywords',
+        'gene.name.raw'=>"Gene"
         ];
     public $index = 'pdb';
     public $type = 'dataset';
     public $searchRepoHeader = ['Dataset Title', 'Dataset ID', 'Primary Publications', 'Keywords'];
-    public $searchRepoField = [ 'dataset.title', 'dataset.ID', 'primaryPublications.title', 'dataset.keywords'];
+    public $searchRepoField = [ 'dataset.title', 'dataset.ID', 'primaryPublication.title', 'dataset.keywords'];
 
     public $searchPageField  = ['dataset.title', 'dataset.ID', 'dataset.description'];
     public $searchPageHeader  = [

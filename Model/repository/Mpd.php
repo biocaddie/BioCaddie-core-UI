@@ -15,19 +15,19 @@ class MpdRepository extends RepositoryBase {
     public $id = '0017';
     public $source = "http://phenome.jax.org/";
   //  public $searchFields = ['dataset.ID','dataset.creators','dataset.title','dataset.description','dataset.types','dimension.name','primaryPublication.authors','taxonomicInformation.name','taxonomicInformation.strain'];
-    public $facetsFields = ['taxonomicInformation.name','dataset.size','taxonomicInformation.strain'];
+    public $facetsFields = ['taxonomicInformation.name.raw','dataset.size','taxonomicInformation.strain.raw'];
     public $facetsShowName = [
-        'taxonomicInformation.name'=>'Taxonomic Information',
+        'taxonomicInformation.name.raw'=>'Taxonomic Information',
         'dataset.size' => 'Dataset Size',
-        'taxonomicInformation.strain'=> 'Strain'
+        'taxonomicInformation.strain.raw'=> 'Strain'
     ];
     public $index = 'mpd';
     public $type = 'dataset';
     //search page
-    public $searchPageField = ['dataset.title', 'dataset.types','dataset.size' ,'dataset.description'];
+    public $searchPageField = ['dataset.title', 'dataset.types','dataset.size' ,'dataset.ID'];
     public $searchPageHeader = [
         'dataset.title'=>'Title',
-        'dataset.description'=>'Description',
+        'dataset.ID'=>'ID',
         'dataset.types'=>'Data Type',
         'dataset.size'=>'Size'
 

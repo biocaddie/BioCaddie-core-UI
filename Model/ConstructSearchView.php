@@ -180,6 +180,7 @@ class ConstructSearchView {
         foreach ($this->ALL_ACCESS_TYPES as $access) {
             $rows = 0;
             foreach ($this->searchBuilder->getRepositories()->getRepositories() as $repository) {
+
                 if (in_array($repository->index, $this->ACCESS_MAPPING[$access])) {
                     $rows += $repository->num;
                 }
@@ -250,7 +251,6 @@ class ConstructSearchView {
 
     public function getSearchResultsinFormat($es_results){
         $es_items = $es_results['hits']['hits'];
-        //var_dump($es_items);
         $index_type_header = [];
         foreach ($this->searchBuilder->getRepositories()->getRepositories() as $repo) {
             $index_type_header[$repo->index . '_' . $repo->type] = [$repo->searchPageField, // used on search page, key of the fields
@@ -273,9 +273,17 @@ class ConstructSearchView {
         if(is_null($es_items)){
            return $results_hyperlink;
         }
+
         foreach ($es_items as $item) {
+
             $key = explode("_", $item['_index'])[0] . '_' . $item['_type'];     // change "indexname_date" to "indexname_type"
-            $visible_fields = $this->constructResultsFields($item, $index_type_header, $key);
+            $x = $this->constructResultsFields($item, $index_type_header, $key);
+            $visible_fields = $x[0];
+            $flag = $x[1];
+            $snippet = Null;
+            if(!$flag){
+                $snippet = $this->get_proper_highlight($item);
+            }
             if ($visible_fields != NULL) {
                 if ($this->searchBuilder->getSearchType() != 'repository') {
                     $visible_fields['ref'] = 'display-item.php?repository=' . $index_type_header[$key][3] . '&id=' . $item['_id'];
@@ -287,16 +295,20 @@ class ConstructSearchView {
                 $visible_fields['source'] = $index_type_header[$key][2];
                 $visible_fields['source_ref'] = $index_type_header[$key][3];
                 $visible_fields['es_id'] = $item["_id"];
+                $visible_fields['snippet'] = $snippet;
                 array_push($results_hyperlink, $visible_fields);
             }
 
         }
+
         return $results_hyperlink;
     }
 
     // Construct search result fields for displaying
     private function constructResultsFields($item, $index_type_header, $key) {
+        $flag = False;
         if (array_key_exists($key, $index_type_header)) {
+
             $headersId = $index_type_header[$key][0];
 
             $show_item = [];
@@ -304,6 +316,7 @@ class ConstructSearchView {
                 $newName = $index_type_header[$key][5][$headersId[$i]];
                 if (isset($item['highlight'][$headersId[$i]])) {
                     $show_item[$newName] = $item['highlight'][$headersId[$i]][0];
+                    $flag = True;
                     continue;
                 }
                 $fields = explode('.', $headersId[$i]);
@@ -342,11 +355,10 @@ class ConstructSearchView {
                     $show_item[$key] = format_time($show_item[$key]);//date("m-d-Y", strtotime($show_item[$key]));
                 }
                 $show_item[$key] = get_dom_value($show_item[$key]);
-                //var_dump($show_item);
             }
-            return $show_item;
+            return [$show_item,$flag];
         }
-        return NULL;
+        return [NULL, $flag];
     }
 
     /*
@@ -383,15 +395,6 @@ class ConstructSearchView {
                     $num[$key] = $value['count'];
                 }
             }
-
-          /*  echo "<pre>";
-            var_dump($num);
-            echo "</pre>";
-
-            echo "<pre>";
-            var_dump($input);
-            echo "</pre>";
-          */
 
             array_multisort($num, SORT_DESC, $input);
         }
@@ -556,7 +559,7 @@ class ConstructSearchView {
      * */
 
     function getRowsPerPageUrl($rowsPerPage) {
-        return $this->getUrlByRowsPerPage($rowsPerPage) . $this->getCurrentSort();
+        return $this->getUrlByRowsPerPage($rowsPerPage);
     }
 
     function getRowsPerPageStyle($row) {
@@ -599,13 +602,13 @@ class ConstructSearchView {
      * */
 
     function process_strong_highlight($field) {
-        if (strpos($field, '<strong>') !== false) {
-            $start = substr_count($field, '<strong>');
-            $end = substr_count($field, '</strong>');
+        if (strpos($field, '<strong1>') !== false) {
+            $start = substr_count($field, '<strong1>');
+            $end = substr_count($field, '</strong1>');
             if ($start > $end) {
-                $last = 11 - strpos(substr($field, -11, 11), "</");
+                $last = 12 - strpos(substr($field, -12, 12), "</");
                 $field = substr($field, 0, strlen($field) - $last);
-                $field = $field . '</strong>';
+                $field = $field . '</strong1>';
             }
         }
         return $field;
@@ -646,6 +649,26 @@ class ConstructSearchView {
         } else {
             return ((($offset - 1) * $N) + 1) . "-" . $num;
         }
+    }
+    function get_proper_highlight($item){
+        $keys = array_keys($item['highlight']);
+        foreach($keys as $key){
+            if(strpos($key,'NLP_Fields')===false){
+                $value = $item['highlight'][$key][0];
+                $start = strpos($value,'<strong1>');
+                $maxLen=150;
+                if(strlen($value)>150){
+                    $value = $this->process_strong_highlight(strlen($value) > $maxLen ? substr(trim($value), max($start-50,0), $start+$maxLen) . '...' : $value);
+                }
+                return [$key=>$value];
+            }
+            else{
+                continue;
+
+            }
+        }
+
+
     }
 
 }

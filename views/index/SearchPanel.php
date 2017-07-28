@@ -1,6 +1,6 @@
 
 <div class="jumbotron search-block">
-    <h4 style="margin-bottom: 10px">Engaging The Community Toward a Data Discovery Index (DataMed v2.0)</h4>
+    <h4 style="margin-bottom: 10px">Engaging The Community Toward a Data Discovery Index (DataMed v3.0)</h4>
     <form action='./search.php' method='get' autocomplete='off' id="search-form" style="line-height: normal">
         <div class="input-group">
             <input type="text" class="form-control" autocomplete='off' placeholder="Search for data through bioCADDIE" name='query' id='query' autofocus="">

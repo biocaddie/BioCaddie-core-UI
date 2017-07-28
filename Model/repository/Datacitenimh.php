@@ -14,10 +14,10 @@ class DatacitenimhRepository extends RepositoryBase {
     public $id = '0056';
     public $source = "https://www.nimh.nih.gov/index.shtml";
 
-    public $facetsFields = ['dataset.types','dataset.refinement'];
+    public $facetsFields = ['dataset.types.raw','dataset.refinement.raw'];
     public $facetsShowName = [
-        'dataset.types'=>'Types',
-        'dataset.refinement'=>'Refinement'
+        'dataset.types.raw'=>'Types',
+        'dataset.refinement.raw'=>'Refinement'
     ];
     public $index = 'datacitenimh';
     public $type = 'dataset';

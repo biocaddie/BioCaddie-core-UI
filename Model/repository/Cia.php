@@ -12,26 +12,26 @@ class CiaRepository extends RepositoryBase {
 
     //public $searchFields = ['dataset.ID', 'dataset.title','dataset.creators','dataset.keywords','dataset.type',
     //                        'attributes.description'];
-    public $facetsFields = ['datasetDistributions.format.raw'];
+    public $facetsFields = ['anatomicalPart.name'];
     public $facetsShowName = [
-        'datasetDistributions.format.raw' => 'Dataset Distributions Format'
+        'anatomicalPart.name' => 'Anatomical Part'
     ];
     public $index = 'cia';
     public $type = 'dataset';
 
     //search page
-    public $searchPageField = ['dataset.title', 'attributes.description','dataset.ID','dataset.dateReleased'];
+    public $searchPageField = ['dataset.title', 'dataAcquisition.name','dataset.ID','dataset.dateReleased'];
     public $searchPageHeader = [
         'dataset.title' => 'Title',
-        'attributes.description' => 'Description',
+        'dataAcquisition.name' => 'Anatomical Part',
         'dataset.ID'=>'ID',
         'dataset.dateReleased'=>'Date Released'
     ];
 
 
     //search-repository page
-    public $searchRepoHeader = ['Dataset Title', 'Dataset Types','Creators','Date Released'];
-    public $searchRepoField = [ 'dataset.title', 'dataset.types','dataset.creators','dataset.dateReleased'];
+    public $searchRepoHeader = ['Dataset Title', 'Dataset ID','Data Acquisition','Date Released'];
+    public $searchRepoField = [ 'dataset.title', 'dataset.ID','dataAcquisition.name','dataset.dateReleased'];
 
     public $source_main_page = 'http://www.cancerimagingarchive.net/';
     public $sort_field = 'dataset.dateReleased';

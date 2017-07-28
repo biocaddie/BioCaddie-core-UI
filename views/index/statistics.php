@@ -36,7 +36,7 @@ $repo = getRepositoryIDMapping();
                 <div class="col-xs-6 stat-box">
                     <i class="fa fa-cubes text-success"></i>
                     <a class="hyperlink" href="search.php?query=&searchtype=data">
-                        <p class="stat-value">  1,375037  </p><br>
+                        <p class="stat-value">  2,336,474  </p><br>
                         <p class="stat-title">Datasets</p>
                     </a>
                 </div>

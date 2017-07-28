@@ -53,12 +53,16 @@ function partialResults($searchView)
         <ol class="search-result" id="search-result">
             <?php
             foreach ($searchResult as $item) {
-
+                $primary_result=Null;
+                $duplicate_results=Null;
+                $primary_results_repositoryHits=0;
+                $duplicate_results_repositoryHits=0;
                 $keys = array_keys($item);
                 $rowTitle = reduce_duplicate_in_title($item[$keys[0]]);
                 $maxLen = 150;
                 $rowTitleTooltip = strlen($rowTitle) > $maxLen ? $rowTitle : '';
-                $rowTitleShort = $searchView->process_strong_highlight(strlen(strip_tags($rowTitle)) > $maxLen ? substr(strip_tags($rowTitle), 0, $maxLen) . '...' : $rowTitle);
+                $start = strpos($rowTitle,'<strong1>');
+                $rowTitleShort = $searchView->process_strong_highlight(strlen(strip_tags($rowTitle)) > $maxLen ? substr($rowTitle, max($start-50,0), $start+$maxLen) . '...' : $rowTitle);
 
                 $linkUrl = $item['ref'];
                 if ($searchView->getSearchBuilder()->getSearchType() != 'repository') {
@@ -72,6 +76,7 @@ function partialResults($searchView)
                         <!--checkbox-->
                         <input name="share-check" type="checkbox" value="<?php echo $item['ref_raw'] ?>"/>
                         <!--title-->
+                        <?php array_push($searchIDList,$item['es_id']); ?>
                         <a id="<?php echo "result_" . $item['es_id']; ?>" href="<?php echo $linkUrl ?>">
                             <?php echo $rowTitleShort ?>
                         </a>
@@ -84,28 +89,72 @@ function partialResults($searchView)
                             </span>
                         <?php endif; ?>
 
-                        <?php if (($item['source'] == 'GEMMA' or $item['source'] == 'ArrayExpress') and $duplicate_flag): ?>
-                            <?php
-                            $search = new DuplicateSearch();
-                            $link = $search->getPrimaryLinkFromID(strtolower($item['source']), $item['es_id']);
-                            if ($link):
-                                ?>
-                                <a href="<?php echo $link ?>" title="" data-original-title="Has primary dataset"
+                        <?php if ($item['source'] == 'GEO' and $duplicate_flag): ?>
+                        <?php
+                        $gseID = $item['ID'];
+
+                        $gseID = str_replace("<strong>", "", $gseID);
+                        $gseID = str_replace("</strong>", "", $gseID);
+
+                        $duplicate_search = new DuplicateSearch();
+                        $duplicate_search->setSecondaryDatasets(['esIndex' => $duplicate_index, 'GSEID' => $gseID]);
+                        $duplicate_results = $duplicate_search->getSearchResult();
+                        $duplicate_results_repositoryHits = $duplicate_results['hits']['total'];
+                        if ($duplicate_results_repositoryHits > 0):
+                        ?>
+                            <span  data-original-title="Is primary dataset"
+                               data-toggle="tooltip" data-placement="right">
+                                <i class="glyphicon glyphicon-open-file"></i>
+                            </span>
+                    <?php endif; ?>
+
+
+                    <?php endif; ?>
+
+                    <?php if (($item['source'] == 'GEMMA' or $item['source'] == 'ArrayExpress') and $duplicate_flag): ?>
+                        <?php
+                        $search = new DuplicateSearch();
+                        $primary_result = $search->getPrimaryResult(strtolower($item['source']), $item['es_id']);
+
+                        $primary_results_repositoryHits = $primary_result['hits']['total'];
+
+                        if ($primary_results_repositoryHits > 0):?>
+                            <span  data-original-title="Is secondary dataset"
                                    data-toggle="tooltip" data-placement="right">
-                                    <i class="glyphicon glyphicon-open-file"></i>
-                                </a>
-                            <?php endif; ?>
+                                <i class="glyphicon glyphicon-copy"></i>
+                            </span>
+
                         <?php endif; ?>
+                    <?php endif; ?>
+
+
+
+
+
+                    <!--<?php if (($item['source'] == 'GEMMA' or $item['source'] == 'ArrayExpress') and $duplicate_flag): ?>
+                        <?php
+                        $search = new DuplicateSearch();
+                        $link = $search->getPrimaryLinkFromID(strtolower($item['source']), $item['es_id']);
+                        if ($link):
+                            ?>
+                            <a href="<?php echo $link ?>" title="" data-original-title="Is secondary dataset"
+                               data-toggle="tooltip" data-placement="right">
+                                <i class="glyphicon glyphicon-open-file"></i>
+                            </a>
+                        <?php endif; ?>
+                    <?php endif; ?>-->
                     </p>
 
                     <!--fields-->
                     <?php
-                    foreach (array_slice($keys, 1, sizeof($keys) - 5) as $key) {
+                    foreach (array_slice($keys, 1, sizeof($keys) - 6) as $key) {
 
                         if ($key != "ref") {
+                            $start = strpos(trim($item[$key]),'<strong1>');
                             $fieldDisplayValue = strlen(trim($item[$key])) > 350 ? substr(trim($item[$key]), 0, 350) . '... (More In Details)' : trim($item[$key]);
                             $fieldTitleTooltip = strlen(trim($item[$key])) > $maxLen ? trim($fieldDisplayValue) : '';
-                            $fieldTitleShort = $searchView->process_strong_highlight(strlen(trim($item[$key])) > $maxLen ? substr(trim($item[$key]), 0, $maxLen) . '...' : trim($item[$key]));
+                            $fieldTitleShort = $searchView->process_strong_highlight(strlen(trim($item[$key])) > $maxLen ? substr(trim($item[$key]), max($start-50,0), $start+ $maxLen) . '...' : trim($item[$key]));
+
                             ?>
                             <p class="result-field">
                                 <em><?php echo trim($key) ?>:</em>
@@ -118,24 +167,28 @@ function partialResults($searchView)
 
                     } ?>
 
+                    <?php  if($item['snippet']!=Null):?>
+                        <?php $key = array_keys($item['snippet'])[0];?>
+                        <em><?php echo $key;?>:</em>
+                        <?php echo $item['snippet'][$key];?>
+                    <?php endif;?>
 
-                    <?php if ($item['source'] == 'GEO' and $duplicate_flag): ?>
+                    <?php if ($item['source'] == 'GEO' and $duplicate_flag and $duplicate_results): ?>
                         <?php
                         $gseID = $item['ID'];
+                        $gseID = str_replace("<strong1>", "", $gseID);
+                        $gseID = str_replace("</strong1>", "", $gseID);
 
-                        $gseID = str_replace("<strong>", "", $gseID);
-                        $gseID = str_replace("</strong>", "", $gseID);
-
-                        $duplicate_search = new DuplicateSearch();
-                        $duplicate_search->setSecondaryDatasets(['esIndex' => $duplicate_index, 'GSEID' => $gseID]);
-                        $duplicate_results = $duplicate_search->getSearchResult();
-                        $duplicate_results_repositoryHits = $duplicate_results['hits']['total'];
+                        //$duplicate_search = new DuplicateSearch();
+                        //$duplicate_search->setSecondaryDatasets(['esIndex' => $duplicate_index, 'GSEID' => $gseID]);
+                        //$duplicate_results = $duplicate_search->getSearchResult();
+                        //$duplicate_results_repositoryHits = $duplicate_results['hits']['total'];
                         if ($duplicate_results_repositoryHits > 0):
                             ?>
                             <a class="btn btn-primary btn-sm" role="button" data-target="#collapse<?php echo $gseID ?>"
                                data-toggle="collapse"
                                aria-expanded="true" aria-controls="collapse<?php echo $gseID ?>">
-                                <i class="fa fa-expand"></i> Secondary datasets </a>
+                                <i class="fa fa-expand"></i> View secondary datasets </a>
                             <div id="collapse<?php echo $gseID ?>" class="panel-collapse collapse" role="tabpanel"
                                  aria-labelledby="headingOne">
                                 <?php duplicateResults($searchView->getSearchResultsinFormat($duplicate_results), $searchView); ?>
@@ -145,6 +198,29 @@ function partialResults($searchView)
 
 
                     <?php endif; ?>
+
+                    <?php if (($item['source'] == 'GEMMA' or $item['source'] == 'ArrayExpress') and $duplicate_flag and $primary_result): ?>
+                        <?php
+                        //$search = new DuplicateSearch();
+                        //$primary_result = $search->getPrimaryResult(strtolower($item['source']), $item['es_id']);
+
+                        //$primary_results_repositoryHits = $primary_result['hits']['total'];
+
+                        if ($primary_results_repositoryHits > 0):?>
+                            <br>
+                        <a class="btn btn-primary btn-sm" role="button" data-target="#collapse<?php echo $item['es_id'] ?>"
+                           data-toggle="collapse"
+                           aria-expanded="true" aria-controls="collapse<?php echo $item['es_id']?>">
+                            <i class="fa fa-expand"></i> View primary dataset </a>
+                        <div id="collapse<?php echo $item['es_id'] ?>" class="panel-collapse collapse" role="tabpanel"
+                             aria-labelledby="headingOne">
+                            <?php duplicateResults($searchView->getSearchResultsinFormat($primary_result), $searchView); ?>
+
+                        </div>
+
+                        <?php endif; ?>
+                    <?php endif; ?>
+
                 </li>
                 <?php
             }

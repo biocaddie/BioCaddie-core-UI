@@ -16,10 +16,10 @@ class CILRepository extends RepositoryBase {
     //public $searchFields = ['dataset.ID','dataset.title','dataset.description','dataset.types','dataset.creators',
     //                        'BiologicalEntity.name','taxonomicInformation.name','activity.name','activity.keywords',
     //                        'biologicalProcess.name','cellline.name','cellularcomponent.name','dataAcquisition.name'];
-    public $facetsFields = ['activity.keywords.raw','taxonomicInformation.name.raw'];
+    public $facetsFields = ['activity.name.raw','activity.keywords.raw'];
     public $facetsShowName = [
         'activity.keywords.raw'=>'Activity Keywords',
-        'taxonomicInformation.name.raw'=>'Taxonomic Information'
+        'activity.name.raw'=>'Activity Name'
     ];
     public $index = 'cil';
     public $type = 'dataset';

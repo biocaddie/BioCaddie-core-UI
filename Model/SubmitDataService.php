@@ -291,15 +291,15 @@ function sendEmails(){
     $subject = @$_POST['datarepo_name'];
 
     $from = @$_POST["submitter_email"];
-    $to = array("xiaoling.chen@uth.tmc.edu");//,"ruiling.liu@uth.tmc.edu","Anupama.E.Gururaj@uth.tmc.edu","Saeid.Pournejati@uth.tmc.edu","jgrethe@ncmir.ucsd.edu","yul129@ucsd.edu");
+    $to = array("XXXXXX@gmail.com");
 
     $body = 'DataMed submit repository request review<br>
     ----------------------------------------<br>
     MESSAGE: '.construct_message();
 
     $transport = Swift_SmtpTransport::newInstance('smtp.gmail.com', 465, "ssl")
-        ->setUsername('biocaddie.mail@gmail.com')
-        ->setPassword('biocaddie4050@');
+        ->setUsername('XXXX@gmail.com')
+        ->setPassword('XXXXXX');
 
     $mailer = Swift_Mailer::newInstance($transport);
 
@@ -313,7 +313,7 @@ function sendEmails(){
 
 function postToGitHub_repo_management(){
     $client = new \Github\Client();
-    $client->authenticate('biocaddie.mail@gmail.com', 'biocaddie4050@', Github\Client::AUTH_HTTP_PASSWORD);
+    $client->authenticate('XXXX@gmail.com', 'XXXXX', Github\Client::AUTH_HTTP_PASSWORD);
     $client->api('issue')->create('biocaddie', 'submit-repository-management', array('title' => $_POST['datarepo_name'], 'body' => construct_message()));
     
 }

@@ -82,11 +82,10 @@ function convert_array_to_string_two_level($array){
 }
 
 function format_time($time){
-
     $time=str_replace('T000000+0000','',$time);
     $time=str_replace('T00:00:00Z','',$time);
     $time=str_replace('Z','',$time);
-    if(strlen($time)==0){
+    if(strlen($time)<=4){
         return $time;
     }
     /*if(preg_match('/\W[<br>]?/',$time)>0){
@@ -113,6 +112,9 @@ function format_time($time){
 function check_url($url){
     $a = preg_match('/(https|http|ftp)\:\/\/|([a-z0-9A-Z]+\.[a-z0-9A-Z]+\.[a-zA-Z]{2,4})|([a-z0-9A-Z]+\.[a-zA-Z]{2,4})|\?([a-zA-Z0-9]+[\&\=\#a-z]+)/', $url);
     if($a>0){
+        if(preg_match('/[,]/',$url)){
+            return false;
+        }
         return true;
     }
     return false;
@@ -123,6 +125,7 @@ function shorten($value) {
     if(is_array($value)){
         return 0;
     }
+    $value = strip_tags($value);
     return strlen($value) > $maxLen ? substr($value, 0, $maxLen) . '...' : $value;
 }
 
@@ -154,7 +157,12 @@ function encodeFacetsTerm($key, $value) {
  * @return int (1: boolean search; 0: not a boolean search)
  */
 function isBoolSearch($query)
+
 {
+    if (preg_match('/^&#34;[^&#34;]+&#34;$/',$query)){  //example "number OR litters" will consider as phrase search
+        return 0;
+     }
+    //preg_match('/^\"[^\"]+\"$/',$query)
     return preg_match('/(AND|OR|NOT|\[|\])/', $query);
 }
 
@@ -238,11 +246,11 @@ function get_display_item_common_view($id,$rows){
     $search_results['logo']=$logo_link_icon;
     $search_results['repo_id']=$id;
     $search_results['show_order']=['dataset','taxonomicInformation','TaxonomicInformation','TaxonomyInformation','access','attributes',"primaryPublication",'publication',
-        "primaryPublications",'PrimaryPublication','activity','biologicalEntity','biologicalProcess','cellline','cellLine','cellularComponent','primaryCell','dimension','disease',
-        'treatment','instrument','person','material',"BiologicalEntity","MolecularEntity",'molecularEntity','anatomicalPart','dimension','gene','dataAcquisition','dataStandard','distribution','assay','antibody','license',"acl","dataType",
-        'Activity','AlternateIdentifiers','DataDistribution','RelatedIdentifiers','Access',"Study",'studyGroup','grant','iPSC','Instument','protein','phosphoProtein','datastandard',"citation","study",'identifiers','internal',
-        "AnatomicalPart",'datasetDistributions','datasetDistribution','datasetdistribution',
-        "taxonomicinformation","dataDistribution",'organization','dataRepository'];
+        "primaryPublications",'PrimaryPublication','activity','biologicalEntity','biologicalProcess','cellline','cellLine','cellularComponent','primaryCell','dimension','dimensions','disease',
+        'treatment','instrument','person','material',"BiologicalEntity","MolecularEntity",'molecularEntity','anatomicalPart','gene','dataAcquisition','dataStandard','distribution','assay','antibody','license',"acl","dataType",
+        'Activity','AlternateIdentifiers','alternateIdentifiers','alternateIdentifier','DataDistribution','RelatedIdentifiers','relatedIdentifiers','Access',"Study",'studyGroup','grant','iPSC','Instument','protein','phosphoProtein','datastandard',"citation","study",'identifiers','internal',
+        "AnatomicalPart",'datasetDistributions','datasetDistribution','datasetdistribution','persons','creators','identifierInformation','dataAnalysis','dataDistributions',
+        "taxonomicinformation","dataDistribution",'organization','dataRepository','datarepository'];
 
 
     foreach(array_keys($rows) as $key){
@@ -275,7 +283,7 @@ function get_display_item_common_view($id,$rows){
             }
             $a = check_url($display_value);
 
-            if($a and !in_array($subkey,['title','description','publicationVenue','ID','name','alternateID','storedIn'])){//emdb
+            if($a and !in_array($subkey,['title','description','publicationVenue','ID','name','alternateID','storedIn','authors'])){//emdb
 
                 array_push($search_results[$key],[$subkey,$display_value,$display_value]);
             }
@@ -298,7 +306,6 @@ function get_display_item_common_view($id,$rows){
 
         }
     }
-        //var_dump($search_results);
         //handle title is missing case, like some case in nursa,retina
         if(strlen($search_results['title'][1])==0 or !array_key_exists('title',$search_results)){
             if(array_key_exists('landingpage',$rows['access'])){
@@ -315,18 +322,19 @@ function get_display_item_common_view($id,$rows){
         //handle pmid link
         $pubfields = ['primaryPublications','primaryPublication','PrimaryPublication'];
         foreach($pubfields as $pubfield) {
-
-
             if (array_key_exists($pubfield, $search_results)) {
                 for($i=0;$i<sizeof($search_results[$pubfield]);$i++){
 
-
                 if (in_array('ID', $search_results[$pubfield][$i])) {
                     if (strpos($search_results[$pubfield][$i][1], 'pmid:') !== false  ) {
+                        if($search_results[$pubfield][$i][1]=='pmid:N/A'){
+                            continue;
+                        }
                         $pmidlink = 'https://www.ncbi.nlm.nih.gov/pubmed/' . substr($search_results[$pubfield][$i][1], 5);
                         array_push($search_results[$pubfield][$i], $pmidlink);
                     }
                     elseif(preg_match('/^[0-9]*$/',$search_results[$pubfield][$i][1])==1){
+
                         $pmidlink = 'https://www.ncbi.nlm.nih.gov/pubmed/' . $search_results[$pubfield][$i][1];
                         array_push($search_results[$pubfield][$i], $pmidlink);
                     }
@@ -341,12 +349,13 @@ function get_display_item_common_view($id,$rows){
 function get_search_repo_common_view($ids,$results,$query,$repoid){
     $show_array = [];
 
+
     for ($i = 0; $i < count($results); $i++) {
         $show_line = [];
         $r = $results[$i];
 
-        foreach ($ids as $id) {
 
+        foreach ($ids as $id) {
             $id_list = explode('.', $id);
             $idLevel = count($id_list);
 
@@ -366,22 +375,34 @@ function get_search_repo_common_view($ids,$results,$query,$repoid){
                     }
                 }
             } else {
+
                 if (isset($r['highlight'][$id])) {
                     $r['_source'][$id0][$id1] = implode(' ', $r['highlight'][$id]);
                 }
+
+
                 if (isset($r['_source'][$id0][$id1])) {
                     $show = shorten($r['_source'][$id0][$id1]);
                     if ($r['_source'][$id0][$id1] == '' || $r['_source'][$id0][$id1] == ' ') {
                         $show = 'n/a';
                     }
                 }
+
+                if(isset($r['_source'][$id0][$id1])){
+                    if(is_array($r['_source'][$id0][$id1])){
+                        $show = implode("<br>", $r['_source'][$id0][$id1]);
+                    }
+                }else{
+                    $show = "N/A";
+                }
+
+
             }
 
             // Link data set to display-item page
 
             if ($id == 'dataset.title') {
-
-                    if(strlen($r['_source']['dataset']['title'])==0){
+                    if(strlen($r['_source']['dataset']['title'])==0) {
                         $show = '<a class="hyperlink" database ="result-heading" href="display-item.php?repository=' . $repoid . '&id=' . $r['_id'] . '&query=' . $query . '">' . $r['_source']['dataset']['ID'] . '</a>';
                     }
                     else{
@@ -442,4 +463,36 @@ function is_empty_field($array)
 
     return false;
 }
+
+function check_valid_url($url) {
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_HEADER, 1);
+    curl_setopt($ch , CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch,CURLOPT_TIMEOUT,1);
+    curl_setopt($ch, CURLOPT_USERAGENT, "User-Agent: Some-Agent/1.0");
+    $data = curl_exec($ch);
+    $headers = curl_getinfo($ch);
+    curl_close($ch);
+    if(preg_match('/^[4|5]./',$headers['http_code'])){
+    //if(in_array($headers['http_code'],['404','400','401','402','403','504','406'])){
+        return False;
+    }
+    return True;
+}
+function get_tooltip($terms){
+    $terms = explode('<br>',$terms);
+    $result = [];
+    foreach($terms as $term){
+        if(array_key_exists($term,get_keyword_define())){
+            $result[$term] = get_keyword_define()[$term];
+        }
+        else {
+            $result[$term]= Null;
+        }
+    }
+    return $result;
+}
+
 ?>

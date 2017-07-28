@@ -18,9 +18,10 @@ function partialSearchPanel($searchBuilder) {
     $page_name = (basename($_SERVER['PHP_SELF']));
     ?>
     <div class="jumbotron search-block-2">
-        <form id="search-form" action='search.php' method='get' autocomplete='off' style="margin: 0">
+        <form id="search-form" action='search.php' method='get' style="margin: 0">
+
             <div class="input-group">
-                <input value="<?php echo $searchBuilder->getQuery(); ?>" type="text" class="form-control" placeholder="Search for data through BioCADDIE" name='query' id='query-other'>
+                <input value="<?php echo $searchBuilder->getQuery(); ?>" type="text" class="form-control"  placeholder="Search for data through BioCADDIE" name='query' id='query-other' autofocus="">
                 <?php if($page_name == 'search-repository.php'){?>
                 <input value="<?php if($searchBuilder->getSelectedRepositories()!=NULL) {echo implode(',',$searchBuilder->getSelectedRepositories());} ?>" type="text" class="hidden" name='repository' id='repository'>
                 <?php }?>
@@ -50,6 +51,34 @@ function partialSearchPanel($searchBuilder) {
 
         </form>
     </div>
+<script src="./vendor/jquery/jquery-ui-autocomplete.js"></script>
+<script>
+/*** autocomplete function for input fields ***/
+
+$('#query-other').autocomplete({
+   source: function (req, res) {
+        $('#loading').show();
+
+        $.ajax({
+            url: 'ajax/whatsthis.php',
+            data: {q: req.term},
+            dataType: "json",
+            success: function (data) {
+                res($.map(data, function (item) {
+                    return {
+                        label: item.completion,
+                        value: item.completion
+                    }
+                }));
+            },
+            complete: function () {
+                $('#loading').hide();
+            }
+        });
+   }
+});
+
+</script>
     <?php
 }
 ?>

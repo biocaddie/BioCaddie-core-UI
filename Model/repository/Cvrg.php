@@ -29,8 +29,8 @@ class CvrgRepository extends RepositoryBase
 
 
     //search-repository page
-    public $searchRepoHeader = ['Title', 'Date Released', 'Organization', 'Description'];
-    public $searchRepoField = ['dataset.title', 'dataset.dateReleased', 'organization.name', 'dataset.description'];
+    public $searchRepoHeader = ['Title', 'ID','Date Released', 'Description'];
+    public $searchRepoField = ['dataset.title', 'dataset.ID','dataset.dateReleased',  'dataset.description'];
 
 
     public $link_field = 'dataset.title';
