@@ -1,9 +1,3 @@
-<?php
-require_once dirname(__FILE__) . '/../../config/datasources.php';
-$dataTypes = getDatatypes();
-$repo = getRepositoryIDMapping();
-?>
-
 <div id="statistics-panel" class="panel panel-primary panel-home">
     <div class="panel-heading">
         <strong>Statistics</strong>
@@ -19,15 +13,15 @@ $repo = getRepositoryIDMapping();
                         <i class="fa fa-database text-info"></i>
                     </a>
                     <a class="hyperlink" href="repository_list.php">
-                        <p class="hyperlink stat-value"><?php echo sizeof($repo);?></p>
+                        <p class="hyperlink stat-value">24</p>
                         <p class=" stat-title hyperlink">Repositories</p>
                     </a>
                 </div>
                 <div class="col-xs-6 stat-box">
                     <i class="fa fa-tags text-warning"></i>
                     <a class="hyperlink" href="datatypes.php">
-                        <p class="hyperlink stat-value"><?php echo sizeof($dataTypes);?></p>
-                        <p class="hyperlink stat-title">Data Types</p>
+                    <p class="hyperlink stat-value">10</p>
+                    <p class="hyperlink stat-title">Data Types</p>
                     </a>
                 </div>
             </div>
@@ -36,7 +30,7 @@ $repo = getRepositoryIDMapping();
                 <div class="col-xs-6 stat-box">
                     <i class="fa fa-cubes text-success"></i>
                     <a class="hyperlink" href="search.php?query=&searchtype=data">
-                        <p class="stat-value">  2,336,474  </p><br>
+                        <p class="stat-value">649055</p>
                         <p class="stat-title">Datasets</p>
                     </a>
                 </div>
@@ -45,7 +39,7 @@ $repo = getRepositoryIDMapping();
                     <a class="hyperlink" href="#pilot">
                         <p class="stat-value">4</p>
                         <p class="stat-title">Pilot Projects</p>
-                    </a>
+                        </a>
                 </div>
             </div>
         </div>

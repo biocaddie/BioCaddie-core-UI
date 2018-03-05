@@ -6,7 +6,7 @@ function partialResult($service)
     if($data['title']==null){
      $data['title'] = $data["ID"];
     }
-    $broken='<img style="height: 25px" src="./img/brokenlink.png">';
+    $broken='<img style="height: 25px" src="./img/brokenlink.png" title="This is a broken link.">';
 
     ?>
     <div class="dataset-info">
@@ -62,9 +62,16 @@ function partialResult($service)
                                     <td style="width: 20%;"><strong><?php echo $data[$subtitle][$i][0] ?>:</strong></td>
                                     <?php if(strlen(($data[$subtitle][$i][2]))>0):?>
                                         <?php if(check_valid_url($data[$subtitle][$i][2])):?>
-                                             <td> <a class='hyperlink' target="_blank" href="<?php echo $data[$subtitle][$i][2]; ?>"><?php echo $data[$subtitle][$i][1]; ?></a></td>
+                                            <td> <a class='hyperlink' target="_blank" href="<?php echo $data[$subtitle][$i][2]; ?>"><?php echo $data[$subtitle][$i][1];?></a></td>
                                         <?php else:?>
-                                            <td> <a class='hyperlink' target="_blank" href="<?php echo $data[$subtitle][$i][2]; ?>"><?php echo $data[$subtitle][$i][1]; ?></a><?php echo $broken;?></td>
+                                            <?php if(($subtitle == "primaryPublication") and (strpos($data[$subtitle][$i][2],"<br>")!==false)):?>
+                                                <td> <a class='hyperlink' target="_blank" href="<?php echo substr($data[$subtitle][$i][2],0,strpos($data[$subtitle][$i][2],"<br>")); ?>"><?php echo substr($data[$subtitle][$i][1],0,strpos($data[$subtitle][$i][1],"<br>")); ?></a>
+                                                <br/>
+                                                <a class='hyperlink' target="_blank" href="<?php echo "http://n2t.net/".substr($data[$subtitle][$i][2],(strpos($data[$subtitle][$i][2],"<br>")+4)); ?>"><?php echo substr($data[$subtitle][$i][1],(strpos($data[$subtitle][$i][1],"<br>")+4)); ?></a>
+                                                </td>
+                                            <?php else:?>
+                                                <td> <a class='hyperlink' target="_blank" href="<?php echo $data[$subtitle][$i][2]; ?>"><?php echo $data[$subtitle][$i][1]; ?></a><?php echo $broken;?></td>
+                                            <?php endif;?>
                                         <?php endif;?>
                                     <?php else:?>
                                         <?php $result = get_tooltip($data[$subtitle][$i][1]);?>

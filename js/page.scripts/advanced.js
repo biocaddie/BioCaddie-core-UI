@@ -65,7 +65,24 @@ $(document).ready(function () {
                         '<li><a>Author</a></li> ' +
                         '<li><a>Description</a></li>'+
                         '<li><a>Disease</a></li>'+
-                        '<li><a>Dimension</a></li></ul>';
+                        '<li><a>Dimension</a></li>'+ 
+                        //Add fields to Advanced Search start 
+                        '<li><a>DateReleased</a></li>'+ 
+                        '<li><a>Availability</a></li>'+ 
+                        '<li><a>Types</a></li>'+ 
+                        '<li><a>Aggregation</a></li>'+
+                         '<li><a>Privacy</a></li>'+
+                         '<li><a>Refinement</a></li>'+ 
+                        '<li><a>HasPart</a></li>'+ 
+                        '<li><a>LandingPage</a></li>'+ 
+                        '<li><a>GrantName</a></li>'+ 
+                        '<li><a>DataRepository</a></li>'+ 
+                        '<li><a>Organization</a></li>'+ 
+                        '<li><a>Material</a></li>'+ 
+                        '<li><a>Taxonomic</a></li>'+
+                         '<li><a>Activity</a></li>'+
+                         '<li><a>Treatment</a></li></ul>'; 
+                        //Add fields to Advanced Search end
         var newDropDown = $(newDrop);
         var newIn = '<input autocomplete="off" class="input inner' + next + '" id="field' + next + '" type="text">';
         var newInput = $(newIn);

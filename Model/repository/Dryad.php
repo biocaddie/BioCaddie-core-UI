@@ -77,8 +77,10 @@ class DryadRepository extends RepositoryBase {
                         }
                     }
                 }
-
-                if ($id == 'dataset.title' || $id == 'dataset.description') {
+                if ($id == 'dataset.title') {
+                    $show = '<a class="hyperlink" database ="result-heading" href="display-item.php?repository=' . $this->id . '&idName=dataset.title&id=' . $r['_id'] . '&query=' . $query . '">' . '<div class="comment more">' . $r['_source']['dataset']['title'] . '</div>' . '</a>';
+                }
+                if ($id == 'dataset.description') {
                     $show = '<div class="comment more">' . $show . '</div>';
                 }
                 if($id=='datasetDistribution.issueDate'||$id=='datasetDistribution.dateReleased'){

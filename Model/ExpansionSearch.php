@@ -2,15 +2,16 @@
 
 /**
  * Created by PhpStorm.
- * User: xchen2
- * Date: 7/7/16
- * Time: 2:34 PM
- * Class to get synonyms,construct ES query and get ES result
- */
+* User: xchen2
+* Date: 7/7/16
+* Time: 2:34 PM
+* Class to get synonyms,construct ES query and get ES result
+*/
 require_once 'ElasticSearch.php';
 
 class ExpansionSearch extends ElasticSearch
 {
+
 
     protected $synonyms;
     protected $synonymsArray=[];
@@ -200,7 +201,7 @@ class ExpansionSearch extends ElasticSearch
 
     protected function generateQuery()
     {
-        if (count(array_keys($this->filterFields)) < 1 && $this->year=="") {
+        if (count(array_keys($this->filterFields)) < 1 && $this->year==""  && !isset($_GET['scoremax'])&&!isset($_GET['ancestry'])) {
             $query_part = [
                 'bool' => [
                     'should' => $this->generateQueryPart()
@@ -208,17 +209,20 @@ class ExpansionSearch extends ElasticSearch
             ];
         } else {
             $filter = $this->generateFilter();
-            $query_part = [
-                'filtered' => [
-                    'query' => [
-                        'bool' => [
-                            'should' => $this->generateQueryPart()
-                        ]
-                    ],
-                    'filter' => $filter
-                ]
-            ];
-        }
+
+                $query_part = [
+                    'filtered' => [
+                        'query' => [
+                            'bool' => [
+                                'should' => $this->generateQueryPart()
+                            ]
+                        ],
+                        'filter' => $filter
+                    ]
+                ];
+            }
+
+
         /*echo '<pre>';
         print_r($query_part);
         echo '</pre>';*/
@@ -239,11 +243,13 @@ class ExpansionSearch extends ElasticSearch
     }
 
 
+
+
 }
 
 //use example
 /* $input_array=['esIndex'=>'pdb','searchFields'=>'dataset.title','query'=>'cancer'];
-  $search = new ExpansionSearch($input_array);
-  $result = $search->getSearchResult();
-  var_dump($result); */
+ $search = new ExpansionSearch($input_array);
+ $result = $search->getSearchResult();
+ var_dump($result); */
 ?>

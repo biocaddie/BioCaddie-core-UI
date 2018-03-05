@@ -47,6 +47,53 @@ class BooleanSearch extends ExpansionSearch
             case "dimension":
                 $query_fields_array = array("dimension.name", "dimensions.name", 'cde.name');
                 break;
+            //Add fields to Advanced Search start 
+            case "datereleased":
+                $query_fields_array = array("dataset.dateReleased", "Dataset.dateReleased", "DataSet.dateReleased");
+                break;
+            case "availability":
+                $query_fields_array = array("dataset.availability", "Dataset.availability", "DataSet.availability");
+                break;
+            case "types":
+                $query_fields_array = array("dataset.types", "Dataset.types", "DataSet.types");
+                break;
+            case "aggregation":
+                $query_fields_array = array("dataset.aggregation", "Dataset.aggregation", "DataSet.aggregation");
+                break;
+            case "privacy":
+                $query_fields_array = array("dataset.privacy", "Dataset.privacy", "DataSet.privacy");
+                break;
+            case "refinement":
+                $query_fields_array = array("dataset.refinement", "Dataset.refinement", "DataSet.refinement");
+                break;
+            case "haspart":
+                $query_fields_array = array("dataset.hasPart", "Dataset.hasPart", "DataSet.hasPart");
+                break;
+            case "landingpage":
+                $query_fields_array = array("access.landingPage");
+                break;
+            case "grantname":
+                $query_fields_array = array("grant.name");
+                break;
+            case "datarepository":
+                $query_fields_array = array("dataRepository.name");
+                break;
+            case "organization":
+                $query_fields_array = array("organization.name");
+                break;
+            case "material":
+                $query_fields_array = array("material.name");
+                break;
+            case "taxonomic":
+                $query_fields_array = array("taxonomicInformation.name");
+                break;
+            case "activity":
+                $query_fields_array = array("activity.name");
+                break;
+            case "treatment":
+                $query_fields_array = array("treatment.name");
+                break;
+            //Add fields to Advanced Search end
             default:
                 $query_fields_array = array($query_field);
         }
@@ -371,10 +418,16 @@ class BooleanSearch extends ExpansionSearch
         if (count($parsedQuery) == 1) {
             $query_part = $this->generateSingleQuery();
         } else {
+            $filter = $this->generateFilter();
+            if($this->query=="" && ($_GET['scorecheck']=='on' ||$_GET['ancestrycheck']=='on') ){
+                $filter = $this->generateFilter();
+                $query_part = array('filtered' => array( 'filter' => $filter));
+            }
 
-            if (count(array_keys($this->filterFields)) < 1 && $this->year == "") {
+            elseif (count(array_keys($this->filterFields)) < 1 && $this->year == "") {
                 $query_part = $this->recursiveConstructBoolQuery($parsedQuery);
             } else {
+
                 $filter = $this->generateFilter();
                 $query_part = array('filtered' => array('query' => $this->recursiveConstructBoolQuery($parsedQuery), 'filter' => $filter));
             }
@@ -423,7 +476,6 @@ class BooleanSearch extends ExpansionSearch
     {
         $this->updateQueryString();
         $body = $this->generateSearchBody();
-
         return $this->generateResult($body);
     }
 

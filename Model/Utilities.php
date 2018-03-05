@@ -249,7 +249,7 @@ function get_display_item_common_view($id,$rows){
         "primaryPublications",'PrimaryPublication','activity','biologicalEntity','biologicalProcess','cellline','cellLine','cellularComponent','primaryCell','dimension','dimensions','disease',
         'treatment','instrument','person','material',"BiologicalEntity","MolecularEntity",'molecularEntity','anatomicalPart','gene','dataAcquisition','dataStandard','distribution','assay','antibody','license',"acl","dataType",
         'Activity','AlternateIdentifiers','alternateIdentifiers','alternateIdentifier','DataDistribution','RelatedIdentifiers','relatedIdentifiers','Access',"Study",'studyGroup','grant','iPSC','Instument','protein','phosphoProtein','datastandard',"citation","study",'identifiers','internal',
-        "AnatomicalPart",'datasetDistributions','datasetDistribution','datasetdistribution','persons','creators','identifierInformation','dataAnalysis','dataDistributions',
+        "AnatomicalPart",'datasetDistributions','datasetDistribution','datasetdistribution','persons','creators','identifierInformation','analyticsDiploid','dataAnalysis','dataDistributions',
         "taxonomicinformation","dataDistribution",'organization','dataRepository','datarepository'];
 
 
@@ -493,6 +493,23 @@ function get_tooltip($terms){
         }
     }
     return $result;
+}
+
+function keepScaleParameters(){
+	$parametrs="";
+	$scorecheck=!isset($_GET['scorecheck'])?"":"&scorecheck=".$_GET['scorecheck'];
+	$scoremax=!isset($_GET['scoremax'])?"":"&scoremax=".$_GET['scoremax'];
+	$ancestrycheck=!isset($_GET['ancestrycheck'])?"":"&ancestrycheck=".$_GET['ancestrycheck'];
+	$ancestry=!isset($_GET['ancestry'])?"":"&ancestry=".$_GET['ancestry'];
+	$fraction=!isset($_GET['fraction'])?"":"&fraction=".$_GET['fraction'];
+
+	$parameters=$scorecheck.$scoremax.$ancestrycheck.$ancestry.$fraction;
+
+	//$parameters=$parameters==""?"":substr($parameters,1);
+
+
+
+	return $parameters;
 }
 
 ?>

@@ -16,11 +16,11 @@ class LincsRepository extends RepositoryBase {
     //                        'dimension.name','protein.name', 'cellLine.name', 'biologicalProcess.name','person.name',
     //                       'assay.name','antibody.name','internal.projectName','iPSC.name','primaryCell.name','molecularEntity.name','phosphoProtein.name'];
 
-    public $facetsFields = ['cellLine.name','dataset.types','biologicalProcess.name',"assay.name"];
-    public $facetsShowName = ['cellLine.name' => 'Cell Line',
-        'dataset.types'=>'Data Type',
-        'biologicalProcess.name'=>'Biological Process',
-        "assay.name"=>"Assay"
+    public $facetsFields = ['cellLine.name.raw','dataset.types.raw','biologicalProcess.name.raw',"assay.name.raw"];
+    public $facetsShowName = ['cellLine.name.raw' => 'Cell Line',
+        'dataset.types.raw'=>'Data Type',
+        'biologicalProcess.name.raw'=>'Biological Process',
+        "assay.name.raw"=>"Assay"
     ];
     public $index = 'lincs';
     public $type = 'dataset';

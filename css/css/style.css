@@ -1,0 +1,504 @@
+body {
+        margin-top: 30px;
+        font-family: 'Open Sans', Helvetica;
+        font-size: 13px;
+}
+
+a{
+  color: black;
+}
+
+/********************************************
+*
+*     Styles for element on home page
+*
+*********************************************/
+
+/****** logo on the top *****/
+.header-logo{
+  width: 140px;
+  margin-right: 20px;
+}
+.header-tag{
+  height: 20px;
+}
+
+/****** navigation bar *******/
+
+.navbar{
+  margin-top:15px;
+  border-radius: 0px;
+  border: none;
+}
+
+.navbar-inverse {
+  background-color: #58595B;
+  background: linear-gradient(to bottom, #58595B 0px, #58595B 100%);
+  border: none;
+  padding: 0px;
+}
+
+.navbar-right{
+  padding-top: 0px;
+}
+
+/*text on navbar*/
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:focus {
+    color: #FFF;
+    background-color: #58595B;
+    border-radius: 0;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/*mouse hover*/
+ .navbar-inverse .navbar-nav > .active > a:hover{
+    background-color: #f7fdf6;
+    color: #58595B;
+ }
+
+ /****** Searchbox on homepage *******/
+
+ .search-block {
+    background: #f7fdf7;
+     background-image:linear-gradient(to bottom, #DFF0D8 0px, #f7fdf7 100%);
+    border: 1px solid #B5EBA9;
+}
+
+.search-text-lg{
+    color:#58595B;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.search-text-sm{
+  color:#767879;
+  font-size: 12px;
+}
+
+.ui-dialog {
+  z-index: 10000;
+  box-shadow: rgb(136, 136, 136) 1px 1px 5px;
+}
+
+
+/* popup dialog under the search box*/
+
+.ui-widget-content a{
+      color:#009444;
+  }
+
+.ui-dialog-title {
+    display: none;
+}
+
+.ui-dialog-titlebar {
+    background: #ffffff;
+}
+
+.types{
+    color:#009444;
+}
+.ui-widget-content a.repositoryLabel{
+    color:black;
+}
+
+ /****** box on homepage *******/
+
+.panel-primary{
+  border-color: #DBDBEA;
+  height: 350px;
+}
+ 
+.panel-primary > .panel-heading{
+  background-image:linear-gradient(to bottom, #DBDBEA 0px, #dedeec 100%);
+  border-color: #DBDBEA;
+  background-color: #DBDBEA;
+  color: black;
+  font-size: 15px;
+  font-weight: bold;
+ }
+
+.image{
+  margin-top: -25px;
+}
+
+.fa-title {
+background: #fff;
+padding: 1em;
+width:50px; /** fix width ***/
+text-align: center;
+display: inline;
+border-radius: 50%;
+border-color: #DBDBEA;
+line-height: 50px;  /** for vertical center - if needed **/
+box-shadow: rgb(136, 136, 136) 1px 1px 5px;
+padding: 5px;
+}
+
+.panel >.panel-body{
+  padding: 5px;
+}
+
+/*statistics*/
+.well{
+  background-color: #fff;
+  background-image:linear-gradient(to bottom, #fff 0px, #fff 100%);
+  margin-left: 20px;
+  height: 100px;
+  text-align: center; 
+}
+
+#global_statistics > .panel-primary > .panel-body{
+  padding-top: 20px;
+}
+
+/*piechart*/
+.arc path {
+  stroke: #fff;
+}
+
+#pieChart > svg{
+  margin-left: 30px;
+  margin-bottom: 10px;
+}
+
+/*features*/
+ul           {
+    list-style: none;
+    padding-top: 5px;
+       }
+
+.home ul li:before {
+    content: "\00BB \0020";
+       }
+
+
+/*announcement*/
+
+.home.table-striped > tbody > tr:nth-child(2n+1) > td, .table-striped > tbody > tr:nth-child(2n+1) > th {
+   background-color: #f3f3f8;
+}
+.home.table thead > tr > th, .table tbody > tr > th, .table tfoot > tr > th, .table thead > tr > td, .table tbody > tr > td, .table tfoot > tr > td{
+  border-top:none;
+}
+
+.home.table{
+  padding: none;
+}
+
+.glyphicon-stop { 
+  color: #2CA02C; 
+}
+
+.title{
+  font-weight: bold;
+  padding-left: 5px;
+}
+
+
+ /****** pilot projects *******/
+
+
+.content-holder{
+  width: 100%;
+  background-color: #757476; 
+  padding-top: 35px; 
+  padding-bottom: 30px;
+  height:209px; 
+}
+
+.pp-title{
+  margin-top: 50px;
+  color: #fff;
+
+}
+
+.pp{
+  border-left: solid #fff;
+  border-left-style: dashed;
+  border-left-width: 1px;
+  height: 120px;
+}
+
+span.pp1>a{
+  color: #fff;
+  background-color: #48494A;
+  font-size: 18px;
+  padding-left: 5px;
+  padding-right: 15px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.pp > p{
+  color: #fff;
+  margin-top: 30px;
+}
+
+
+/****** footers *******/
+
+.footer{
+  background-color: #58595B;
+  border-color: #313140;
+  border: 0px solid black;
+  margin-top:20px;
+  margin-bottom: 10px;
+  border-radius: 0px;
+}
+
+
+.footer p{
+  color: #fff;
+  font-size:13px;
+  font-weight: normal;
+  width: 100%;
+  padding-top: 15px;
+}
+
+.footer .white{
+  color: #fff;
+}
+
+
+
+
+/********************************************
+*
+*     Styles for element on search page
+*
+*********************************************/
+.search-block-2{
+    background: #F7FDF6;
+    background-image:linear-gradient(to bottom, #DFF0D8 0px, #f7fdf7 100%);
+    border: 1px solid #B5EBA9;
+    height: 150px;
+    padding-top: 20px;
+}
+
+/****page navigation*****/
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    background-color: #666;
+   color:#fff;
+}
+
+.pagination {
+    font-size: 13px;
+}
+ 
+.pagination>li>a, .pagination>li>span {
+    background-color: #ECECFB;
+    border: 1px solid #ddd;
+   color: #424251;
+}
+
+
+/****side bar*****/
+#sidebar > li > a{
+  color: black;
+}
+
+
+/****recent activity*****/
+#recent {
+  border: none;
+
+}
+
+.glyphicon-search{
+  margin-right: 15px;
+}
+
+#recent > .panel-heading{
+  font-size: 15px;
+  font-weight: bold;
+}
+
+#recent > .panel-body > .table-responsive > .table >tbody> tr >td
+{
+  border-bottom-style: dashed;
+  border-bottom-width: 1px;
+}
+
+/****related publications*****/
+#pub{
+  border: none;
+}
+
+#pub > .panel-body > .table-responsive > .table >tbody> tr >td
+{
+  border-bottom-style: dashed;
+  border-bottom-width: 1px;
+}
+p.pubmed{
+  text-align: right;
+}
+
+/****related searches*****/
+#related{
+  border: none;
+  height: 250px;
+}
+
+#related > .panel-body > .table-responsive > .table >tbody> tr >td
+{
+  border-bottom-style: dashed;
+  border-bottom-width: 1px;
+}
+
+/**** buttons *****/
+
+.btn-primary,
+.dropdown-toggle.btn-primary,
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active {
+  color: #ffffff;
+  background: #30A968;
+  border-color: #30A968;
+}
+
+/********************************************
+*
+*     Styles for element on result page
+*
+*********************************************/
+.pilot-logo{
+  width: 100px;
+}
+
+.pilot > .panel-body{
+  text-align: center;
+}
+
+.pilot > .panel-heading{
+  background-color: #F2DEDE;
+  background-image:linear-gradient(to bottom, #F2DEDE 0px, #F2DEDE 100%);
+  color: #c67070;
+  border-color: #F2DEDE;
+}
+.pilot{
+  border-color: #F2DEDE;
+}
+
+/********************************************
+*
+*     Styles for element on single_item page
+*
+*********************************************/
+
+/****similar dataset*****/
+#similar {
+  border: none;
+
+}
+
+.glyphicon-search{
+  margin-right: 15px;
+}
+
+#similar > .panel-heading{
+  font-size: 15px;
+  font-weight: bold;
+}
+
+#similar > .panel-body > .table-responsive > .table >tbody> tr >td
+{
+  border-bottom-style: dashed;
+  border-bottom-width: 1px;
+}
+
+
+/**** dataset info *****/
+.dataset-info{
+  background-color: #eff4f4;
+}
+
+.repo-logo > a > img{
+  width: 150px;
+  margin:20px;
+
+}
+
+.data-title{
+  background-color: #ededed;
+  border: 1px solid #bababa;
+  margin: 10px;
+  padding: 10px;
+}
+
+.data-other{
+  background-color: white;
+  border: 1px solid #e0e0e0;
+  margin:10px;
+  padding: 10px;
+}
+
+.data-info-title{
+  border-radius: 0px;
+  background-color: #484848;
+  padding: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+
+/****** Others *****/
+
+.biocaddie_green{
+  color:#009444;
+}
+
+.soon{
+  float: right;
+  margin-top: 5px;
+}
+
+/* css for feedback panel*/
+
+.bs-callout {
+padding: 20px;
+margin: 20px 0;
+border: 1px solid #eee;
+border-left-width: 8px;
+border-radius: 3px;
+}
+
+.bs-callout h4 {
+margin-top: 0;
+margin-bottom: 5px;
+}
+
+.bs-callout p:last-child {
+margin-bottom: 0;
+}
+
+.bs-callout code {
+border-radius: 3px;
+}
+
+.bs-callout+.bs-callout {
+margin-top: -5px;
+}
+
+/*
+.bs-mixin(@name, @callout-color, @font-color) {
+.@{name},
+&.@{name} h4 {
+border-left-color: @callout-color;
+color: @font-color;
+}
+}
+
+.bs-mixin(bs-callout-default, @gray-lighter, darken(@gray-lighter, 50%));
+.bs-mixin(bs-callout-primary, @brand-primary, @brand-primary);
+.bs-mixin(bs-callout-info, @brand-info, @brand-info);
+.bs-mixin(bs-callout-danger, @brand-danger, @brand-danger);
+.bs-mixin(bs-callout-warning, @brand-warning, @brand-warning);
+.bs-mixin(bs-callout-success, @brand-success, @brand-success);
+*/
+/*/.end of css for feedback panel*/
+
+

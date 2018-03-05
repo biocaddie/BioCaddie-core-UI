@@ -697,6 +697,7 @@ class SearchBuilder {
             $search = new BooleanSearch($input_array);
             $this->booleanFlag = True;
 
+
         } else {
             // If simple search
             $search = new ExpansionSearch($input_array);

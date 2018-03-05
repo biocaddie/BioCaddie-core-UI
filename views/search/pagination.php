@@ -10,7 +10,8 @@
  * */
 
 function partialPagination($searchBuilder, $searchView)
-{
+{	$sclparams=keepScaleParameters();
+	
     $min = max(1, $searchBuilder->getOffset() - 5);
     $min = min($min, ceil($searchBuilder->getSelectedTotalRows() / $searchBuilder->getRowsPerPage()) - 10);
     $min = max($min, 1);
@@ -21,12 +22,12 @@ function partialPagination($searchBuilder, $searchView)
     <div class="pull-left">
         <ul id="search-pagination" class="pagination">
             <li>
-                <a id="page_First" href="<?php echo $searchView->getUrlByOffset(1) ?>" aria-label="Previous">
+                <a id="page_First" href="<?php echo $searchView->getUrlByOffset(1).$sclparams ?>" aria-label="Previous">
                     <span aria-hidden="true">First</span>
                 </a>
             </li>
             <li>
-                <a id="page_Previous" href="<?php echo $searchView->getUrlByOffset($searchView->get_previsoue($searchBuilder->getOffset())); ?>"
+                <a id="page_Previous" href="<?php echo $searchView->getUrlByOffset($searchView->get_previsoue($searchBuilder->getOffset())).$sclparams; ?>"
                    aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>
                 </a>
@@ -37,17 +38,17 @@ function partialPagination($searchBuilder, $searchView)
                 $activeFlag = $searchBuilder->getOffset() == $i ? 'class="active"' : '';
                 ?>
                 <li <?php echo $activeFlag; ?>>
-                    <a id="<?php echo "page_".$i;?>" href=" <?php echo $searchView->getUrlByOffset($i); ?>"><?php echo $i ?></a>
+                    <a id="<?php echo "page_".$i;?>" href=" <?php echo $searchView->getUrlByOffset($i).$sclparams; ?>"><?php echo $i ?></a>
                 </li>
             <?php } ?>
             <li>
-                <a id="page_Next" href="<?php echo $searchView->getUrlByOffset($searchView->get_next($searchBuilder->getOffset(), $searchBuilder->getSelectedTotalRows(), $searchBuilder->getRowsPerPage())) ?>"
+                <a id="page_Next" href="<?php echo $searchView->getUrlByOffset($searchView->get_next($searchBuilder->getOffset(), $searchBuilder->getSelectedTotalRows(), $searchBuilder->getRowsPerPage())).$sclparams ?>"
                    aria-label="Next">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
             </li>
             <li>
-                <a id="page_Last" href="<?php echo $searchView->getUrlByOffset(ceil($searchBuilder->getSelectedTotalRows() / $searchBuilder->getRowsPerPage())) ?>"
+                <a id="page_Last" href="<?php echo $searchView->getUrlByOffset(ceil($searchBuilder->getSelectedTotalRows() / $searchBuilder->getRowsPerPage())).$sclparams ?>"
                    aria-label="Next">
                     <span aria-hidden="true">Last</span>
                 </a>

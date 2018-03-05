@@ -25,18 +25,21 @@ require_once dirname(__FILE__) . '/Model/TrackActivity.php';
 
 
     <div class="container">
-
         <?php include 'views/index/SearchPanel.php'; ?>
 
         <div class="row">
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-6 col-md-4">
                 <?php include "views/index/Statistics.php"; ?>
             </div>
-            <div class="col-lg-4 col-md-6">
+            <div class="col-lg-6 col-md-4">
                 <?php include "views/index/Repositories.php"; ?>
             </div>
-            <div class="col-lg-4 col-md-6">
-
+            <!--Add most accessed datasets start-->
+            <div class="col-lg-6 col-md-4">
+                <?php include "views/index/Datasets.php"; ?>
+            </div>
+            <!--Add most accessed datasets end-->
+            <div class="col-lg-6 col-md-4">
                 <?php include "views/index/NewFeatures.php"; ?>
             </div>
         </div>

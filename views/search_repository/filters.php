@@ -2,30 +2,32 @@
 
 /*
  * Generate filters panel on search repository page
- * @input: array(array(string))
- *  {
- *      facet_name_1
- *      {
- *          facet_item_1,
- *          facet_item_2, ...
- *      },
- *      facet_name_2
- *      {
- *          ...
- *      }...
- * }
- *
- * */
+* @input: array(array(string))
+*  {
+*      facet_name_1
+*      {
+*          facet_item_1,
+*          facet_item_2, ...
+*      },
+*      facet_name_2
+*      {
+*          ...
+*      }...
+* }
+*
+* */
+
 
 function partialFilters($searchRepoView)
 {
-    $searchBuilder = $searchRepoView->getSearchBuilder();
-    $selectedFilters = $searchBuilder->getSelectedFilters();
-   /* echo '<pre>';
-     var_dump($_GET);
-    echo '</pre>';*/
-    if (sizeof($selectedFilters) > 0) {
-        ?>
+	$sclparams=keepScaleParameters();
+	$searchBuilder = $searchRepoView->getSearchBuilder();
+	$selectedFilters = $searchBuilder->getSelectedFilters();
+	/* echo '<pre>';
+	 var_dump($_GET);
+	 echo '</pre>';*/
+	if (sizeof($selectedFilters) > 0 || $_GET['scorecheck']=="on" || $_GET['ancestrycheck']=="on") {
+		?>
         <div style="margin: -10px 0 5px 10px;">
             <a class="hyperlink" role="button" href="<?php echo $searchRepoView->clearAllFiltersURL(); ?>">
                 <i class="glyphicon glyphicon-remove-sign"></i>
@@ -61,7 +63,7 @@ function partialFilters($searchRepoView)
                         <ul class="no-disk">
                             <?php foreach ($filters['terms'] as $filter_item) { ?>
                                 <li>
-                                    <a href="<?php echo $filter_item['url']; ?>">
+                                    <a href="<?php echo $filter_item['url'].$sclparams; ?>">
                                         <?php if ($filter_item['selected'] == true): ?>
                                             <i class="fa fa-check-square"></i>
                                         <?php else: ?>
@@ -69,21 +71,24 @@ function partialFilters($searchRepoView)
                                         <?php endif; ?>
 
                                         <?php if ($filter_item['display'] == true): ?>
-                                            <span>
+                                        <span>
                                             <?php else: ?>
                                             <span style="color:gray">
                                              <?php endif; ?>
-                                                 <?php echo ucfirst($filter_item['tag_display_name']); ?>
-                                                 <?php echo '(' . number_format($filter_item['count']) . ')'; ?>
+                                             <?php echo ucfirst($filter_item['tag_display_name']); ?>
+                                             <?php echo '(' . number_format($filter_item['count']) . ')'; ?>
                                         </span>
                                     </a>
                                 </li>
-                                <?php } ?>
+                            <?php } ?>
                         </ul>
                     </div>
                 </div>
             </div>
             <?php } ?>
+        <?php if($_GET['repository']=='0026'){
+            include "filters_diploid.php";
+}?>
 
     </div>
     <?php

@@ -105,7 +105,7 @@ $pageTitle = $searchBuilder->getQuery();
                                 src="timeline.php?<?php echo $_SERVER["QUERY_STRING"] ?>"></iframe>
                         <?php
                     } ?>
-                    <?php //echo partialWordCloud(); ?>
+                    <?php echo partialWordCloud($searchBuilder); ?>
                     <?php echo partialActivities(); ?>
                     <?php echo partialSynonym($searchBuilder); ?>
                     <?php echo partialSearchDetails($searchBuilder); ?>
